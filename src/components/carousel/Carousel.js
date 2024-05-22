@@ -8,7 +8,7 @@ import RightIcon from '../../assets/icons/right.svg'
 function Carousel(props) {
     const [visibleItems, setVisibleItems] = useState([])
     const [visibleIndex, setVisibleIndex] = useState([])
-    // create a list of div of food items
+    
     const foodItems = props.foodItems.map((item) => {
         return (
             <div className='food-item moveIn' key={item.id}>
