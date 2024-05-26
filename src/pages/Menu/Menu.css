@@ -1,0 +1,293 @@
+@media(min-width: 834px) {
+        
+
+    .menu-container{
+        margin-top: 2.88rem;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 32px;
+        margin-left: 160px;
+        margin-right: 160px;
+    }
+
+    .menu-navbar-container{
+        position: sticky;
+        z-index: 0;
+        top: 5.9rem;
+        margin-top: 4.5rem;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 32px;
+        margin-left: 160px;
+        margin-right: 160px;
+        border-bottom: 1px solid rgba(0, 0, 0,0.2);
+        box-sizing: content-box;
+    }
+    .activeSide .foodItemSide{
+        color: #17A9DD;
+        border-right: 1.5px solid #17A9DD;
+    }
+
+    .menu-navbar{
+        grid-column-start: 4;
+        grid-column-end: 11;
+        margin-left: 0.19rem;
+        margin-right: 0.19rem;
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .menu-navbar-item{
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    @media (max-width: 1000px) {
+        .menu-container{
+            grid-template-columns: repeat(8,1fr);
+        }
+        .menu-navbar{
+            grid-column-start: 1;
+            grid-column-end: 13;
+        }
+    }
+
+    .menu-navbar-item:hover{
+        cursor: pointer;
+        color: #17A9DD;
+        border-bottom: #17A9DD solid 2px;
+        box-sizing: border-box;
+    }
+
+    .activeTop .menu-navbar-item{
+        color: #17A9DD;
+        border-bottom: #17A9DD solid 2px;
+        box-sizing: border-box;
+    }
+
+    .menu-page-title{
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        width: 100%;
+    }
+
+    .menu-page-subtitle{
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+    .menu-sideNav-container{
+        grid-column-start: 1;
+        grid-column-end: 4;
+        position: sticky;
+        top: 10rem;
+        height: 80vh;
+    }
+
+    .orderNav-container{
+        margin-top: 3rem;
+    }
+
+    .orderNav-title{
+        text-align: right;
+        width: 90%;
+        padding-right: 1.8rem;
+        padding-top: 2rem;
+        border-right: 1px solid rgba(43, 37, 46,0.2);
+    }
+
+    .foodItemSide{
+        color: #2B252E;
+        width: 90%;
+        text-align: right;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding-top: 0.6rem;
+        padding-right: 1.8rem;
+    }
+    .foodItemSide:hover{
+        cursor: pointer;
+        color: #17A9DD;
+        border-right: 1.5px solid #17A9DD;
+    }
+
+    .border-black-right{
+        border-right: 1px solid rgba(43, 37, 46,0.2);
+    }
+    .menu-items-container{
+        grid-column-start: 4;
+        grid-column-end: 12;
+    }
+    .menu-title{
+        margin-bottom: 1.2rem;
+    }
+    .veg-nonveg-container{
+        display: flex;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        align-items: center;
+        text-align: center;
+        width: 50%;
+        padding-bottom: 2rem;
+    }
+    .veg-nonveg-container div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.2rem
+    }
+
+    .menu-page-description-text{
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+    }
+}
+@media (min-width: 428px) {
+@media (max-width: 834px) {
+        
+    
+    .menu-container{
+        padding-top: 2.88rem;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 16px;
+        margin-left: 32px;
+        margin-right: 32px;
+    }
+
+    .menu-navbar-container{
+        position: sticky;
+        z-index: 0;
+        top: 5rem;
+        padding-top: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        border-bottom: 1px solid black;
+    }
+
+    .menu-navbar{
+        padding-left: 0.19rem;
+        padding-right: 0.19rem;
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .menu-navbar-item:hover{
+        cursor: pointer;
+        color: #17A9DD;
+    }
+
+    .activeTop .menu-navbar-item{
+        color: #17A9DD;
+        border-bottom: #17A9DD solid 2px;
+        box-sizing: border-box;
+    }
+
+
+    .menu-page-title{
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 2rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        width: 100%;
+    }
+
+    .menu-page-subtitle{
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+    .menu-sideNav-container{
+        display: none;
+    }
+
+
+    .foodItemSide{
+        color: #2B252E;
+        width: 100%;
+        text-align: right;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding-top: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .foodItemSide:hover{
+        cursor: pointer;
+        color: #17A9DD;
+        border-right: 1.5px solid #17A9DD;
+        box-sizing: initial;
+    }
+
+    .border-black-right{
+        border-right: 0.5px solid #2B252E;
+    }
+    .menu-items-container{
+        grid-column-start: 1;
+        grid-column-end: 9;
+    }
+    .menu-title{
+        margin-bottom: 1.2rem;
+    }
+    .veg-nonveg-container{
+        display: flex;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        align-items: center;
+        text-align: center;
+        width: 50%;
+        padding-bottom: 2rem;
+    }
+    .veg-nonveg-container div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.2rem
+    }
+
+    .menu-page-description-text{
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+    }
+}
+}

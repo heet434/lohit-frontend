@@ -1,0 +1,16 @@
+.foodCategory{
+    padding-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.98rem;
+}
+.foodCategory-title{
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    width: 100%;
+}

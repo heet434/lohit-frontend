@@ -1,61 +1,146 @@
-.topNav{
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    width: 100vw;
-    height: 5.9rem;
-    background-color: #F3F3E7;
-}
-.topNav-container{
-    height: 5.9rem;
-    background-color: #F3F3E7;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-gap: 32px;
-    margin-left: 160px;
-    margin-right: 160px;
-    align-items: center;
+@media (min-width: 834px) {
+        
+
+    .topNav{
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 100vw;
+        height: 5.9rem;
+        background-color: #F3F3E7;
+    }
+    .topNav-container{
+        height: 5.9rem;
+        background-color: #F3F3E7;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 32px;
+        margin-left: 160px;
+        margin-right: 160px;
+        align-items: center;
+    }
+
+    .nav-list{
+        grid-column-start: 9;
+        grid-column-end: 13;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: #2B252E;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .nav-item:hover {
+        cursor: pointer;
+        color:#17A9DD;
+    }
+    .nav-logo {
+        display: flex;
+        flex-direction: column;
+        width: 7.5625rem;
+        height: 3.625rem;
+        align-items: left;
+        flex-shrink: 0;
+        color: #2B252E;
+    }
+
+    .nav-logo:hover {
+        cursor: pointer;
+        color:#17A9DD;
+    }
+
+    .nav-logo div {
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
 }
 
-.nav-list{
-    grid-column-start: 9;
-    grid-column-end: 13;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-}
+@media (min-width: 428px) {
+@media (max-width: 834px) {
+    .topNav{
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 100vw;
+        height: 5.9rem;
+        background-color: #F3F3E7;
+    }
+    .topNav-container{
+        height: 5.9rem;
+        background-color: #F3F3E7;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        grid-gap: 16px;
+        margin-left: 32px;
+        margin-right: 32px;
+        align-items: center;
+    }
+    .sideBar-button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        align-items: center;
+    }
 
-.nav-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    color: #2B252E;
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 1.25rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
+    .nav-item-cart {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        grid-column-start: 8;
+        grid-column-end: 9;
+        color: #2B252E;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .nav-item:hover {
+        cursor: pointer;
+        color:#17A9DD;
+    }
+    .nav-logo {
+        grid-column-start: 3;
+        grid-column-end: 7;
+        text-align: center;
+        color: #2B252E;
+    }
 
-.nav-logo {
-    display: flex;
-    flex-direction: column;
-    width: 7.5625rem;
-    height: 3.625rem;
-    align-items: left;
-    flex-shrink: 0;
-}
+    .nav-logo:hover {
+        cursor: pointer;
+        color:#17A9DD;
+    }
 
-.nav-logo div {
-    color: #2B252E;
-    font-family: Montserrat;
-    font-size: 1.5rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+    .nav-logo div {
+        margin: auto;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+}    
 }

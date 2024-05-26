@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import {useState} from 'react'
-
+import {Link} from 'react-scroll'
+import { removeWhiteSpace } from '../../utils/strUtils'
 import './Carousel.css'
 import LeftIcon from '../../assets/icons/left.svg'
 import RightIcon from '../../assets/icons/right.svg'
@@ -11,14 +12,16 @@ function Carousel(props) {
     
     const foodItems = props.foodItems.map((item) => {
         return (
-            <div className='food-item moveIn' key={item.id}>
-                <div className='food-img-mask'>
-                    <img src={`https://source.unsplash.com/400x400/?${item.name}`} alt={item.name} />
+                <div className='food-item moveIn' key={item.id}>
+                    <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} offset={-140}>
+                        <div className='food-img-mask'>
+                            <img src={`https://source.unsplash.com/400x400/?${item.name}`} alt={item.name} />
+                        </div>
+                        <div className='food-item-text subtitle'>
+                            {item.name}
+                        </div>
+                    </Link>
                 </div>
-                <div className='food-item-text subtitle'>
-                    {item.name}
-                </div>
-            </div>
         )
     })
 

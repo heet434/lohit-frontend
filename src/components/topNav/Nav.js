@@ -1,34 +1,110 @@
 import React from 'react'
+import {Link} from 'react-scroll'
+import {useState, useEffect} from 'react'
 
 import './Nav.css'
 import MenuIcon from '../../assets/icons/menu.svg'
 import CartIcon from '../../assets/icons/cart.svg'
 import ProfileIcon from '../../assets/icons/profile.svg'
 
+
 function TopNav() {
+  const [viewPortWidth, setViewPortWidth] = useState(window.innerWidth)
+  const [breakPoint, setBreakPoint] = useState(1)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewPortWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    if(viewPortWidth > 834){
+      setBreakPoint(3)
+    }else if(viewPortWidth > 428){
+      setBreakPoint(2)
+    }else{
+      setBreakPoint(1)
+    }
+  },[viewPortWidth])
+
   return (
-    <div className='topNav'>
-      <div className='topNav-container'>
-        <div className='nav-logo'>
-          <div>LOHIT</div>
-          <div>CANTEEN</div>
-        </div>
-        <div className='nav-list'>
-          <div className='nav-item'>
-              <img src={MenuIcon} alt='menu' />
-              Menu
+    breakPoint==3 ?
+        <div className='topNav'>
+          <div className='topNav-container'>
+            <Link to='Home' smooth={true} duration={1000}>
+              <div className='nav-logo'>
+                <div>LOHIT</div>
+                <div>CANTEEN</div>
+              </div>
+            </Link>
+            <div className='nav-list'>
+              <Link to='Menu' smooth={true} duration={1000}>
+                <div className='nav-item'>
+                    <img src={MenuIcon} alt='menu' />
+                    Menu
+                </div>
+              </Link>
+              <div className='nav-item'>
+                  <img src={CartIcon} alt='cart' />
+                  Cart
+              </div>
+              <div className='nav-item'>
+                  <img src={ProfileIcon} alt='profile' />
+                  Profile
+              </div>
+            </div>
+            </div>
           </div>
-          <div className='nav-item'>
-              <img src={CartIcon} alt='cart' />
-              Cart
-          </div>
-          <div className='nav-item'>
-              <img src={ProfileIcon} alt='profile' />
-              Profile
+    : breakPoint==2 ?
+        <div className='topNav'>
+          <div className='topNav-container'>
+            <div className='sideBar-button'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                <path d="M24 0.5H0V3.16667H24V0.5Z" fill="#2B252E"/>
+                <path d="M24 21.8333H0V24.5H24V21.8333Z" fill="#2B252E"/>
+                <path d="M24 11.1667H0V13.8333H24V11.1667Z" fill="#2B252E"/>
+              </svg>
+            </div>
+            <div className='nav-logo'>
+              <Link to='Home' smooth={true} duration={1000}>
+                <div>LOHIT CANTEEN</div>
+              </Link>
+            </div>
+            <div className='nav-item-cart'>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                <path d="M17.4535 13.7C18.3532 13.7 19.1449 13.208 19.5527 12.464L23.8471 4.676C24.291 3.884 23.7152 2.9 22.8035 2.9L5.05012 2.9L3.92254 0.5L0 0.5L0 2.9L2.39911 2.9L6.71751 12.008L5.09811 14.936C4.22243 16.544 5.374 18.5 7.19733 18.5L21.592 18.5V16.1H7.19733L8.51684 13.7H17.4535ZM6.1897 5.3L20.7643 5.3L17.4535 11.3H9.03265L6.1897 5.3ZM7.19733 19.7C5.87782 19.7 4.81021 20.78 4.81021 22.1C4.81021 23.42 5.87782 24.5 7.19733 24.5C8.51684 24.5 9.59644 23.42 9.59644 22.1C9.59644 20.78 8.51684 19.7 7.19733 19.7ZM19.1929 19.7C17.8734 19.7 16.8058 20.78 16.8058 22.1C16.8058 23.42 17.8734 24.5 19.1929 24.5C20.5124 24.5 21.592 23.42 21.592 22.1C21.592 20.78 20.5124 19.7 19.1929 19.7Z" fill="#2B252E"/>
+              </svg>
+            </div>
           </div>
         </div>
-        </div>
-    </div>
+          :
+        <div className='topNav'>
+          <div className='topNav-container'>
+            <Link to='Home' smooth={true} duration={1000}>
+              <div className='nav-logo'>
+                <div>LOHIT</div>
+                <div>CANTEEN</div>
+              </div>
+            </Link>
+            <div className='nav-list'>
+              <Link to='Menu' smooth={true} duration={1000}>
+                <div className='nav-item'>
+                    <img src={MenuIcon} alt='menu' />
+                    Menu
+                </div>
+              </Link>
+            </div>
+            </div>
+          </div>
+
   )
 }
 

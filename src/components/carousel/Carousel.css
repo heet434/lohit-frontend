@@ -19,6 +19,11 @@
     width: 8.745vw;
 }
 
+.food-item:hover{
+    cursor: pointer;
+    color: #17A9DD;
+}
+
 .food-img-mask{
     width: 8.745vw;
     height: 8.745vw;
@@ -26,6 +31,11 @@
     overflow: hidden;
     margin: 0 auto;
     box-shadow: 0px 5.5px 3px 0px rgba(43, 37, 46, 0.20);
+}
+
+.food-img-mask:hover{
+    cursor: pointer;
+    box-shadow: 0px 5.5px 3px 0px rgba(0, 191, 255, 0.495)
 }
 .food-img-mask img{
     width: 100%;
@@ -42,7 +52,7 @@
 }
 
 .subtitle{
-    color: #2B252E;
+    /* color: #2B252E; */
     text-align: center;
     font-family: Montserrat;
     font-size: 1.25rem;
@@ -54,9 +64,15 @@
     position: relative;
     bottom: 1.1rem;
 }
+.carousel-button-left:hover{
+    cursor: pointer;
+}
 .carousel-button-right{
     position: relative;
     bottom: 1.1rem;
+}
+.carousel-button-right:hover{
+    cursor: pointer;
 }
 
 @keyframes moveIn {
