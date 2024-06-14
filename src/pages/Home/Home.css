@@ -140,12 +140,11 @@
             grid-template-columns: repeat(4, 1fr);
             grid-gap: 16px;
             margin-left: 16px;
-            margin-right: 16px;
+            margin-right: 0px;
         }
         .Carousel{
             grid-column-start: 1;
             grid-column-end: 5;
-            overflow-x: scroll;
             /* grid-column-end: 5; */
         }  
         .content h3{
