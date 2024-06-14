@@ -72,7 +72,7 @@
     }
 }
 
-@media (min-width: 428px) {
+@media (min-width: 432px) {
 @media (max-width: 834px) {
     .topNav{
         position: sticky;

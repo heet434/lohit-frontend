@@ -162,7 +162,7 @@
         line-height: normal;
     }
 }
-@media (min-width: 428px) {
+@media (min-width: 432px) {
 @media (max-width: 834px) {
         
     
@@ -278,7 +278,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 0.2rem
+        gap: 0.2rem;
+        white-space: nowrap;
     }
 
     .menu-page-description-text{
@@ -290,4 +291,112 @@
         line-height: normal;
     }
 }
+}
+
+@media (max-width: 432px) {
+    .menu-container{
+        padding-top: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 16px;
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+
+    .menu-navbar-container{
+        position: sticky;
+        z-index: 0;
+        top: 4rem;
+        padding-top: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        margin-left: 16px;
+        margin-right: 16px;
+        border-bottom: 1px solid black;
+    }
+
+    .menu-navbar{
+        padding-left: 0.19rem;
+        padding-right: 0.19rem;
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .menu-navbar-item:hover{
+        cursor: pointer;
+        color: #17A9DD;
+    }
+
+    .activeTop .menu-navbar-item{
+        color: #17A9DD;
+        border-bottom: #17A9DD solid 2px;
+        box-sizing: border-box;
+    }
+    .menu-sideNav-container{
+        display: none;
+    }
+    .menu-items-container{
+        grid-column-start: 1;
+        grid-column-end: 5;
+    }
+    .menu-title{
+        margin-bottom: 1.2rem;
+        margin-left: 0.5rem;
+    }
+    .veg-nonveg-container{
+        grid-column-start: 1;
+        grid-column-end: 5;
+        display: flex;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        align-items: center;
+        text-align: center;
+        width: 50%;
+        padding-bottom: 2rem;
+        margin-left: 0.5rem;
+    }
+    .veg-nonveg-container div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.2rem;
+        white-space: nowrap;
+    }
+
+    .menu-page-description-text{
+        color: #2B252E;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 0.75rem;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+    }
+
+    .menu-page-title{
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        width: 100%;
+    }
+    
+    .menu-page-subtitle{
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
 }

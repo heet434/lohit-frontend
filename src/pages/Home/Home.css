@@ -99,7 +99,7 @@
             margin-right: 160px;
         }
     }
-    @media (min-width: 428px )and (max-width: 834px){
+    @media (min-width: 432px )and (max-width: 834px){
         .Carousel{
             grid-column-start: 1;
             grid-column-end: 13;
@@ -124,7 +124,7 @@
             margin-right: 32px;
         }
     }
-    @media (max-width: 428px){
+    @media (max-width: 432px){
         .content{
             margin-top: 2rem;
             display: grid;

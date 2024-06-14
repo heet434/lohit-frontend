@@ -35,10 +35,10 @@ function Carousel(props) {
 
     useEffect(() => {
         var num = 6
-        if(window.innerWidth < 834 && window.innerWidth > 428) {
+        if(window.innerWidth < 834 && window.innerWidth > 432) {
             setNumItems(5)
             num = 5
-        }else if(window.innerWidth < 428) {
+        }else if(window.innerWidth < 432) {
             setNumItems(5)
             num = 20
         }

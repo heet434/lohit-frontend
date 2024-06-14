@@ -28,7 +28,7 @@ function TopNav() {
   useEffect(() => {
     if(viewPortWidth > 834){
       setBreakPoint(3)
-    }else if(viewPortWidth > 428){
+    }else if(viewPortWidth > 432){
       setBreakPoint(2)
     }else{
       setBreakPoint(1)

@@ -14,3 +14,11 @@
     line-height: normal;
     width: 100%;
 }
+
+@media (max-width: 432px){
+    .foodCategory-title{
+        font-size: 1.5rem;
+        padding-left: 0.5rem;
+    }
+    
+}
