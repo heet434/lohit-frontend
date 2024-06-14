@@ -24,6 +24,17 @@
     top: 19rem;
     margin: auto;
 }
+@media (max-width: 834px){
+    .searchBar{
+        width: 60vw;
+        height: 1.75rem;
+        /* position: sticky;
+        top: 100px;
+        z-index: 2001; */
+        top: 19rem;
+        margin: auto;
+    }
+}
 
 .content h3{
     grid-column-start: 2;
@@ -36,3 +47,109 @@
     font-weight: 500;
     line-height: normal;
 }
+
+@media (min-width: 1150px){
+    .Carousel{
+        grid-column-start: 2;
+        grid-column-end: 12;
+    }
+    .content h3{
+        grid-column-start: 2;
+        grid-column-end:6;
+        margin-left: 2.25rem;
+        color: #2B252E;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+    .content{
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 32px;
+        margin-left: 160px;
+        margin-right: 160px;
+    }
+}
+@media (max-width: 1150px){
+    @media(min-width: 834px) and (max-width: 1150px){
+        .Carousel{
+            grid-column-start: 1;
+            grid-column-end: 13;
+        }  
+        .content h3{
+            grid-column-start: 1;
+            grid-column-end:13;
+            margin-left: 2.25rem;
+            color: #2B252E;
+            font-family: Montserrat;
+            font-size: 1.5rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+        .content{
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-gap: 32px;
+            margin-left: 160px;
+            margin-right: 160px;
+        }
+    }
+    @media (min-width: 428px )and (max-width: 834px){
+        .Carousel{
+            grid-column-start: 1;
+            grid-column-end: 13;
+        }  
+        .content h3{
+            grid-column-start: 1;
+            grid-column-end:13;
+            margin-left: 2.25rem;
+            color: #2B252E;
+            font-family: Montserrat;
+            font-size: 1.5rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+        .content{
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-gap: 16px;
+            margin-left: 32px;
+            margin-right: 32px;
+        }
+    }
+    @media (max-width: 428px){
+        .content{
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 16px;
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+        .Carousel{
+            grid-column-start: 1;
+            grid-column-end: 5;
+            overflow-x: scroll;
+            /* grid-column-end: 5; */
+        }  
+        .content h3{
+            grid-column-start: 1;
+            grid-column-end:3;
+            margin-left: 1rem;
+            color: #2B252E;
+            font-family: Montserrat;
+            font-size: 1.25rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+        }
+    }
+}
+  

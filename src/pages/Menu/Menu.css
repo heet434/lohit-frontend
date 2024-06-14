@@ -14,7 +14,7 @@
         position: sticky;
         z-index: 0;
         top: 5.9rem;
-        margin-top: 4.5rem;
+        /* margin-top: 4.5rem; */
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         grid-gap: 32px;

@@ -9,6 +9,14 @@ import RightIcon from '../../assets/icons/right.svg'
 function Carousel(props) {
     const [visibleItems, setVisibleItems] = useState([])
     const [visibleIndex, setVisibleIndex] = useState([])
+
+    const [touchStart, setTouchStart] = useState(null)
+    const [touchEnd, setTouchEnd] = useState(null)
+
+    // the required distance between touchStart and touchEnd to be detected as a swipe
+    const minSwipeDistance = 50 
+
+    const [numItems, setNumItems] = useState(6)
     
     const foodItems = props.foodItems.map((item) => {
         return (
@@ -24,6 +32,52 @@ function Carousel(props) {
                 </div>
         )
     })
+
+    useEffect(() => {
+        var num = 6
+        if(window.innerWidth < 834 && window.innerWidth > 428) {
+            setNumItems(5)
+            num = 5
+        }else if(window.innerWidth < 428) {
+            setNumItems(5)
+            num = 20
+        }
+
+        let items = []
+        
+        for (let i = 0; i < num; i++) {
+            items.push(foodItems[i])
+        }
+        setVisibleItems(items)
+        let index = []
+        for (let i = 0; i < num; i++) {
+            index.push(i)
+        }
+        setVisibleIndex(index)
+        //console.log("numItems: ", numItems)
+    },[])
+
+    const onTouchStart = (e) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+    }
+
+    const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
+
+    const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    //if (isLeftSwipe || isRightSwipe) console.log('swipe', isLeftSwipe ? 'left' : 'right')
+    // add your conditional logic here
+    if(isLeftSwipe){
+        moveLeft()
+    }
+    if(isRightSwipe){
+        moveRight()
+    }
+    }
 
     const moveLeft = () => {
 
@@ -43,18 +97,19 @@ function Carousel(props) {
         fooditems[1].classList.add('moveLeft');
         fooditems[2].classList.add('moveLeft2');
         fooditems[3].classList.add('moveLeft3');
-        fooditems[4].classList.add('moveLeft4');
-        fooditems[5].classList.add('moveLeft5');
+        if(fooditems.length>4) {fooditems[4].classList.add('moveLeft4');}
+        if(fooditems.length>5) {fooditems[5].classList.add('moveLeft5');}
 
         let items = [];
         let index = [];
-        for (let i =1; i<6; i++){
+        //console.log(visibleIndex);
+        for (let i =1; i<numItems; i++){
             items.push(foodItems[visibleIndex[i]]);
             index.push(visibleIndex[i]);
         }
-        if(visibleIndex[5]+1<foodItems.length){
-            items.push(foodItems[visibleIndex[5]+1]);
-            index.push(visibleIndex[5]+1);
+        if(visibleIndex[visibleIndex.length-1]+1<foodItems.length){
+            items.push(foodItems[visibleIndex[numItems-1]+1]);
+            index.push(visibleIndex[numItems-1]+1);
         }else{
             items.push(foodItems[0]);
             index.push(0);
@@ -81,7 +136,7 @@ function Carousel(props) {
         fooditems[1].classList.add('moveRight2');
         fooditems[2].classList.add('moveRight3');
         fooditems[3].classList.add('moveRight4');
-        fooditems[4].classList.add('moveRight5');
+        if(fooditems.length>4) {fooditems[4].classList.add('moveRight5');}
 
 
         let items = [];
@@ -93,7 +148,7 @@ function Carousel(props) {
             items.push(foodItems[foodItems.length-1]);
             index.push(foodItems.length-1);
         }
-        for (let i = 0; i<5; i++){
+        for (let i = 0; i<numItems-1; i++){
             items.push(foodItems[visibleIndex[i]]);
             index.push(visibleIndex[i]);
         }
@@ -101,17 +156,9 @@ function Carousel(props) {
         setVisibleIndex(index);
     }
 
-    useEffect(() => {
-        let items = []
-        for (let i = 0; i < 6; i++) {
-            items.push(foodItems[i])
-        }
-        setVisibleItems(items)
-        setVisibleIndex([0,1,2,3,4,5])
-    },[])
 
 return (
-    <div className='carousel-container'>
+    <div className='carousel-container' onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
         <div className='carousel-button-left' onClick={moveLeft}>
             <img src={LeftIcon} alt='left' />
         </div>
