@@ -110,7 +110,7 @@ function FoodCategory(props) {
                 description={item.description}
                 waitingTime={item.waitingTime}
                 itemType={item.itemType}
-                img={`https://source.unsplash.com/400x400/?${item.name}`}
+                img={`https://picsum.photos/400`}
                 />
             )
             })}

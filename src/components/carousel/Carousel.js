@@ -15,7 +15,7 @@ function Carousel(props) {
                 <div className='food-item moveIn' key={item.id}>
                     <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} offset={-140}>
                         <div className='food-img-mask'>
-                            <img src={`https://source.unsplash.com/400x400/?${item.name}`} alt={item.name} />
+                            <img src={`https://picsum.photos/400`} alt={item.name} />
                         </div>
                         <div className='food-item-text subtitle'>
                             {item.name}
