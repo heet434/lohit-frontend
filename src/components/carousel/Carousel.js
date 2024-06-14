@@ -21,14 +21,15 @@ function Carousel(props) {
     const foodItems = props.foodItems.map((item) => {
         return (
                 <div className='food-item moveIn' key={item.id}>
-                    <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} offset={-140}>
+                        <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} offset={-140}>
                         <div className='food-img-mask'>
                             <img src={`https://picsum.photos/400`} alt={item.name} />
                         </div>
+                        </Link>
                         <div className='food-item-text subtitle'>
                             {item.name}
                         </div>
-                    </Link>
+                    
                 </div>
         )
     })

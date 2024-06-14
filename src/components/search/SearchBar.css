@@ -18,3 +18,8 @@
     cursor: pointer;
     color:#17A9DD;
 }
+@media(max-width: 432px){
+    #searchBar{
+        border-radius: 5px;
+    }
+}

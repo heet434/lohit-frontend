@@ -17,6 +17,15 @@
     background-image: url('../../assets/home/food.png');
     background-size: cover;
 }
+@media (max-width: 432px){
+    .foodsImgContainer{
+        margin-left: 16px;
+        margin-right: 16px;
+        border-radius: 20px;
+        width: auto;
+        height: 210px;
+    }
+}
 .searchBar{
     width: 29.75rem;
     height: 1.75rem;
@@ -31,7 +40,7 @@
         /* position: sticky;
         top: 100px;
         z-index: 2001; */
-        top: 19rem;
+        top: 9rem;
         margin: auto;
     }
 }
