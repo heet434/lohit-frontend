@@ -16,7 +16,37 @@ function Carousel(props) {
     // the required distance between touchStart and touchEnd to be detected as a swipe
     const minSwipeDistance = 50 
 
+    const [viewPortWidth, setViewPortWidth] = useState(window.innerWidth)
+    const [breakPoint, setBreakPoint] = useState(1)
     const [numItems, setNumItems] = useState(6)
+
+    useEffect(() => {
+    const handleResize = () => {
+        setViewPortWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+        window.removeEventListener('resize', handleResize);
+    };
+    }, []);
+
+
+    useEffect(() => {
+    if(viewPortWidth > 834){
+        setBreakPoint(3)
+        setNumItems(6)
+
+    }else if(viewPortWidth > 432){
+        setBreakPoint(2)
+        setNumItems(5)
+    }else{
+        setBreakPoint(1)
+        setNumItems(5)
+    }
+    },[viewPortWidth])
+
     
     const foodItems = props.foodItems.map((item) => {
         return (
@@ -35,28 +65,28 @@ function Carousel(props) {
     })
 
     useEffect(() => {
-        var num = 6
-        if(window.innerWidth < 834 && window.innerWidth > 432) {
-            setNumItems(5)
-            num = 5
-        }else if(window.innerWidth < 432) {
-            setNumItems(5)
-            num = 20
-        }
+        // var num = 6
+        // if(window.innerWidth < 834 && window.innerWidth > 432) {
+        //     setNumItems(5)
+        //     num = 5
+        // }else if(window.innerWidth < 432) {
+        //     setNumItems(5)
+        //     num = 20
+        // }
 
         let items = []
         
-        for (let i = 0; i < num; i++) {
+        for (let i = 0; i < numItems; i++) {
             items.push(foodItems[i])
         }
         setVisibleItems(items)
         let index = []
-        for (let i = 0; i < num; i++) {
+        for (let i = 0; i < numItems; i++) {
             index.push(i)
         }
         setVisibleIndex(index)
         //console.log("numItems: ", numItems)
-    },[])
+    },[numItems])
 
     const onTouchStart = (e) => {
     setTouchEnd(null)

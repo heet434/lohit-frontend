@@ -29,6 +29,18 @@
         align-items: center;
         justify-content: space-around;
     }
+    @media(max-width:1350px) and (min-width: 1050px){
+        .nav-list{
+            grid-column-start: 7;
+            grid-column-end: 13;
+        }
+    }
+    @media(max-width:1050px) and (min-width: 834px){
+        .nav-list{
+            grid-column-start: 4;
+            grid-column-end: 13;
+        }
+    }
 
     .nav-item {
         display: flex;
