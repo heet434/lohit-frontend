@@ -29,6 +29,18 @@
         align-items: center;
         justify-content: space-around;
     }
+    @media(max-width:1350px) and (min-width: 1050px){
+        .nav-list{
+            grid-column-start: 7;
+            grid-column-end: 13;
+        }
+    }
+    @media(max-width:1050px) and (min-width: 834px){
+        .nav-list{
+            grid-column-start: 4;
+            grid-column-end: 13;
+        }
+    }
 
     .nav-item {
         display: flex;
@@ -72,7 +84,7 @@
     }
 }
 
-@media (min-width: 428px) {
+@media (min-width: 432px) {
 @media (max-width: 834px) {
     .topNav{
         position: sticky;
@@ -143,4 +155,75 @@
         line-height: normal;
     }
 }    
+}
+@media (max-width: 432px){
+    .topNav{
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 100vw;
+        height: 5.9rem;
+        background-color: #F3F3E7;
+    }
+    .topNav-container{
+        height: 5.9rem;
+        background-color: #F3F3E7;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin-left: 16px;
+        margin-right: 16px;
+        align-items: center;
+    }
+    .nav-item-profile{
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        padding-left: 0.6rem;
+        text-align: center;
+        grid-column-start: 1;
+        align-items: center;
+    }
+
+    .nav-item-cart {
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        padding-right: 0.6rem;
+        /* grid-column-start: 8; */
+        grid-column-end: 5;
+        color: #2B252E;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 1.25rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .nav-item:hover {
+        cursor: pointer;
+        color:#17A9DD;
+    }
+    .nav-logo {
+        grid-column-start: 2;
+        grid-column-end: 4;
+        text-align: center;
+        color: #2B252E;
+    }
+
+    .nav-logo:hover {
+        cursor: pointer;
+        color:#17A9DD;
+    }
+
+    .nav-logo div {
+        margin: auto;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 1.5rem;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        width: fit-content;
+    }
 }

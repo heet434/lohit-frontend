@@ -88,7 +88,7 @@ function Menu() {
     <div className='page' id='Menu'>
         <div className='menu-navbar-container'>
                 <div className='menu-navbar'>
-                    <Link to='menu-container' smooth={true} duration={1000} offset={-200}spy={true} activeClass='activeTop'>
+                    <Link to='menu-container' smooth={true} duration={1000} offset={-160}spy={true} activeClass='activeTop'>
                       <div className='menu-navbar-item'>
                           Menu
                       </div>

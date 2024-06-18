@@ -37,11 +37,11 @@
     line-height: normal;
 }
 .menuItem-description-line1{
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     justify-content: left;
     align-items: first baseline;
-    gap: 0.75rem;
+    gap: 0.5rem;
 }
 .menuItem-description-line2{
     display: flex;
@@ -82,4 +82,46 @@
     width: 100%;
     object-fit: cover;
     border-radius: 0.5rem;
+}
+
+@media (max-width: 432px){
+    .menuItem-name{
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+    .menuItem-waitingTime{
+        font-size: 0.75rem;
+        font-weight: 300;
+    }
+    .menuItem-description-line1{
+        display: inline-block;
+    }
+    .menuItem-price{
+        font-size: 1rem;
+        font-weight: 400;
+    }
+    .menuItem-description-sentence{
+        font-size: 0.75rem;
+        font-weight: 400;
+        height: 2rem;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        max-width: 50vw;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .menu-Item-description-sentence:hover{
+        text-overflow: clip;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+    }
+    .menuItem-description-sentence:active{
+        text-overflow: clip;
+        overflow: visible;
+        display: block;
+        height: fit-content;
+    }
 }

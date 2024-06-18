@@ -41,12 +41,12 @@ function MenuItem(props) {
         </div>
         <div className='menuItem-description'>
           <div className='menuItem-description-line1'> 
-            <div className='menuItem-name'>
+            <h3 className='menuItem-name'>
               {props.itemName}
-            </div>
-            <div className='menuItem-waitingTime'>
+            </h3>
+            <p className='menuItem-waitingTime'>
               {props.waitingTime} min
-            </div>
+            </p>
           </div>
           <div className='menuItem-description-line2'> 
             <div className='menuItem-price'>
