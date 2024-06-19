@@ -1,0 +1,30 @@
+.change-password{
+    white-space: nowrap;
+    text-align: right;
+    grid-column-start: 9;
+    grid-column-end: 13;
+    color: #17A9DD;
+    font-family: Montserrat;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    text-decoration-line: underline;
+    padding-top: 0.25rem;
+}
+.order-open-button{
+    width: 100%;
+    display: inline-flex;
+    padding-bottom: 1rem;
+    justify-content: left;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(43, 37, 46, 0.40);
+    background: #F3F3E7;
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
