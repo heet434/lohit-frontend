@@ -1,6 +1,7 @@
 import {React,useState, useEffect} from 'react';
 
 import Login from './Contents/Login/Login';
+import Signup from './Contents/Signup/Signup';
 
 import './Modal.css';
 
@@ -8,9 +9,9 @@ import './Modal.css';
 
 function PcModal(props) {
 
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(true)
 
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true)
 
     const [content, setContent] = useState(null)
 
@@ -40,6 +41,7 @@ function PcModal(props) {
         <div className='pc-modal' >
             {/* <div className='pc-modal-content'> */}
             {/* <Login closeModal={closeModal} /> */}
+            <Signup closeModal={closeModal} />
             {/* </div> */}
         </div>
     </div>

@@ -31,3 +31,101 @@
     /* display: grid; */
 }
 
+.modal-r1{
+    position: relative;
+    top: 14.17vh; 
+}
+.modal-r2{
+    position: relative;
+    top: 20.9vh; 
+}
+.modal-r3{
+    position: relative;
+    top: 29.5vh; 
+}
+.modal-r4{
+    position: relative;
+    top: 32.7vh;
+}
+.modal-r5{
+    position: relative;
+    top: 39.5vh; 
+}
+.modal-r6{
+    position: relative;
+    top: 45.6vh; 
+}
+
+.modal-close{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    text-align: center;
+}
+
+.modal-close:hover{
+    cursor: pointer;
+}
+.modal-container{
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 12px;
+    padding-left: 5.5rem;
+    padding-right: 5.5rem;
+}
+.modal-input-container{
+    grid-column-start: 1;
+    grid-column-end: 13;
+}
+.modal-input input{
+    width: 100%;
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border: none;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(43, 37, 46, 0.40);
+}
+.modal-button{
+    grid-column-start: 4;
+    grid-column-end: 9;
+    border-radius: 0.25rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    text-align: center;
+    height: fit-content;
+    border: 1px solid rgba(43, 37, 46, 0.40);
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.modal-button:hover{
+    cursor: pointer;
+    background-color: #17A9DD;
+    color: #F3F3E7;
+}
+.pc-modal-in{
+    width: 100%;
+}
+.modal-title{
+    grid-column-start: 4;
+    grid-column-end: 9;
+    white-space: nowrap;
+    margin: auto;
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
