@@ -41,7 +41,7 @@ function PcModal(props) {
         <div className='pc-modal' >
             {/* <div className='pc-modal-content'> */}
             {/* <Login closeModal={closeModal} /> */}
-            <Signup closeModal={closeModal} />
+            {/* <Signup closeModal={closeModal} /> */}
             {/* </div> */}
         </div>
     </div>
