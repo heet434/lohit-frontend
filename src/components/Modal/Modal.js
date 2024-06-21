@@ -4,6 +4,7 @@ import Login from './Contents/Login/Login';
 import Signup from './Contents/Signup/Signup';
 import Profile from './Contents/Profile/Profile';
 import Cart from './Contents/Cart/Cart';
+import Checkout from './Contents/Checkout/Checkout';
 
 import './Modal.css';
 
@@ -11,9 +12,9 @@ import './Modal.css';
 
 function PcModal(props) {
 
-    const [visible, setVisible] = useState(true)
+    const [visible, setVisible] = useState(false)
 
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true)
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
 
     const [content, setContent] = useState(null)
 
@@ -46,6 +47,7 @@ function PcModal(props) {
             {/* <Signup closeModal={closeModal} /> */}
             {/* <Profile closeModal={closeModal} /> */}
             {/* <Cart closeModal={closeModal} /> */}
+            {/* <Checkout closeModal={closeModal} /> */}
             {/* </div> */}
         </div>
     </div>
