@@ -17,13 +17,27 @@
     z-index: 1000;
     background-color: rgba(0, 0, 0, 0);
 }
-
+@media (max-width:834px){
+    .pc-modal-close-area{
+        display: none;
+    }
+    .pc-modal{
+        left: 0vw;
+        width: 100vw;
+    }
+}
+@media(min-width: 834px){
+    .pc-modal{
+        left: 40vw;
+        width: 60vw;
+    }
+}
 .pc-modal{
     position: fixed;
     height: 100vh;
     top: 0;
-    left: 40vw;
-    width: 60vw;
+    /* left: 40vw;
+    width: 60vw; */
     z-index: 1001;
     background-color: #F3F3E7;
     box-shadow: -11.5px 0px 14.4px 0px rgba(43, 37, 46, 0.20);
