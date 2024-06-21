@@ -3,6 +3,7 @@ import {React,useState, useEffect} from 'react';
 import Login from './Contents/Login/Login';
 import Signup from './Contents/Signup/Signup';
 import Profile from './Contents/Profile/Profile';
+import Cart from './Contents/Cart/Cart';
 
 import './Modal.css';
 
@@ -43,7 +44,8 @@ function PcModal(props) {
             {/* <div className='pc-modal-content'> */}
             {/* <Login closeModal={closeModal} /> */}
             {/* <Signup closeModal={closeModal} /> */}
-            <Profile closeModal={closeModal} />
+            {/* <Profile closeModal={closeModal} /> */}
+            {/* <Cart closeModal={closeModal} /> */}
             {/* </div> */}
         </div>
     </div>
