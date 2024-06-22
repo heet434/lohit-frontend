@@ -3,6 +3,8 @@ import React from 'react'
 import './MenuItem.css'
 import addIcon from '../../assets/icons/add.png'
 
+import { removeWhiteSpace } from '../../utils/strUtils'
+
 
 function MenuItem(props) {
 
@@ -34,7 +36,7 @@ function MenuItem(props) {
     icon = nonVegIcon;
 
   return (
-    <div className='menuItem'>
+    <div className='menuItem' id={removeWhiteSpace(props.itemName)}>
       <div className='menuItem-description-container'>
         <div className='veg-nonveg-icon'>
           {icon}

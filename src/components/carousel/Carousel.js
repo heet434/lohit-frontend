@@ -6,10 +6,11 @@ import './Carousel.css'
 import LeftIcon from '../../assets/icons/left.svg'
 import RightIcon from '../../assets/icons/right.svg'
 
+import {useSelector} from 'react-redux'
+
 function Carousel(props) {
     const [visibleItems, setVisibleItems] = useState([])
     const [visibleIndex, setVisibleIndex] = useState([])
-
     const [touchStart, setTouchStart] = useState(null)
     const [touchEnd, setTouchEnd] = useState(null)
 
@@ -47,7 +48,6 @@ function Carousel(props) {
     }
     },[viewPortWidth])
 
-    
     const foodItems = props.foodItems.map((item) => {
         return (
                 <div className='food-item moveIn' key={item.id}>
@@ -61,18 +61,9 @@ function Carousel(props) {
                         </div>
                     
                 </div>
-        )
-    })
+    )})
 
     useEffect(() => {
-        // var num = 6
-        // if(window.innerWidth < 834 && window.innerWidth > 432) {
-        //     setNumItems(5)
-        //     num = 5
-        // }else if(window.innerWidth < 432) {
-        //     setNumItems(5)
-        //     num = 20
-        // }
 
         let items = []
         
@@ -86,7 +77,7 @@ function Carousel(props) {
         }
         setVisibleIndex(index)
         //console.log("numItems: ", numItems)
-    },[numItems])
+    },[numItems, props.foodItems])
 
     const onTouchStart = (e) => {
     setTouchEnd(null)

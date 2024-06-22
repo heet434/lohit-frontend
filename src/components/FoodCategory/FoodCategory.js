@@ -95,21 +95,31 @@ const menuItems = [
 ]
 
 function FoodCategory(props) {
+
+    const menuItemsInCategory = props.menuItems.filter(
+        (item) => {
+            // check if props.categoryName is present in item.category array which is a list of categories
+            //console.log(item.category)
+            return item.category.includes(props.categoryName)
+        }
+    )
+
   return (
     <div className='foodCategory' id={props.idName}>
         <div className='foodCategory-title'>
             {props.categoryName}
         </div>
         <div className='foodCategory-menuItems'>
-            {menuItems.map((item) => {
+            {menuItemsInCategory.map((item) => {
             return (
                 <MenuItem
                 key={item.id}
-                itemName={item.name}
+                // itemName={item.name}
+                itemName = {item.item}
                 price={item.price}
                 description={item.description}
-                waitingTime={item.waitingTime}
-                itemType={item.itemType}
+                waitingTime={'30'}
+                itemType={item.veg_or_nonveg}
                 img={`https://picsum.photos/400`}
                 />
             )

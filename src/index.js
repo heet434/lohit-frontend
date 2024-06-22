@@ -2,9 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import {Provider} from 'react-redux';
+import store from './store';
+import axios from 'axios';
 
+const BASE_URL = 'http://127.0.0.1:8000/'
+
+axios.defaults.baseURL = BASE_URL;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <App />
+    <Provider store={store}>
+        <App />
+    </Provider>
 );
