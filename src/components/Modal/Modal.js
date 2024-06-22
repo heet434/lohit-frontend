@@ -12,9 +12,9 @@ import './Modal.css';
 
 function PcModal(props) {
 
-    const [visible, setVisible] = useState(true)
+    const [visible, setVisible] = useState(false)
 
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true)
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
 
     const [content, setContent] = useState(null)
 
