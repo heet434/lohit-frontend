@@ -13,12 +13,17 @@
     justify-content: center;
     gap: 0.5rem;
 }
-#searchBar .search-title:hover{
+#searchBar input:hover{
     cursor: pointer;
     color:#17A9DD;
 }
 #searchBar .search-title{
     padding-top: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
 }
 /* #searchBar:hover{
     cursor: pointer;
