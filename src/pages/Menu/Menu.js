@@ -1,76 +1,43 @@
 import React from 'react'
-import { useState } from 'react';
 import { Link } from 'react-scroll';
+
 
 import { removeWhiteSpace } from '../../utils/strUtils';
 
 import './Menu.css'
 import FoodCategory from '../../components/FoodCategory/FoodCategory';
 
-function Menu() {
+function Menu(props) {
 
-    const foodCategories = [
-        {
-          index : 0,
-          id : 1,
-          name : 'Pizza',
-        },
-        {
-          index : 1,
-          id:  2,
-          name :'Burger',
-        },
-        {
-          index : 2,
-          id: 3,
-          name: 'Pasta',
-        },
-        {
-          index : 3,
-          id: 4,
-          name: 'Salad',
-        },
-        {
-          index : 4,
-          id: 5,
-          name: 'Fries',
-        },
-        {
-          index : 5,
-          id: 6,
-          name: 'Ice Cream',
-        },
-        {
-          index : 6,
-          id: 7,
-          name: 'Donut',
-        },
-        {
-          index : 7,
-          id: 8,
-          name: 'Cake',
-        },
-        {
-          index : 8,
-          id: 9,
-          name: 'Pie',
-        },
-        {
-          index : 9,
-          id: 10,
-          name: 'Sushi',
-        },
-        {
-          index : 10,
-          id: 11,
-          name: 'Taco',
-        },
-        {
-          index : 11,
-          id: 12,
-          name: 'Burrito',
-        }
-      ];
+    // const [foodCategories, setFoodCategories] = useState([])
+    // const [menuItems, setMenuItems] = useState([])
+    // const fetchFoodCategories = async () => {
+    //     try{
+    //         const response = await axios.get('/api/categories/')
+    //         setFoodCategories(response.data.map((item,index)=>{
+    //             return {name: item.name, id: index, index: index}
+    //         }))
+    //     }
+    //     catch(error){
+    //         console.log(error)
+    //     }
+    // }
+    // const fetchMenuItems = async () => {
+    //     try{
+    //         const response = await axios.get('/api/menu/')
+    //         setMenuItems(response.data)
+    //         //console.log(response.data)
+    //       }
+    //     catch(error){
+    //         console.log(error)
+    //     }
+    // }
+    
+    // useEffect(() => {
+    //     fetchFoodCategories()
+    //     fetchMenuItems()
+    // },  [])
+    const foodCategories = props.categories
     
     // create a list of div for foodItems
     const foodCategoriesList = foodCategories.map((item)=>{
@@ -160,7 +127,7 @@ function Menu() {
                 </div>
                 {foodCategories.map((item) => {
                     return(
-                        <FoodCategory key={item.id} categoryName={item.name} idName={removeWhiteSpace(item.name)}/>
+                        <FoodCategory key={item.id} categoryName={item.name} idName={removeWhiteSpace(item.name)} menuItems = {props.menu}/>
                     )
                 })}
             </div>

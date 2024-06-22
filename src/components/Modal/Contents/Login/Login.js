@@ -1,11 +1,26 @@
 import {React, useState} from 'react'
+import {useDispatch} from 'react-redux'
+
+import { authActions } from '../../../../store/slices/authSlice'
+
 
 import './Login.css'
 
 function Login(props) {
 
-    const [email, setEmail] = useState('')
+    const dispatch = useDispatch()
+
+    const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
+
+    const login = () => {
+        dispatch(authActions.login({
+            phone: phone,
+            username: 'Heet',
+            hostel: 'Kameng'
+        }))
+        props.onLogin()
+    }
 
   return (
     <div className='user-login pc-modal-in' id='login'>
@@ -25,7 +40,7 @@ function Login(props) {
             {/* r2 */}
             <div className='modal-r2 modal-input-container'>
                 <div className='modal-input'>
-                    <input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type='phone' placeholder='Phone' value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
             </div>
             {/* r3 */}
@@ -39,12 +54,12 @@ function Login(props) {
                 Forgot Password?
             </div>
             {/* r5 */}
-            <div className='modal-r5 modal-button' id="login-button">
+            <div className='modal-r5 modal-button' id="login-button" onClick={login}>
                 Login
             </div>
             {/* r6 */}
-            <div className='modal-r6' id='login-signup'>
-                    Don't have an account? <br/> <span onClick={props.openSignup}>Sign Up</span>
+            <div className='modal-r6' id='login-signup' onClick={props.openSignup}>
+                    Don't have an account? <br/> <span>Sign Up</span>
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@ function Signup(props) {
         <div className='user-signup pc-modal-in' id='signup'>
             <div className = 'modal-container'>
                     {/* r1 */}
-                <div className='modal-close modal-r1' onClick={props.closeModal}>
+                <div className='modal-close modal-r1' onClick={props.openLogin}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="32" viewBox="0 0 15 32" fill="none">
                         <path d="M14.0859 2.77799L11.9677 0.000671387L0.000222206 15.6917L11.9677 31.3828L14.0859 28.6055L4.23671 15.6917L14.0859 2.77799Z" fill="#2B252E"/>
                     </svg>
