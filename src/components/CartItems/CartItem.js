@@ -2,6 +2,7 @@ import React from 'react'
 
 import './CartItem.css'
 
+
 function CartItem(props) {
   return (
     <div className='cart-item-container'>

@@ -29,7 +29,7 @@ function Checkout(props) {
             </div>
             <div className='modal-r3 modal-input-container'>
                 <div className='modal-input'>
-                    <label htmlFor='address' className='modal-input-label'>Delivery</label>
+                    <label htmlFor='address' className='modal-input-label'>Delivery Address</label>
                     <input type='text' id='address' placeholder='Hostel/Address' />
                 </div>
             </div>

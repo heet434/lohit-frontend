@@ -34,7 +34,6 @@ function PcModal(props) {
         }
     }   ,[])
 
-    console.log('visible', visible)
   return (
     visible &&
     <div className='pc-modal-bg'>

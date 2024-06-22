@@ -355,7 +355,7 @@
         grid-column-end: 5;
         display: flex;
         justify-content: flex-start;
-        gap: 1.5rem;
+        gap: 0.5rem;
         align-items: center;
         text-align: center;
         width: 50%;

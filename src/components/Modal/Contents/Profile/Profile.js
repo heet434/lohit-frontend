@@ -43,7 +43,7 @@ function Profile(props) {
                     </div>
                 </div>
             {/* r3 */}
-                <div className='modal-r5 modal-input-container'>
+                <div className='modal-r5 order-open-container'>
                     <div className='modal-input order-open-button'>
                         {/* <input type='text' value={'Your Orders'} readOnly/> */}
                         Your Orders
