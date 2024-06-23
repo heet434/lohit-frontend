@@ -7,6 +7,9 @@
     margin-left: 160px;
     margin-right: 160px;
 }
+.page{
+    background-color: #F3F3E7;
+}
 
 .foodsImgContainer{
     width: 100vw;
@@ -32,6 +35,8 @@
     position: relative;
     top: 15rem;
     margin: auto;
+    background-color: #F3F3E7;
+    z-index: 10;
 }
 @media (max-width: 834px){
     .searchBar{

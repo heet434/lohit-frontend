@@ -5,7 +5,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 1010;
 }
 
 .pc-modal-close-area{
@@ -14,7 +14,7 @@
     left: 0;
     height: 100vh;
     width: 40vw;
-    z-index: 1000;
+    z-index: 1010;
     background-color: rgba(0, 0, 0, 0);
 }
 @media (max-width:834px){
@@ -38,10 +38,13 @@
     top: 0;
     /* left: 40vw;
     width: 60vw; */
-    z-index: 1001;
+    z-index: 1010;
     background-color: #F3F3E7;
     box-shadow: -11.5px 0px 14.4px 0px rgba(43, 37, 46, 0.20);
     /* display: grid; */
+}
+.pc-modal input{
+    background-color: #F3F3E7;
 }
 
 .modal-r1{

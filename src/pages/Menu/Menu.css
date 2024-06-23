@@ -400,3 +400,8 @@
     }
 
 }
+
+.menu-navbar-container{
+    background-color: #F3F3E7;
+    z-index: 1000;
+}
