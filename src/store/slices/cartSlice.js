@@ -1,13 +1,23 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+import { loadState, saveState } from '../../helper/sessionStore';
+
 const cartSlice = createSlice({
     name: 'cart',
-    initialState: {
+    // initialState: {
+    //     items: [],
+    //     totalPrice: 0,
+    //     totalQuantity: 0,
+    //     numItems: 0
+    // },
+
+    initialState: loadState('cart', {
         items: [],
         totalPrice: 0,
         totalQuantity: 0,
         numItems: 0
-    },
+    }),
+
     reducers: {
         addItem(state, action){
             const newItem = action.payload;
@@ -29,6 +39,7 @@ const cartSlice = createSlice({
                 existingItem.totalPrice += Number(existingItem.price);
                 state.totalPrice += Number(existingItem.price);
             }
+            saveState('cart', state)
         },
         // addExistingItem(state, action){
         //     const existingItem = state.items.find(item => item.id === action.payload.id);
@@ -52,6 +63,7 @@ const cartSlice = createSlice({
                 state.totalPrice -= Number(existingItem.price);
                 state.totalQuantity--;
             }
+            saveState('cart', state)
         }
     }
 })

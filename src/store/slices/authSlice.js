@@ -1,10 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+import { loadState, saveState } from '../../helper/sessionStore';
+
 const authSlice = createSlice({
     name: 'auth',
-    initialState: {
-        isLoggedIn: false
-    },
+    initialState: loadState('auth', {
+        isLoggedIn: false,
+        username: null,
+        phone: null,
+        hostel: null,
+        token: null
+    }),
     reducers: {
         login(state, action){
             state.isLoggedIn = true
@@ -12,6 +18,7 @@ const authSlice = createSlice({
             state.phone = action.payload.phone
             state.hostel = action.payload.hostel
             state.token = action.payload.token
+            saveState('auth', state)
         },
         logout(state){
             state.isLoggedIn = false
@@ -19,6 +26,7 @@ const authSlice = createSlice({
             state.phone = null
             state.hostel = null
             state.token = null
+            saveState('auth', state)
         }
     }
 })
