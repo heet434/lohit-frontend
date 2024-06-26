@@ -1,5 +1,8 @@
 import {React,useEffect,useState} from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+
+import {authActions} from '../../../../store/slices/authSlice'
+import {cartActions} from '../../../../store/slices/cartSlice'
 
 import axios from 'axios'
 
@@ -7,6 +10,8 @@ import axios from 'axios'
 import './Profile.css'
 
 function Profile(props) {
+
+    const dispatch = useDispatch()
 
     // const [phone, setPhone] = useState('9825773190')
     // const [password, setPassword] = useState('')
@@ -22,15 +27,28 @@ function Profile(props) {
     const hostel = useSelector(state => state.auth.hostel)
     const token = useSelector(state => state.auth.token)
 
+    const totalCartItems = useSelector(state => state.cart.totalQuantity)
+
     const password = '********'
 
     const logout = () => {
-        axios.post('/api/logout/').then((response) => {
-            if(response.status === 200){
+        //console.log("token: ", token)
+        axios.post('/api/logout/',{},{
+            headers: {
+                Authorization: `Token ${token}`
+        }}).then(response => {
+            //console.log(response.data)
+            console.log("User logged out successfully.")
+            if(response.data.success){
                 props.closeModal()
-                window.location.reload()
             }
-        }).catch((error) => {
+            if(totalCartItems > 0){
+                alert(`You have ${totalCartItems} items in your cart. Are you sure you want to logout?`)
+            }
+            dispatch(cartActions.clearCart())
+            dispatch(authActions.logout())
+        })
+        .catch(error => {
             console.log(error)
         })
     }

@@ -90,6 +90,11 @@
 .add-icon:hover{
     cursor: pointer;
 }
+.add-icon:active{
+    /* add a blurred box shadow downwards to give a pressed effect */
+    box-shadow: 0px 0.5px 0.5px 0px #2b252e6e;
+    
+}
 
 @media (max-width: 432px){
     .menuItem-name{
