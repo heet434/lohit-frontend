@@ -1,12 +1,39 @@
-import {React,useState} from 'react'
+import {React,useEffect,useState} from 'react'
+import { useSelector } from 'react-redux'
+
+import axios from 'axios'
+
 
 import './Profile.css'
 
 function Profile(props) {
 
-    const [phone, setPhone] = useState('9825773190')
-    const [password, setPassword] = useState('')
-    const [hostel, setHostel] = useState('Kameng')
+    // const [phone, setPhone] = useState('9825773190')
+    // const [password, setPassword] = useState('')
+    // const [hostel, setHostel] = useState('Kameng')
+
+    // console.log({
+    //     phone: phone,
+    //     password: password,
+    //     hostel: hostel
+    // })
+    
+    const phone = useSelector(state => state.auth.phone)
+    const hostel = useSelector(state => state.auth.hostel)
+    const token = useSelector(state => state.auth.token)
+
+    const password = '********'
+
+    const logout = () => {
+        axios.post('/api/logout/').then((response) => {
+            if(response.status === 200){
+                props.closeModal()
+                window.location.reload()
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
 
   return (
     <div className='user-profile pc-modal-in' id='profile'>
@@ -31,7 +58,8 @@ function Profile(props) {
                 </div>
                 <div className='modal-r2 modal-input-container'>
                     <div className='modal-input'>
-                        <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        {/* <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} /> */}
+                        <input type='password' placeholder='Password' value={password} readOnly />
                     </div>
                 </div>
                 <div className='modal-r2 change-password'>
@@ -43,7 +71,7 @@ function Profile(props) {
                     </div>
                 </div>
             {/* r3 */}
-                <div className='modal-r5 order-open-container'>
+                <div className='modal-r4 order-open-container'>
                     <div className='modal-input order-open-button'>
                         {/* <input type='text' value={'Your Orders'} readOnly/> */}
                         Your Orders
@@ -51,6 +79,9 @@ function Profile(props) {
                             <path d="M0 1.1505L0.902294 0L6 6.5L0.902294 13L0 11.8495L4.19541 6.5L0 1.1505Z" fill="#2B252E"/>
                         </svg>
                     </div>
+                </div>
+                <div className='modal-r5 modal-button' id='logout' onClick={logout}>
+                    Logout
                 </div>
         </div>
     </div>

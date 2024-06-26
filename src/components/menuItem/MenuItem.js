@@ -1,12 +1,26 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 
 import './MenuItem.css'
 import addIcon from '../../assets/icons/add.png'
+
+import { cartActions } from '../../store/slices/cartSlice'
 
 import { removeWhiteSpace } from '../../utils/strUtils'
 
 
 function MenuItem(props) {
+
+  const dispatch = useDispatch()
+
+  const addItemToCart = () => {
+    dispatch(cartActions.addItem({
+      id: props.id,
+      name: props.itemName,
+      price: Number(props.price),
+      image: props.img,
+      type: props.itemType
+  }))}
 
 
   const vegIcon =
@@ -32,7 +46,7 @@ function MenuItem(props) {
     icon = vegIcon;
   else if(props.itemType === 'egg')
     icon = eggIcon;
-  else if(props.itemType === 'non-veg')
+  else if(props.itemType === 'non_veg')
     icon = nonVegIcon;
 
   return (
@@ -64,7 +78,7 @@ function MenuItem(props) {
       </div>
       <div className='menuItem-img-container'>
         <img src={props.img} alt='food item' className='menuItem-img'/>
-        <img src={addIcon} alt='add icon' className='add-icon' />
+        <img src={addIcon} alt='add icon' className='add-icon' onClick={addItemToCart}/>
       </div>
     </div>
   )

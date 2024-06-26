@@ -1,5 +1,6 @@
-import {React, useState} from 'react'
-import {useDispatch} from 'react-redux'
+import {React, useState, useCallback} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import axios from 'axios'
 
 import { authActions } from '../../../../store/slices/authSlice'
 
@@ -13,15 +14,57 @@ function Login(props) {
     const [phone, setPhone] = useState('')
     const [password, setPassword] = useState('')
 
-    const login = () => {
-        dispatch(authActions.login({
-            phone: phone,
-            username: 'Heet',
-            hostel: 'Kameng'
-        }))
-        props.onLogin()
+    const checkPhoneNum = () => {
+        if(phone.length === 10){
+            return true
+        }
+        return false
     }
 
+    // const setAuth = useCallback((phone, token, username, hostel) => {
+    //     dispatch(authActions.login({
+    //         phone: phone,
+    //         token: token,
+    //         username: username,
+    //         hostel: hostel
+    //     }))
+    // }, [dispatch])
+
+    const login = () => {
+        if(!checkPhoneNum()){
+            alert('Enter a valid phone number')
+            return
+        }
+        axios.post('/api/login/', {
+            phone_number: `+91${phone}`,
+            password: password
+        }).then((response) => {
+            if(response.status === 200){
+                //console.log(response)
+                // setAuth(phone, response.data.token, 'heet', 'Kameng')
+                dispatch(authActions.login({
+                    phone: phone,
+                    token: response.data.token,
+                    username: 'heet',
+                    hostel: 'Kameng'
+                }))
+                props.onLogin()
+            }else if(response.status === 401){
+                alert('Invalid Credentials')
+            }else if(response.status === 404){
+                alert('User not found')
+            }
+        }).catch((error) => {
+            if(error.response.status === 401 || error.response.status ===400){
+                console.log(error.response)
+                alert('Invalid Credentials')
+            }else if(error.response.status === 404){
+                console.log(error.response)
+                alert('User not found')
+            }
+        })
+        
+    }
   return (
     <div className='user-login pc-modal-in' id='login'>
         <div className = 'modal-container'>

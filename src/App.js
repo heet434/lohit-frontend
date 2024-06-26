@@ -17,7 +17,7 @@ function App() {
         try{
             const response = await axios.get('/api/categories/')
             setFoodCategories(response.data.map((item,index)=>{
-                return {name: item.name, id: index, index: index}
+                return {name: item.name, id: index, index: index, image: item.image}
             }))
         }
         catch(error){

@@ -1,5 +1,7 @@
 import {React, useState} from 'react'
 
+import axios from 'axios'
+
 import './Signup.css'
 
 function Signup(props) {
@@ -7,7 +9,8 @@ function Signup(props) {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [name, setName] = useState('')
     const [phone, setPhone] = useState('')
-    const [hostel, setHostel] = useState('')
+    const [hostel, setHostel] = useState('Kameng')
+    const [email, setEmail] = useState('')
 
     const checkConfirmPassword = () => {
         if(password === confirmPassword){
@@ -15,6 +18,72 @@ function Signup(props) {
         }
         return false
     }
+
+    const checkPhoneNum = () => {
+        if(phone.length === 10){
+            return true
+        }
+        return false
+    }
+
+    const signup = () => {
+        // console.log({
+        //     phone,
+        //     password,
+        //     confirmPassword,
+        //     name,
+        //     hostel: hostel.toLowerCase(),
+        //     email
+        // })
+
+        if(checkConfirmPassword()){
+            if(!checkPhoneNum()){
+                alert('Enter a valid phone number')
+                return
+            }
+            axios.post('/api/signup/', {
+                phone_number: `+91${phone}`,
+                // phone_number: phone,
+                password: password,
+                password2: confirmPassword,
+                name: name,
+                hostel: hostel.toLowerCase(),
+                email: email
+            }).then((response) => {
+                // console.log(response)
+                console.log("User created")
+                props.openLogin()
+            }).catch((error) => {
+                console.log(error)
+                if(error.response.data.phone_number){
+                    alert(error.response.data.phone_number)
+                }else if(error.response.data.email){
+                    alert(error.response.data.email)
+                }else if(error.response.data.password){
+                    alert(error.response.data.password)
+                }
+            })
+        }else{
+            alert('Passwords do not match')
+        }
+
+    }
+
+    const hostelOptions = [
+        'Kameng',
+        'Disang',
+        'Barak',
+        // 'Dihing',
+        'Kapili',
+        // 'Manas',
+        'Siang',
+        'Subansiri',
+        'Umiam',
+        // 'Brahmaputra',
+        'Dhansiri',
+        'Gaurang',
+        'Lohit'
+    ]
 
     return (
         <div className='user-signup pc-modal-in' id='signup'>
@@ -37,29 +106,39 @@ function Signup(props) {
                         <input type='text' placeholder='Phone' value={phone} onChange={(e) => setPhone(e.target.value)} />
                     </div>
                 </div>
-                <div className='modal-r3 modal-input-container'>
+                <div className='modal-r2 modal-input-container'>
                     <div className='modal-input'>
                         <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
                 </div>
-                <div className='modal-r3 modal-input-container'>
+                <div className='modal-r2 modal-input-container'>
                     <div className='modal-input'>
                         <input type='password' placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </div>
                 </div>
 
-                <div className='modal-r4 modal-input-container'>
+                <div className='modal-r2 modal-input-container'>
                     <div className='modal-input'>
                         <input type='text' placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
                 </div>
-                <div className='modal-r4 modal-input-container'>
+                <div className='modal-r2 modal-input-container'>
                     <div className='modal-input'>
-                        <input type='text' placeholder='Hostel' value={hostel} onChange={(e) => setHostel(e.target.value)} />
+                        <input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                </div>
+                <div className='modal-r3 modal-input-container'>
+                    <div className='modal-input hostel-select'>
+                        Hostel: &nbsp;
+                        <select value={hostel} onChange={(e) => setHostel(e.target.value)}>
+                            {hostelOptions.map((hostel,index) => {
+                                return <option key={index}value={hostel}>{hostel}</option>
+                            })}
+                        </select>
                     </div>
                 </div>
 
-                <div className='modal-r5 modal-button' id="signup-button" onClick={checkConfirmPassword}>
+                <div className='modal-r4 modal-button' id="signup-button" onClick={signup}>
                     Signup
                 </div>
 

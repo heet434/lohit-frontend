@@ -1,6 +1,9 @@
-import React from 'react'
+import {React,useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import CartItem from '../../../CartItems/CartItem'
+
+import { cartActions } from '../../../../store/slices/cartSlice'
 
 import './Cart.css'
 
@@ -9,31 +12,46 @@ import './Cart.css'
 function Cart(props) {
 
 
-    const cartItemsList  = [{
-        name: 'Product 1',
-        image: 'https://via.placeholder.com/150',
-        quantity: 1,
-        total: 100
-    },
-    {
-        name: 'Product 2',
-        image: 'https://via.placeholder.com/150',
-        quantity: 1,
-        total: 200
-    },
-    {
-        name: 'Product 3',
-        image: 'https://via.placeholder.com/150',
-        quantity: 1,
-        total: 300
-    },
-    {
-        name: 'Product 4',
-        image: 'https://via.placeholder.com/150',
-        quantity: 1,
-        total: 400
+    // const cartItemsList  = [{
+    //     name: 'Product 1',
+    //     image: 'https://via.placeholder.com/150',
+    //     quantity: 1,
+    //     total: 100
+    // },
+    // {
+    //     name: 'Product 2',
+    //     image: 'https://via.placeholder.com/150',
+    //     quantity: 1,
+    //     total: 200
+    // },
+    // {
+    //     name: 'Product 3',
+    //     image: 'https://via.placeholder.com/150',
+    //     quantity: 1,
+    //     total: 300
+    // },
+    // {
+    //     name: 'Product 4',
+    //     image: 'https://via.placeholder.com/150',
+    //     quantity: 1,
+    //     total: 400
+    // }
+    // ]
+    const dispatch = useDispatch()
+
+    const removeItem = (id) => {
+        dispatch(cartActions.removeExistingItem({id: id}))
     }
-    ]
+    const addItem = (id) => {
+        // console.log(id)
+        dispatch(cartActions.addItem({id: id}))
+    }
+
+    const totalCartPrice = useSelector(state => state.cart.totalPrice)
+
+    const deliveryCharge = 10
+
+    const cartItemsList = useSelector(state => state.cart.items)
 
     const cartItems = cartItemsList.map((item, index) => {
         return (
@@ -41,12 +59,12 @@ function Cart(props) {
                 key={index}
                 name={item.name}
                 image={item.image}
-                quantity={item.quantity}
-                total={item.total}
+                quantity={Number(item.quantity)}
+                total={Number(item.totalPrice)}
+                removeItem={() => removeItem(item.id)}
+                addItem={() => addItem(item.id)}
             />
-        )
-    }
-    )
+        )})
 
   return (
     <div className='cart pc-modal-in' id='cart'>
@@ -71,13 +89,13 @@ function Cart(props) {
                 <h1>SUMMARY</h1>
                     <div className='summary-row-title'>Subtotal</div>
                     <div className='summary-line'></div> {/* line */}
-                    <div className='summary-row-value'>Rs. 1000</div>
+                    <div className='summary-row-value'>{`Rs. ${totalCartPrice}`}</div>
                     <div className='summary-row-title'>Delivery</div>
                     <div className='summary-line'></div> {/* line */}
-                    <div className='summary-row-value'>Rs. 10</div>
+                    <div className='summary-row-value'>{`Rs. ${deliveryCharge}`}</div>
                     <div className='summary-row-title summary-total'>Total</div>
                     <div className='summary-line summary-total'></div> {/* line */}
-                    <div className='summary-row-value summary-total'>Rs. 1010</div>
+                    <div className='summary-row-value summary-total'>{`Rs. ${totalCartPrice + deliveryCharge}`}</div>
             </div>
             {/* r3 */}
             <div className='modal-button cart-r5'>

@@ -6,13 +6,17 @@ import './Carousel.css'
 import LeftIcon from '../../assets/icons/left.svg'
 import RightIcon from '../../assets/icons/right.svg'
 
-import {useSelector} from 'react-redux'
-
 function Carousel(props) {
     const [visibleItems, setVisibleItems] = useState([])
     const [visibleIndex, setVisibleIndex] = useState([])
     const [touchStart, setTouchStart] = useState(null)
     const [touchEnd, setTouchEnd] = useState(null)
+
+    // fetch and store all category images given in props.foodItems so we dont fetch them again 
+    const categoryImages = props.foodItems.map((item) => {
+        return(
+            <img src={item.image} alt={item.name} key={item.id}/>
+        )})
 
     // the required distance between touchStart and touchEnd to be detected as a swipe
     const minSwipeDistance = 50 
@@ -53,7 +57,9 @@ function Carousel(props) {
                 <div className='food-item moveIn' key={item.id}>
                         <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} offset={-140}>
                         <div className='food-img-mask'>
-                            <img src={`https://picsum.photos/400`} alt={item.name} />
+                            {/* <img src={`https://picsum.photos/400`} alt={item.name} /> */}
+                            {/* <img src={item.image} alt={item.name} /> */}
+                            {categoryImages[item.id]}
                         </div>
                         </Link>
                         <div className='food-item-text subtitle'>

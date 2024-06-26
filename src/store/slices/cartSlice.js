@@ -1,0 +1,60 @@
+import {createSlice} from '@reduxjs/toolkit';
+
+const cartSlice = createSlice({
+    name: 'cart',
+    initialState: {
+        items: [],
+        totalPrice: 0,
+        totalQuantity: 0,
+        numItems: 0
+    },
+    reducers: {
+        addItem(state, action){
+            const newItem = action.payload;
+            const existingItem = state.items.find(item => item.id === newItem.id);
+            state.totalQuantity++;
+            if(!existingItem){
+                state.items.push({
+                    id: newItem.id,
+                    name: newItem.name,
+                    price: newItem.price,
+                    image: newItem.image,
+                    quantity: 1,
+                    totalPrice: newItem.price
+                })
+                state.totalPrice += Number(newItem.price);
+                state.numItems++;
+            } else {
+                existingItem.quantity++;
+                existingItem.totalPrice += Number(existingItem.price);
+                state.totalPrice += Number(existingItem.price);
+            }
+        },
+        // addExistingItem(state, action){
+        //     const existingItem = state.items.find(item => item.id === action.payload.id);
+        //     if(existingItem){
+        //         existingItem.quantity++;
+        //         existingItem.totalPrice += existingItem.price;
+        //         state.totalPrice += existingItem.price;
+        //         state.totalQuantity++;
+        //     }
+        // },
+        removeExistingItem(state, action){
+            const existingItem = state.items.find(item => item.id === action.payload.id);
+            if(existingItem.quantity === 1){
+                state.items = state.items.filter(item => item.id !== action.payload.id);
+                state.totalQuantity--;
+                state.totalPrice -= Number(existingItem.price);
+                state.numItems--;
+            } else {
+                existingItem.quantity--;
+                existingItem.totalPrice -= Number(existingItem.price);
+                state.totalPrice -= Number(existingItem.price);
+                state.totalQuantity--;
+            }
+        }
+    }
+})
+
+export const cartActions = cartSlice.actions;
+export default cartSlice;
