@@ -1,6 +1,8 @@
 import {React,useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import axios from 'axios'
+
 import CartItem from '../../../CartItems/CartItem'
 
 import { cartActions } from '../../../../store/slices/cartSlice'
@@ -66,6 +68,78 @@ function Cart(props) {
             />
         )})
 
+    const token = useSelector(state => state.auth.token)
+
+    // save cart to backend using put request
+    
+    const saveCartToBackend = () => {
+        axios.put('/api/cart/',{
+            cart_items: cartItemsList.map(item => {
+                return {
+                    menu_item_id: item.id,
+                    quantity: item.quantity
+                }
+            }
+            )
+        },{
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        }).then(response => {
+            console.log('Cart saved to backend')
+            // console.log(response.data)
+        }
+        ).catch(error => {
+            console.log(error)
+        })
+    }
+
+    const checkOut = () => {
+
+        // check if cart is empty
+        if(cartItemsList.length === 0){
+            alert('Cart is empty')
+            return
+        }
+        axios.put('/api/cart/',{
+            cart_items: cartItemsList.map(item => {
+                return {
+                    menu_item_id: item.id,
+                    quantity: item.quantity
+                }
+            }
+            )
+        },{
+            headers: {
+                'Authorization': `Token ${token}`
+            }
+        }).then(response => {
+            console.log('Cart saved to backend')
+            // console.log(response.data)
+            const date = new Date().toJSON().slice(0,10)
+            axios.post('/api/checkout/',{
+                mode_of_eating: 'delivery',
+                date: date
+            },{
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            }).then(response => {
+                // console.log(response.data)
+                console.log('Order placed successfully')
+                dispatch(cartActions.clearCart())
+                props.closeModal()
+                alert('Order placed successfully')
+            }
+            ).catch(error => {
+                console.log(error)
+            })
+        }
+        ).catch(error => {
+            console.log(error)
+        })
+    }
+
   return (
     <div className='cart pc-modal-in' id='cart'>
         <div className = 'cart-container'>
@@ -98,7 +172,7 @@ function Cart(props) {
                     <div className='summary-row-value summary-total'>{`Rs. ${totalCartPrice + deliveryCharge}`}</div>
             </div>
             {/* r3 */}
-            <div className='modal-button cart-r5'>
+            <div className='modal-button cart-r5' onClick={checkOut}>
                 CONFIRM ORDER
             </div>
         </div>

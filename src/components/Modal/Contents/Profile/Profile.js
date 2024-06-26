@@ -80,17 +80,17 @@ function Profile(props) {
                         <input type='password' placeholder='Password' value={password} readOnly />
                     </div>
                 </div>
-                <div className='modal-r2 change-password'>
+                {/* <div className='modal-r2 change-password'>
                     <span>Change Password</span>
-                </div>
-                <div className='modal-r2 modal-input-container'>
+                </div> */}
+                <div className='modal-r3 modal-input-container'>
                     <div className='modal-input'>
                         <input type='text' placeholder='Hostel' value={`${hostel} hostel`} readOnly />
                     </div>
                 </div>
             {/* r3 */}
                 <div className='modal-r4 order-open-container'>
-                    <div className='modal-input order-open-button'>
+                    <div className='modal-input order-open-button' onClick={props.openOrders}>
                         {/* <input type='text' value={'Your Orders'} readOnly/> */}
                         Your Orders
                         <svg xmlns="http://www.w3.org/2000/svg" width="6" height="25" viewBox="0 0 6 10" fill="none">

@@ -62,3 +62,6 @@
     font-weight: 500;
     line-height: normal;
 }
+.order-open-button:hover{
+    cursor: pointer;
+}

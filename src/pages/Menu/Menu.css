@@ -405,3 +405,54 @@
     background-color: #F3F3E7;
     z-index: 1000;
 }
+
+.offers-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5rem;
+    padding-top: 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.offers-text{
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 350;
+    line-height: normal;
+}
+
+.restaurant-details{
+    margin-top: 2.5rem;
+}
+
+.restaurant-details-content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5rem;
+    padding-top: 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.restaurant-details-content ul{
+    list-style-type: none;
+    padding: 0;
+}
+.restaurant-details-content li{
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+.restaurant-details-content li div{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.restaurant-details-content li div b{
+    font-weight: 500;
+}

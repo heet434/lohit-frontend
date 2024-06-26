@@ -9,10 +9,12 @@ import Signup from './Contents/Signup/Signup';
 import Profile from './Contents/Profile/Profile';
 import Cart from './Contents/Cart/Cart';
 import Checkout from './Contents/Checkout/Checkout';
+import Orders from './Contents/Orders/Orders';
 
 
 
 import './Modal.css';
+import axios from 'axios';
 
 // General Purpose Modal Component
 
@@ -42,22 +44,25 @@ function PcModal(props) {
         dispatch(modalDisplayActions.openCart())
     }
 
-    // const renderContent = () => {
-    //     switch(content){
-    //         case 'login':
-    //             return <Login closeModal={closeModal} openSignup={openSignup}/>
-    //         case 'signup':
-    //             return <Signup closeModal={closeModal} />
-    //         case 'profile' && isLoggedIn:
-    //             return <Profile closeModal={closeModal} />
-    //         case 'cart' && isLoggedIn:
-    //             return <Cart closeModal={closeModal} />
-    //         case 'checkout' && isLoggedIn:
-    //             return <Checkout closeModal={closeModal} />
-    //         default:
-    //             return <Login closeModal={closeModal} openSignup={openSignup}/>
-    //     }
+    const openOrders = () => {
+        dispatch(modalDisplayActions.openOrders())
+    }
+
+    // fetch all orders
+    // const token = useSelector(state => state.auth.token)
+    // useEffect(() => {
+    //         axios.get('/api/orders/',{
+    //             headers: {
+    //                 'Authorization': `Token ${token}`
+    //             }
+    //         }).then(response => {
+    //             console.log(response.data)
+    //         }).catch(error => {
+    //             console.log(error)
+    //         })
     // }
+    // , [isLoggedIn])
+
 
     const renderContent = () => {
         if(content === 'login' && !isLoggedIn){
@@ -65,7 +70,7 @@ function PcModal(props) {
         }else if(content === 'signup' && !isLoggedIn){
             return <Signup closeModal={closeModal} openLogin={openLogin}/>
         }else if(content === 'profile' && isLoggedIn){
-            return <Profile closeModal={closeModal} />
+            return <Profile closeModal={closeModal} openOrders={openOrders}/>
         }else if(content === 'profile' && !isLoggedIn){
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin={openProfile}/>
         }else if(content === 'cart' && isLoggedIn){
@@ -74,6 +79,8 @@ function PcModal(props) {
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin={openCart}/>
         }else if(content === 'checkout' && isLoggedIn){
             return <Checkout closeModal={closeModal} />
+        }else if(content === 'orders' && isLoggedIn){
+            return <Orders closeModal={closeModal} />
         }else{
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin = {closeModal}/>
         }

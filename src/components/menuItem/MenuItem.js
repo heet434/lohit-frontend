@@ -16,6 +16,7 @@ function MenuItem(props) {
   const addItemToCart = () => {
     dispatch(cartActions.addItem({
       id: props.id,
+      idBackend: props.idBackend,
       name: props.itemName,
       price: Number(props.price),
       image: props.img,

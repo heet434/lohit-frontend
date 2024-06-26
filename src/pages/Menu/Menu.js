@@ -6,6 +6,7 @@ import { removeWhiteSpace } from '../../utils/strUtils';
 
 import './Menu.css'
 import FoodCategory from '../../components/FoodCategory/FoodCategory';
+import Bestsellers from '../../components/Bestsellers/Bestsellers';
 
 function Menu(props) {
 
@@ -50,25 +51,35 @@ function Menu(props) {
         )
     })
 
+    const bestsellers = props.bestsellers
+    
+
 
   return (
     <div className='page' id='Menu'>
         <div className='menu-navbar-container'>
                 <div className='menu-navbar'>
                     <Link to='menu-container' smooth={true} duration={1000} offset={-160}spy={true} activeClass='activeTop'>
-                      <div className='menu-navbar-item'>
-                          Menu
-                      </div>
+                        <div className='menu-navbar-item'>
+                            Menu
+                        </div>
                     </Link>
-                    <div className='menu-navbar-item'>
-                        Bestsellers
-                    </div>
-                    <div className='menu-navbar-item'>
-                        Saved
-                    </div>
-                    <div className='menu-navbar-item'>
-                        Details
-                    </div>
+                    <Link to='bestsellers' smooth={true} duration={1000} offset={-160}spy={true} activeClass='activeTop'>
+                        <div className='menu-navbar-item'>
+                            Bestsellers
+                        </div>
+                    </Link>
+                    <Link to='offers' smooth={true} duration={1000} offset={-160}spy={true} activeClass='activeTop'>
+                        <div className='menu-navbar-item'>
+                            {/* Saved */}
+                            Offers
+                        </div>
+                    </Link>
+                    <Link to='restaurant-details' smooth={true} duration={1000} offset={-160}spy={true} activeClass='activeTop'>
+                        <div className='menu-navbar-item'>
+                            Details
+                        </div>
+                    </Link>
                 </div>
         </div>
         
@@ -130,6 +141,28 @@ function Menu(props) {
                         <FoodCategory key={item.id} categoryName={item.name} idName={removeWhiteSpace(item.name)} menuItems = {props.menu}/>
                     )
                 })}
+                <Bestsellers categoryName="Bestsellers" bestsellers = {bestsellers}/>
+                <div className='menu-page-title' id='offers'>
+                    Offers
+                </div>
+                <div className='offers-content'>
+                    <div className='offers-in'>
+                        <div className='offers-text'>No offers available</div>
+                    </div>
+                </div>
+                <div className='menu-page-title restaurant-details' id='restaurant-details'>
+                    Details
+                </div>
+                <div className='restaurant-details-content'>
+                    <div className='restaurant-details-in'>
+                        <ul>
+                            <li><div>Contact: +91 9010075784</div></li>
+                            <li><div>Lohit canteen is located in Lohit hostel.</div></li>
+                            <li><div>For any queries, please contact the number provided.</div></li>
+                            <li><div>Website is a joint project by <b>Heet, Aditi, Varun and Shamith.</b></div></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
           {/* </div> */}
         </div>

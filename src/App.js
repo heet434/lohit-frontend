@@ -12,7 +12,8 @@ import Modal from './components/Modal/Modal';
 function App() {
 
   const [foodCategories, setFoodCategories] = useState([])
-    const [menuItems, setMenuItems] = useState([])
+  const [menuItems, setMenuItems] = useState([])
+  const [bestsellers, setBestsellers] = useState([])
     const fetchFoodCategories = async () => {
         try{
             const response = await axios.get('/api/categories/')
@@ -34,10 +35,22 @@ function App() {
             console.log(error)
         }
     }
+
+    const fetchBestsellers = async () => {
+        try{
+            const response = await axios.get('/api/bestsellers/')
+            setBestsellers(response.data)
+            //console.log(response.data)
+          }
+        catch(error){
+            console.log(error)
+        }
+    }
     
     useEffect(() => {
         fetchFoodCategories()
         fetchMenuItems()
+        fetchBestsellers()
     },  [])
 
 
@@ -46,7 +59,7 @@ function App() {
       <TopNav />
       <Modal />
       <Home menu = {menuItems} categories = {foodCategories}/>
-      <Menu menu = {menuItems} categories = {foodCategories}/>
+      <Menu menu = {menuItems} categories = {foodCategories} bestsellers = {bestsellers}/>
     </div>
   );
 }

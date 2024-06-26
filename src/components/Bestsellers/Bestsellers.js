@@ -1,7 +1,7 @@
 import React from 'react'
 
 import MenuItem from '../menuItem/MenuItem'
-import './FoodCategory.css'
+import './Bestsellers.css'
 
 // const menuItems = [
 //     {
@@ -94,18 +94,21 @@ import './FoodCategory.css'
 //     },
 // ]
 
-function FoodCategory(props) {
+function Bestsellers(props) {
 
-    const menuItemsInCategory = props.menuItems.filter(
-        (item) => {
-            // check if props.categoryName is present in item.category array which is a list of categories
-            //console.log(item.category)
-            return item.category.includes(props.categoryName)
-        }
-    )
+    // const menuItemsInCategory = props.menuItems.filter(
+    //     (item) => {
+    //         // check if props.categoryName is present in item.category array which is a list of categories
+    //         //console.log(item.category)
+    //         return item.category.includes(props.categoryName)
+    //     }
+    // )
+
+    const menuItemsInCategory = props.bestsellers
+
 
   return (
-    <div className='foodCategory' id={props.idName}>
+    <div className='foodCategory' id='bestsellers'>
         <div className='foodCategory-title'>
             {props.categoryName}
         </div>
@@ -115,7 +118,6 @@ function FoodCategory(props) {
                 return (
                     <MenuItem
                     key={item.id}
-                    idBackend={item.id}
                     id={item.id}
                     // itemName={item.name}
                     itemName = {item.item}
@@ -135,4 +137,4 @@ function FoodCategory(props) {
   )
 }
 
-export default FoodCategory
+export default Bestsellers;
