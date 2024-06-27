@@ -93,9 +93,9 @@ function Login(props) {
                 </div>
             </div>
             {/* r4 */}
-            <div className='modal-r4 forgot-password'>
+            {/* <div className='modal-r4 forgot-password'>
                 Forgot Password?
-            </div>
+            </div> */}
             {/* r5 */}
             <div className='modal-r5 modal-button' id="login-button" onClick={login}>
                 Login
