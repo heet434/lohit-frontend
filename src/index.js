@@ -6,7 +6,9 @@ import {Provider} from 'react-redux';
 import store from './store';
 import axios from 'axios';
 
-const BASE_URL = 'http://127.0.0.1:8000/'
+// const BASE_URL = 'http://127.0.0.1:8000/'
+
+const BASE_URL = 'https://souruchi.up.railway.app/'
 
 axios.defaults.baseURL = BASE_URL;
 

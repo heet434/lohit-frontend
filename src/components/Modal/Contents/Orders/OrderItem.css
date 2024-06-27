@@ -18,6 +18,9 @@
 .order-item-r1{
     grid-row-start: 1;
     grid-row-end: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
 }
 
 .order-item-r2{
@@ -33,9 +36,14 @@
     gap: 2px;
 }
 
-.order-item-r1{
+.order-item-date{
     text-align: left;
 }
+
+.order-item-track{
+    text-align: right;
+}
+
 .order-items-r2{
     text-align: left;
 }

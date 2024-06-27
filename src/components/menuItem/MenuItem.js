@@ -1,10 +1,12 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch , useSelector} from 'react-redux'
 
 import './MenuItem.css'
 import addIcon from '../../assets/icons/add.png'
 
 import { cartActions } from '../../store/slices/cartSlice'
+
+import { modalDisplayActions } from '../../store/slices/modalDisplaySlice'
 
 import { removeWhiteSpace } from '../../utils/strUtils'
 
@@ -12,8 +14,18 @@ import { removeWhiteSpace } from '../../utils/strUtils'
 function MenuItem(props) {
 
   const dispatch = useDispatch()
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+
+  const openLogin = () => {
+    dispatch(modalDisplayActions.openLogin())
+  }
 
   const addItemToCart = () => {
+
+    if(!isLoggedIn){
+      openLogin()
+      return
+    }
     dispatch(cartActions.addItem({
       id: props.id,
       idBackend: props.idBackend,
