@@ -1,11 +1,13 @@
 import React from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import axios from 'axios'
 
 import './Track.css'
-import LeafletRoutingMachine from './LeafletRoutingMachine'
+// import LeafletRoutingMachine from './LeafletRoutingMachine'
 
 
 function Track(props) {
@@ -34,7 +36,7 @@ function Track(props) {
     const position = [51.505, -0.09]
   return (
     <div className='track' id='track'>
-        <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+        <MapContainer center={position} zoom={13} scrollWheelZoom={false} style={{height: '100%', width: '100%'}}>
             <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -44,7 +46,7 @@ function Track(props) {
                 A pretty CSS3 popup. <br /> Easily customizable.
             </Popup>
             </Marker> */}
-            <LeafletRoutingMachine route={props.route}/>
+            {/* <LeafletRoutingMachine route={props.route}/> */}
         </MapContainer>
     </div>
   )

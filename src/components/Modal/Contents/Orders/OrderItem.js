@@ -1,6 +1,6 @@
 import { useState, React } from 'react'
 
-import Track from '../../../Track/Track'
+// import Track from '../../../Track/Track'
 
 import './OrderItem.css'
 
@@ -8,8 +8,11 @@ import './OrderItem.css'
 
 function OrderItem(props) {
 
-    const [bottom, setBottom] = useState(<div></div>)
+    // const [bottom, setBottom] = useState(<div></div>)
 
+    // const trackOrder = () => {
+    //     setBottom(<div><Track orderId={props.orderId}/> </div>)
+    // }
 
 
   return (
@@ -18,10 +21,9 @@ function OrderItem(props) {
             <div className='order-item-date'>
                 {props.date}
             </div>
-            <div className='order-item-track' onClick={() => {console.log('Track Order')}}>
-                {/* <Track status={props.status} /> */}
+            {/* <div className='order-item-track' onClick={trackOrder}>
                 Track Order
-            </div>
+            </div> */}
         </div>
         <div className='order-item-r2'>
             <div className='order-item-items'>
@@ -39,6 +41,7 @@ function OrderItem(props) {
             {/* <div className='order-item-save'>Save Order</div> */}
             <div className='order-item-status'>Status: {props.status}</div>
         </div>
+        {/* {bottom} */}
     </div>
   )
 }

@@ -78,7 +78,7 @@ function Orders(props) {
             <div className='order-items'>
                 {orders.map((order,index) => {
                     return (
-                        <OrderItem key={index} date={order.date} items={order.items} total={order.total_price} status={order.status} order_id={order.id}/>
+                        <OrderItem key={index} date={order.date} items={order.items} total={order.total_price} status={order.status} orderId={order.id}/>
                     )
                 })}
             </div>
