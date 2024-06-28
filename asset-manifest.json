@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/lohit-frontend/static/css/main.f0c99887.css",
-    "main.js": "/lohit-frontend/static/js/main.64604f7d.js",
+    "main.js": "/lohit-frontend/static/js/main.41e213a2.js",
     "static/media/food.png": "/lohit-frontend/static/media/food.c9617481f76f542f4ae3.png",
     "static/media/profile.svg": "/lohit-frontend/static/media/profile.5230d97f9a2a5055026d6fb453ce91a7.svg",
     "static/media/cart.svg": "/lohit-frontend/static/media/cart.d0c936d66a03b59bdfa2cc66d6aed53a.svg",
@@ -10,10 +10,10 @@
     "static/media/left.svg": "/lohit-frontend/static/media/left.7bbde4cf99ec80b47b22c42b154c67f7.svg",
     "static/media/right.svg": "/lohit-frontend/static/media/right.3fbb493796b56e7fd94eda08e7de9e0c.svg",
     "main.f0c99887.css.map": "/lohit-frontend/static/css/main.f0c99887.css.map",
-    "main.64604f7d.js.map": "/lohit-frontend/static/js/main.64604f7d.js.map"
+    "main.41e213a2.js.map": "/lohit-frontend/static/js/main.41e213a2.js.map"
   },
   "entrypoints": [
     "static/css/main.f0c99887.css",
-    "static/js/main.64604f7d.js"
+    "static/js/main.41e213a2.js"
   ]
 }
