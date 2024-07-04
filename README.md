@@ -15,6 +15,7 @@ The Home page contains the search bar and the carousel. Also you can see the nav
 ### Menu Page: 
 <img width="1500" alt="menu" src="https://github.com/heet434/lohit-frontend/assets/118350153/8408810f-2558-4f27-9295-7a29da4ef237">
 <br/>
+
 ### Cart:
 ![phone_cart](https://github.com/heet434/lohit-frontend/assets/118350153/38abd61b-c384-464c-aefb-2a230b397e59)
 <br/><br/>
