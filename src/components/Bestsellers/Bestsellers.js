@@ -126,7 +126,7 @@ function Bestsellers(props) {
                     waitingTime={item.avg_time_taken}
                     itemType={item.veg_nonveg_egg}
                     // img={`https://picsum.photos/400`}
-                    img={item.image}
+                    img={item.image_url}
                     />
                 )}else{
                 return null

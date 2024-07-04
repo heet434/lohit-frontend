@@ -83,7 +83,7 @@ function Cart(props) {
             )
         },{
             headers: {
-                'Authorization': `Token ${token}`
+                Authorization : `Token ${token}`
             }
         }).then(response => {
             console.log('Cart saved to backend')
@@ -111,7 +111,7 @@ function Cart(props) {
             )
         },{
             headers: {
-                'Authorization': `Token ${token}`
+                Authorization : `Token ${token}`
             }
         }).then(response => {
             console.log('Cart saved to backend')
@@ -122,7 +122,7 @@ function Cart(props) {
                 date: date
             },{
                 headers: {
-                    'Authorization': `Token ${token}`
+                    Authorization: `Token ${token}`
                 }
             }).then(response => {
                 // console.log(response.data)

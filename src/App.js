@@ -14,11 +14,18 @@ function App() {
   const [foodCategories, setFoodCategories] = useState([])
   const [menuItems, setMenuItems] = useState([])
   const [bestsellers, setBestsellers] = useState([])
+
+  const formatGoogleDriveUrl = (url) => {
+    const urlParts = url.split('/')
+    const id = urlParts[urlParts.length - 2]
+    return `https://drive.google.com/thumbnail?id=${id}`
+  }
+
     const fetchFoodCategories = async () => {
         try{
             const response = await axios.get('/api/categories/')
             setFoodCategories(response.data.map((item,index)=>{
-                return {name: item.name, id: index, index: index, image: item.image}
+                return {name: item.name, id: index, index: index, image: formatGoogleDriveUrl(item.image_url)}
             }))
         }
         catch(error){
@@ -28,8 +35,9 @@ function App() {
     const fetchMenuItems = async () => {
         try{
             const response = await axios.get('/api/menu/')
-            setMenuItems(response.data)
-            //console.log(response.data)
+            setMenuItems(response.data.map((item,index)=>{
+                return {...item, image_url: formatGoogleDriveUrl(item.image_url)}
+            } ))
           }
         catch(error){
             console.log(error)
@@ -39,8 +47,10 @@ function App() {
     const fetchBestsellers = async () => {
         try{
             const response = await axios.get('/api/bestsellers/')
-            setBestsellers(response.data)
-            //console.log(response.data)
+            setBestsellers(response.data.map((item,index)=>{
+                return {...item, image_url: formatGoogleDriveUrl(item.image_url)}
+            } ))
+            
           }
         catch(error){
             console.log(error)
