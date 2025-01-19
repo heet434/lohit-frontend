@@ -1,6 +1,7 @@
 import {React, useState, useCallback} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import axios from 'axios'
+import { GoogleLogin } from '@react-oauth/google';
 
 import { authActions } from '../../../../store/slices/authSlice'
 
@@ -8,6 +9,29 @@ import { authActions } from '../../../../store/slices/authSlice'
 import './Login.css'
 
 function Login(props) {
+
+    const handleGoogleLogin = (response) => {
+        console.log(response)
+        axios.post('/api/google-login/', {
+            access_token: response.accessToken
+        }).then((response) => {
+            if(response.status === 200){
+                dispatch(authActions.login({
+                    phone: response.data.phone,
+                    token: response.data.token,
+                    username: response.data.username,
+                    hostel: response.data.hostel
+                }))
+                props.onLogin()
+            }
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    const handleLoginError = (error) => {
+        console.log(error)
+    }
 
     const dispatch = useDispatch()
 
@@ -97,8 +121,16 @@ function Login(props) {
                 Forgot Password?
             </div> */}
             {/* r5 */}
-            <div className='modal-r5 modal-button' id="login-button" onClick={login}>
+            <div className='modal-r4 modal-button' id="login-button" onClick={login}>
                 Login
+            </div>
+            {/* add google login */}
+            <div className='modal-r5 modal-button' id="google-login">
+                <GoogleLogin
+                    clientId= {process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                    onSuccess={handleGoogleLogin}
+                    onFailure={handleLoginError}
+                />
             </div>
             {/* r6 */}
             <div className='modal-r6' id='login-signup' onClick={props.openSignup}>

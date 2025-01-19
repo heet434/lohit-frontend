@@ -101,15 +101,23 @@ function Cart(props) {
             alert('Cart is empty')
             return
         }
-        axios.put('/api/cart/',{
-            cart_items: cartItemsList.map(item => {
+        // axios.put('/api/cart/',{
+        //     cart_items: cartItemsList.map(item => {
+        //         return {
+        //             menu_item_id: item.id,
+        //             quantity: item.quantity
+        //         }
+        //     }
+        //     )
+        // },{
+        axios.post('/api/cart/bulk-add/',
+            // send array of cart items
+            cartItemsList.map(item => {
                 return {
                     menu_item_id: item.id,
                     quantity: item.quantity
                 }
-            }
-            )
-        },{
+            }),{
             headers: {
                 Authorization : `Token ${token}`
             }
@@ -128,7 +136,8 @@ function Cart(props) {
                 // console.log(response.data)
                 console.log('Order placed successfully')
                 dispatch(cartActions.clearCart())
-                props.closeModal()
+                // props.closeModal()
+                props.openOrders()
                 alert('Order placed successfully')
             }
             ).catch(error => {
