@@ -74,7 +74,7 @@ function PcModal(props) {
         }else if(content === 'profile' && !isLoggedIn){
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin={openProfile}/>
         }else if(content === 'cart' && isLoggedIn){
-            return <Cart closeModal={closeModal} />
+            return <Cart closeModal={closeModal} openOrders={openOrders}/>
         }else if(content === 'cart' && !isLoggedIn){
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin={openCart}/>
         }else if(content === 'checkout' && isLoggedIn){

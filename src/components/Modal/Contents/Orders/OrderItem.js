@@ -8,6 +8,9 @@ import './OrderItem.css'
 
 function OrderItem(props) {
 
+    const date = new Date(props.date).getDate() + ' ' + new Date(props.date).toLocaleString('default', { month: 'long' }) + ' ' + new Date(props.date).getFullYear()
+    // remove seconds from time
+    const time = props.time.slice(0,5)
     // const [bottom, setBottom] = useState(<div></div>)
 
     // const trackOrder = () => {
@@ -19,7 +22,10 @@ function OrderItem(props) {
     <div className='order-item'>
         <div className='order-item-r1'>
             <div className='order-item-date'>
-                {props.date}
+                Date: {date}
+            </div>
+            <div className='order-item-time'>
+                Time: {time}
             </div>
             {/* <div className='order-item-track' onClick={trackOrder}>
                 Track Order
