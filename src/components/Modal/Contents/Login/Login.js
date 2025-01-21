@@ -21,13 +21,13 @@ function Login(props) {
                 dispatch(authActions.login({
                     token: response.data.token,
                     email: response.data.email,
-                    phone: response.data.phone,
-                    address: response.data.address
+                    phone: response.data.phone_number
                 }))
                 props.onLogin()
             }
         }).catch((error) => {
             console.log(error)
+            alert('Login failed, contact web admin.')
         })
     }
 

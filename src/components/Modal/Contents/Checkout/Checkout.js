@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { authActions } from '../../../../store/slices/authSlice';
+import { cartActions } from '../../../../store/slices/cartSlice';
+
 import './Checkout.css';
 
 function Checkout(props) {
@@ -11,9 +13,12 @@ function Checkout(props) {
     const [selectedMode, setSelectedMode] = useState('Dine-in');
     const allowedModes = ['Dine-in', 'Takeaway', 'Delivery'];
 
+    const [address, setAddress] = useState('');
+
     const phone = useSelector(state => state.auth.phone);
-    const address = useSelector(state => state.auth.address);
     const total = useSelector(state => state.cart.totalPrice);
+    const token = useSelector(state => state.auth.token);
+    const cartItemsList = useSelector(state => state.cart.items);
 
     const totalText = total ? `Total: Rs. ${total}` : 'Total: Rs. 0';
 
@@ -22,7 +27,7 @@ function Checkout(props) {
     };
 
     const changeAddress = (event) => {
-        dispatch(authActions.changeAddress(event.target.value));
+        setAddress(event.target.value);
     };
 
     const handleModeChange = (event) => {
@@ -31,15 +36,18 @@ function Checkout(props) {
 
     const checkout = () => {
         // check for phone
+
         if (!phone) {
             alert('Please enter your phone number');
             return;
         }
 
-        // send the entered phone number to the backend
-        axios.post('/api/checkout-phone/', {
-            phone: phone,
-            address: address
+        axios.put('/api/update-phone/', {
+            phone_number: phone
+        },{
+            headers: {
+                Authorization : `Token ${token}`
+            }
         }).then((response) => {
             if (response.status === 200) {
                 console.log("Phone number saved");
@@ -54,6 +62,50 @@ function Checkout(props) {
             return;
         }
         console.log("Order Placed");
+
+        // axios.put('/api/cart/',{
+        //     cart_items: cartItemsList.map(item => {
+        //         return {
+        //             menu_item_id: item.id,
+        //             quantity: item.quantity
+        //         }
+        //     }
+        //     )
+        // },{
+        axios.post('/api/cart/bulk-add/',
+            // send array of cart items
+            cartItemsList.map(item => {
+                return {
+                    menu_item_id: item.id,
+                    quantity: item.quantity
+                }
+            }),{
+            headers: {
+                Authorization : `Token ${token}`
+            }
+        }).then(response => {
+            console.log('Cart saved to backend')
+            const date = new Date().toJSON().slice(0,10)
+            axios.post('/api/checkout/',{
+                mode_of_eating: 'delivery',
+                date: date
+            },{
+                headers: {
+                    Authorization: `Token ${token}`
+                }
+            }).then(response => {
+                console.log('Order placed successfully')
+                dispatch(cartActions.clearCart())
+                props.openOrders()
+                alert('Order placed successfully')
+            }
+            ).catch(error => {
+                console.log(error)
+            })
+        }
+        ).catch(error => {
+            console.log(error)
+        })
     };
 
     return (

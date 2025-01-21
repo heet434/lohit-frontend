@@ -8,8 +8,7 @@ const authSlice = createSlice({
         isLoggedIn: false,
         phone: null,
         email: null,
-        token: null,
-        address: null
+        token: null
     }),
     reducers: {
         login(state, action){
@@ -17,7 +16,6 @@ const authSlice = createSlice({
             state.email = action.payload.email
             state.phone = action.payload.phone
             state.token = action.payload.token
-            state.address = action.payload.address
             saveState('auth', state)
         },
         logout(state){
@@ -25,15 +23,10 @@ const authSlice = createSlice({
             state.email = null
             state.phone = null
             state.token = null
-            state.address = null
             saveState('auth', state)
         },
         changePhone(state, action){
             state.phone = action.payload
-            saveState('auth', state)
-        },
-        changeAddress(state, action){
-            state.address = action.payload
             saveState('auth', state)
         }
     }
