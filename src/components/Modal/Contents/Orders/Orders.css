@@ -45,9 +45,8 @@
     /* margin-top: 20px; */
 }
 .order-container .order-items{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: block;
+    width: 100%;
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 5px;

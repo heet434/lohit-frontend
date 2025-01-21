@@ -57,7 +57,14 @@ function Orders(props) {
             console.log(error)
         })
     }, [])
-                
+
+    // sort orders by date and time
+    orders.sort((a, b) => {
+        if(a.date === b.date){
+            return a.time > b.time ? -1 : 1
+        }
+        return a.date > b.date ? -1 : 1
+    })
 
   return (
     <div className='user-orders pc-modal-in' id='orders'>

@@ -24,16 +24,34 @@ function Profile(props) {
     // })
     
     const phone = useSelector(state => state.auth.phone)
-    const hostel = useSelector(state => state.auth.hostel)
+    const email = useSelector(state => state.auth.email)
     const token = useSelector(state => state.auth.token)
 
     const totalCartItems = useSelector(state => state.cart.totalQuantity)
 
-    const password = '********'
-
-    const logout = () => {
-        //console.log("token: ", token)
-        axios.post('/api/logout/',{},{
+    // const logout = () => {
+    //     //console.log("token: ", token)
+    //     axios.post('/api/logout/',{},{
+    //         headers: {
+    //             Authorization: `Token ${token}`
+    //     }}).then(response => {
+    //         //console.log(response.data)
+    //         console.log("User logged out successfully.")
+    //         if(response.data.success){
+    //             props.closeModal()
+    //         }
+    //         if(totalCartItems > 0){
+    //             alert(`You have ${totalCartItems} items in your cart. Are you sure you want to logout?`)
+    //         }
+    //         dispatch(cartActions.clearCart())
+    //         dispatch(authActions.logout())
+    //     })
+    //     .catch(error => {
+    //         console.log(error)
+    //     })
+    // }
+    const googleLogout = () => {
+        axios.post('/api/google-logout/',{},{
             headers: {
                 Authorization: `Token ${token}`
         }}).then(response => {
@@ -50,6 +68,7 @@ function Profile(props) {
         })
         .catch(error => {
             console.log(error)
+            alert('Error logging out. Please try again.')
         })
     }
 
@@ -69,25 +88,21 @@ function Profile(props) {
                     PROFILE
                 </div>
             {/* r2 */}
-                <div className='modal-r2 modal-input-container'>
-                    <div className='modal-input'>
-                        <input type='text' placeholder='Phone' value={phone} readOnly />
+                {phone && (
+                    <div className='modal-r2 modal-input-container'>
+                        <div className='modal-input'>
+                            <input type='text' placeholder='Phone' value={phone} readOnly />
+                        </div>
                     </div>
-                </div>
+                )}
                 <div className='modal-r2 modal-input-container'>
                     <div className='modal-input'>
-                        {/* <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} /> */}
-                        <input type='password' placeholder='Password' value={password} readOnly />
+                        <input type='text' placeholder='Email' value={email} readOnly />
                     </div>
                 </div>
                 {/* <div className='modal-r2 change-password'>
                     <span>Change Password</span>
                 </div> */}
-                <div className='modal-r3 modal-input-container'>
-                    <div className='modal-input'>
-                        <input type='text' placeholder='Hostel' value={`${hostel} hostel`} readOnly />
-                    </div>
-                </div>
             {/* r3 */}
                 <div className='modal-r4 order-open-container'>
                     <div className='modal-input order-open-button' onClick={props.openOrders}>
@@ -98,7 +113,7 @@ function Profile(props) {
                         </svg>
                     </div>
                 </div>
-                <div className='modal-r5 modal-button' id='logout' onClick={logout}>
+                <div className='modal-r5 modal-button' id='logout' onClick={googleLogout}>
                     Logout
                 </div>
         </div>

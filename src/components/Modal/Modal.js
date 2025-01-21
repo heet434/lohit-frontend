@@ -48,6 +48,10 @@ function PcModal(props) {
         dispatch(modalDisplayActions.openOrders())
     }
 
+    const openCheckout = () => {
+        dispatch(modalDisplayActions.openCheckout())
+    }
+
     // fetch all orders
     // const token = useSelector(state => state.auth.token)
     // useEffect(() => {
@@ -74,7 +78,7 @@ function PcModal(props) {
         }else if(content === 'profile' && !isLoggedIn){
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin={openProfile}/>
         }else if(content === 'cart' && isLoggedIn){
-            return <Cart closeModal={closeModal} openOrders={openOrders}/>
+            return <Cart closeModal={closeModal} openOrders={openOrders} openCheckout={openCheckout}/>
         }else if(content === 'cart' && !isLoggedIn){
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin={openCart}/>
         }else if(content === 'checkout' && isLoggedIn){

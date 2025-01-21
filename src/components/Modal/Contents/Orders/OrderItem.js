@@ -16,10 +16,13 @@ function OrderItem(props) {
     // const trackOrder = () => {
     //     setBottom(<div><Track orderId={props.orderId}/> </div>)
     // }
-
-
+    let className = 'order-item'
+    if(props.status === 'pending' || props.status === 'accepted' || props.status === 'Pending' || props.status === 'Accepted'){
+        className = 'order-item order-item-highlight'
+    }
+    
   return (
-    <div className='order-item'>
+    <div className={className}>
         <div className='order-item-r1'>
             <div className='order-item-date'>
                 Date: {date}

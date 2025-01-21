@@ -70,7 +70,14 @@ function Cart(props) {
 
     const token = useSelector(state => state.auth.token)
 
-    // save cart to backend using put request
+    const openCheckoutPage = () => {
+        // check if cart is empty
+        if(cartItemsList.length === 0){
+            alert('Cart is empty')
+            return
+        }
+        props.openCheckout()
+    }
     
     const saveCartToBackend = () => {
         axios.put('/api/cart/',{
@@ -181,8 +188,8 @@ function Cart(props) {
                     <div className='summary-row-value summary-total'>{`Rs. ${totalCartPrice + deliveryCharge}`}</div>
             </div>
             {/* r3 */}
-            <div className='modal-button cart-r5' onClick={checkOut}>
-                CONFIRM ORDER
+            <div className='modal-button cart-r5' onClick={openCheckoutPage}>
+                CHECKOUT
             </div>
         </div>
     </div>

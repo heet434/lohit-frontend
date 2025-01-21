@@ -5,22 +5,23 @@ import { GoogleLogin } from '@react-oauth/google';
 
 import { authActions } from '../../../../store/slices/authSlice'
 
+import foodImage from '../../../../assets/home/food.png'
+
 
 import './Login.css'
 
 function Login(props) {
 
     const handleGoogleLogin = (response) => {
-        console.log(response)
         axios.post('/api/google-login/', {
-            access_token: response.accessToken
+            credential: response.credential
         }).then((response) => {
             if(response.status === 200){
+                console.log("backend response", response)
                 dispatch(authActions.login({
-                    phone: response.data.phone,
                     token: response.data.token,
-                    username: response.data.username,
-                    hostel: response.data.hostel
+                    email: response.data.email,
+                    phone: response.data.phone,
                 }))
                 props.onLogin()
             }
@@ -105,37 +106,41 @@ function Login(props) {
                 LOGIN
             </div>
             {/* r2 */}
-            <div className='modal-r2 modal-input-container'>
+            {/* <div className='modal-r2 modal-input-container'>
                 <div className='modal-input'>
                     <input type='phone' placeholder='Phone' value={phone} onChange={(e) => setPhone(e.target.value)} />
                 </div>
-            </div>
+            </div> */}
             {/* r3 */}
-            <div className='modal-r3 modal-input-container'>
+            {/* <div className='modal-r3 modal-input-container'>
                 <div className='modal-input'>
                     <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
-            </div>
+            </div> */}
             {/* r4 */}
             {/* <div className='modal-r4 forgot-password'>
                 Forgot Password?
             </div> */}
             {/* r5 */}
-            <div className='modal-r4 modal-button' id="login-button" onClick={login}>
+            {/* <div className='modal-r4 modal-button' id="login-button" onClick={login}>
                 Login
-            </div>
+            </div> */}
             {/* add google login */}
-            <div className='modal-r5 modal-button' id="google-login">
+            <div className='modal-r3 google-login-button' id="google-login">
                 <GoogleLogin
                     clientId= {process.env.REACT_APP_GOOGLE_CLIENT_ID}
                     onSuccess={handleGoogleLogin}
                     onFailure={handleLoginError}
                 />
             </div>
-            {/* r6 */}
-            <div className='modal-r6' id='login-signup' onClick={props.openSignup}>
-                    Don't have an account? <br/> <span>Sign Up</span>
+            {/* cover the rest of the modal with image */}
+            <div className='modal-r4 login-cover' id="login-cover">
+                <img src={foodImage} alt='food' />
             </div>
+            {/* r6 */}
+            {/* <div className='modal-r6' id='login-text'>
+                    Login with google to add items to your cart and place orders.<br/> Note that when you login with google, you will be automatically registered with us. For any queries, contact us on +919825773190
+            </div> */}
         </div>
     </div>
   )
