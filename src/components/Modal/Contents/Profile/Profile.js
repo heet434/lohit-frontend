@@ -27,6 +27,9 @@ function Profile(props) {
     const email = useSelector(state => state.auth.email)
     const token = useSelector(state => state.auth.token)
 
+    // remove +91 from phone number
+    const displayPhone = phone ? phone.slice(3) : null
+
     const totalCartItems = useSelector(state => state.cart.totalQuantity)
 
     // const logout = () => {
@@ -91,7 +94,7 @@ function Profile(props) {
                 {phone && (
                     <div className='modal-r2 modal-input-container'>
                         <div className='modal-input'>
-                            <input type='text' placeholder='Phone' value={phone} readOnly />
+                            <input type='text' placeholder='Phone' value={displayPhone} readOnly />
                         </div>
                     </div>
                 )}

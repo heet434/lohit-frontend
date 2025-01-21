@@ -20,10 +20,16 @@ function Checkout(props) {
     const token = useSelector(state => state.auth.token);
     const cartItemsList = useSelector(state => state.cart.items);
 
+    const displayPhone = phone ? phone.slice(3) : null;
+
     const totalText = total ? `Total: Rs. ${total}` : 'Total: Rs. 0';
 
     const changePhone = (event) => {
-        dispatch(authActions.changePhone(event.target.value));
+        const phone = event.target.value;
+        if (phone.length <= 10) {
+            const displayPhone = `+91${phone}`;
+            dispatch(authActions.changePhone(displayPhone));
+        }
     };
 
     const changeAddress = (event) => {
@@ -126,7 +132,7 @@ function Checkout(props) {
                 {/* r2 */}
                 <div className='modal-r2 modal-input-container'>
                     <div className='modal-input'>
-                        <input type='phone' placeholder='Phone' value={phone} onChange={changePhone} />
+                        <input type='phone' placeholder='Phone (10 digits)' value={displayPhone} onChange={changePhone} />
                     </div>
                 </div>
                 {/* r3 */}
