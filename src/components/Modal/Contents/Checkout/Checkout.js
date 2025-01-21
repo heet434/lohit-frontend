@@ -12,7 +12,7 @@ function Checkout(props) {
     const allowedModes = ['Dine-in', 'Takeaway', 'Delivery'];
 
     const phone = useSelector(state => state.auth.phone);
-    const hostel = useSelector(state => state.auth.hostel);
+    const address = useSelector(state => state.auth.address);
     const total = useSelector(state => state.cart.totalPrice);
 
     const totalText = total ? `Total: Rs. ${total}` : 'Total: Rs. 0';
@@ -38,7 +38,8 @@ function Checkout(props) {
 
         // send the entered phone number to the backend
         axios.post('/api/checkout-phone/', {
-            phone: phone
+            phone: phone,
+            address: address
         }).then((response) => {
             if (response.status === 200) {
                 console.log("Phone number saved");
@@ -48,8 +49,8 @@ function Checkout(props) {
         });
 
         // if mode is delivery, check for address
-        if (selectedMode === 'Delivery' && !hostel) {
-            alert('Please enter your hostel address');
+        if (selectedMode === 'Delivery' && !address) {
+            alert('Please enter your delivery address');
             return;
         }
         console.log("Order Placed");
@@ -93,7 +94,7 @@ function Checkout(props) {
                             <h1>Delivery Address</h1>
                         </div>
                         <div className='modal-input'>
-                            <input type='text' placeholder='Address' value={hostel} onChange={changeAddress} />
+                            <input type='text' placeholder='Address' value={address} onChange={changeAddress} />
                         </div>
                     </div>
                 )}

@@ -22,6 +22,7 @@ function Login(props) {
                     token: response.data.token,
                     email: response.data.email,
                     phone: response.data.phone,
+                    address: response.data.address
                 }))
                 props.onLogin()
             }
@@ -32,19 +33,10 @@ function Login(props) {
 
     const handleLoginError = (error) => {
         console.log(error)
+        alert('Login failed, contact web admin.')
     }
 
     const dispatch = useDispatch()
-
-    const [phone, setPhone] = useState('')
-    const [password, setPassword] = useState('')
-
-    const checkPhoneNum = () => {
-        if(phone.length === 10){
-            return true
-        }
-        return false
-    }
 
     // const setAuth = useCallback((phone, token, username, hostel) => {
     //     dispatch(authActions.login({
@@ -55,41 +47,40 @@ function Login(props) {
     //     }))
     // }, [dispatch])
 
-    const login = () => {
-        if(!checkPhoneNum()){
-            alert('Enter a valid phone number')
-            return
-        }
-        axios.post('/api/login/', {
-            phone_number: `+91${phone}`,
-            password: password
-        }).then((response) => {
-            if(response.status === 200){
-                //console.log(response)
-                // setAuth(phone, response.data.token, 'heet', 'Kameng')
-                dispatch(authActions.login({
-                    phone: phone,
-                    token: response.data.token,
-                    username: 'heet',
-                    hostel: 'Kameng'
-                }))
-                props.onLogin()
-            }else if(response.status === 401){
-                alert('Invalid Credentials')
-            }else if(response.status === 404){
-                alert('User not found')
-            }
-        }).catch((error) => {
-            if(error.response.status === 401 || error.response.status ===400){
-                console.log(error.response)
-                alert('Invalid Credentials')
-            }else if(error.response.status === 404){
-                console.log(error.response)
-                alert('User not found')
-            }
-        })
-        
-    }
+    // const login = () => {
+    //     if(!checkPhoneNum()){
+    //         alert('Enter a valid phone number')
+    //         return
+    //     }
+    //     axios.post('/api/login/', {
+    //         phone_number: `+91${phone}`,
+    //         password: password
+    //     }).then((response) => {
+    //         if(response.status === 200){
+    //             //console.log(response)
+    //             // setAuth(phone, response.data.token, 'heet', 'Kameng')
+    //             dispatch(authActions.login({
+    //                 phone: phone,
+    //                 token: response.data.token,
+    //                 username: 'heet',
+    //                 hostel: 'Kameng'
+    //             }))
+    //             props.onLogin()
+    //         }else if(response.status === 401){
+    //             alert('Invalid Credentials')
+    //         }else if(response.status === 404){
+    //             alert('User not found')
+    //         }
+    //     }).catch((error) => {
+    //         if(error.response.status === 401 || error.response.status ===400){
+    //             console.log(error.response)
+    //             alert('Invalid Credentials')
+    //         }else if(error.response.status === 404){
+    //             console.log(error.response)
+    //             alert('User not found')
+    //         }
+    //     })
+    // }
   return (
     <div className='user-login pc-modal-in' id='login'>
         <div className = 'modal-container'>
