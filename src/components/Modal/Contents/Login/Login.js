@@ -17,7 +17,6 @@ function Login(props) {
             credential: response.credential
         }).then((response) => {
             if(response.status === 200){
-                console.log("backend response", response)
                 dispatch(authActions.login({
                     token: response.data.token,
                     email: response.data.email,
