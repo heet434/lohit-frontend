@@ -137,7 +137,7 @@ function Checkout(props) {
                 </div>
                 {/* r3 */}
                 <div className='modal-r3 modal-input-container'>
-                    <div className='modal-input'>
+                    <div className='modal-input modal-input-select'>
                         <select value={selectedMode} onChange={handleModeChange}>
                             {allowedModes.map((mode, index) => (
                                 <option key={index} value={mode}>{mode}</option>
