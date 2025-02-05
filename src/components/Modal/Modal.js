@@ -84,7 +84,7 @@ function PcModal(props) {
         }else if(content === 'checkout' && isLoggedIn){
             return <Checkout closeModal={closeModal} openOrders={openOrders}/>
         }else if(content === 'orders' && isLoggedIn){
-            return <Orders closeModal={closeModal} />
+            return <Orders closeModal={closeModal} openCart={openCart}/>
         }else{
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin = {closeModal}/>
         }

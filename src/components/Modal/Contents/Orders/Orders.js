@@ -56,7 +56,7 @@ function Orders(props) {
         .catch(error => {
             console.log(error)
         })
-    }, [])
+    }, [token])
 
     // sort orders by date and time
     orders.sort((a, b) => {
@@ -85,7 +85,7 @@ function Orders(props) {
             <div className='order-items'>
                 {orders.map((order,index) => {
                     return (
-                        <OrderItem key={index} date={order.date} time = {order.time} items={order.items} total={order.total_price} status={order.status} orderId={order.id}/>
+                        <OrderItem key={index} date={order.date} time = {order.time} items={order.items} total={order.total_price} status={order.status} orderId={order.id} openCart={props.openCart}/>
                     )
                 })}
             </div>
