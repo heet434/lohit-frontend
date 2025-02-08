@@ -1,6 +1,7 @@
 import { React } from 'react'
 import { cartActions } from '../../../../store/slices/cartSlice'
 import { useDispatch } from 'react-redux'
+import { useState, useEffect } from 'react'
 
 // import Track from '../../../Track/Track'
 
@@ -11,34 +12,59 @@ import './OrderItem.css'
 function OrderItem(props) {
 
     const dispatch = useDispatch()
-    // show date as 11 Jan '25
+
+    const [status, setStatus] = useState(props.status)
+
+    useEffect(() => {
+        if(props.status !== 'Delivered' && props.status !== 'Completed' && props.status !== 'delivered' && props.status !== 'completed') {
+            const webSocketURL = 'ws://127.0.0.1:8000/ws/orders/' + props.orderId + '/'
+            const ws = new WebSocket(webSocketURL)
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data)
+                setStatus(data.status)
+            }
+            ws.onclose = (event) => {
+                console.log('Websocket for order ' + props.orderId + ' closed')
+            }
+            return () => {
+                ws.close()
+            }
+        }
+        else {
+            setStatus(props.status)
+            return () => {
+                return
+            }
+        }
+    }, [props.orderId, props.status])
+
     const date = new Date(props.date).getDate() + ' ' + new Date(props.date).toLocaleString('default', { month: 'short' }) + ' \'' + new Date(props.date).getFullYear().toString().slice(2)
 
 
     // remove seconds from time
     const time = props.time.slice(0,5)
     
-    let orderStatus = <div className='order-item-status'>{props.status}</div>
+    let orderStatus = <div className='order-item-status'>{status}</div>
     // change the color class based on status
-    if (props.status === 'Delivered' || props.status === 'Completed' || props.status === 'delivered' || props.status === 'completed') {
-        orderStatus = <div className='order-item-status delivered'>{props.status}</div>
+    if (status === 'Delivered' || status === 'Completed' || status === 'delivered' || status === 'completed') {
+        orderStatus = <div className='order-item-status delivered'>{status}</div>
     }
-    else if (props.status === 'Ready' || props.status === 'ready') {
-        orderStatus = <div className='order-item-status ready'>{props.status}</div>
+    else if (status === 'Ready' || status === 'ready') {
+        orderStatus = <div className='order-item-status ready'>{status}</div>
     }
-    else if (props.status === 'Cancelled' || props.status === 'cancelled' || props.status === 'Canceled' || props.status === 'canceled') {
-        orderStatus = <div className='order-item-status cancelled'>{props.status}</div>
+    else if (status === 'Cancelled' || status === 'cancelled' || status === 'Canceled' || status === 'canceled') {
+        orderStatus = <div className='order-item-status cancelled'>{status}</div>
     }
-    else if (props.status === 'Pending' || props.status === 'pending') {
-        orderStatus = <div className='order-item-status pending'>{props.status}</div>
+    else if (status === 'Pending' || status === 'pending') {
+        orderStatus = <div className='order-item-status pending'>{status}</div>
     }
 
     const addOrderToCart = () => {
         props.items.forEach(item => {
             for (let i = 0; i < item.quantity; i++) {
                 dispatch(cartActions.addItem({
-                    id: item.id,
-                    idBackend: item.id,
+                    id: item.menu_item_id,
+                    idBackend: item.menu_item_id,
                     name: item.item_name,
                     price: Number(item.item_price),
                     image: item.item_image,
