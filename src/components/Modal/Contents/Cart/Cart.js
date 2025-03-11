@@ -108,6 +108,26 @@ function Cart(props) {
             alert('Cart is empty')
             return
         }
+        // fetch all menu items and check if all items in cart are still available
+        axios.get("/api/menu/")
+        .then(response => {
+            const menuItems = response.data
+            console.log(menuItems)
+            
+            // check if all items in cart are still available
+            for (let i = 0; i < cartItemsList.length; i++) {
+                const item = cartItemsList[i]
+                const menuItem = menuItems.find(menuItem => menuItem.id === item.id)
+                if (!menuItem.menu_item_is_available) {
+                    alert(`Item ${menuItem.menu_item_name} is no longer available, please remove it from cart`)
+                    return
+                }
+            }
+        }).catch((error) => {
+            console.log(error);
+            alert('Error checking availability of items in cart')
+        });
+                
         // axios.put('/api/cart/',{
         //     cart_items: cartItemsList.map(item => {
         //         return {

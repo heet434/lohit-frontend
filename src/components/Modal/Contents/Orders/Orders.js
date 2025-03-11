@@ -9,37 +9,6 @@ import './Orders.css'
 
 function Orders(props) {
 
-    // const orders = [
-    //     {
-    //         date: '12th August 2021',
-    //         items: [
-    //             {
-    //                 name: 'Chicken Biryani',
-    //                 quantity: 2
-    //             },
-    //             {
-    //                 name: 'Pizza',
-    //                 quantity: 1
-    //             }
-    //         ],
-    //         total: 500
-    //     },
-    //     {
-    //         date: '11th August 2021',
-    //         items: [
-    //             {
-    //                 name: 'Coca Cola',
-    //                 quantity: 2
-    //             },
-    //             {
-    //                 name: 'Pizza',
-    //                 quantity: 1
-    //             }
-    //         ],
-    //         total: 200
-    //     },
-    // ]
-
     const token = useSelector(state => state.auth.token)
     const [orders, setOrders] = useState([])
 
@@ -50,7 +19,7 @@ function Orders(props) {
             }
         })
         .then(response => {
-            //console.log(response.data)
+            console.log(response.data)
             setOrders(response.data)
         })
         .catch(error => {
@@ -85,7 +54,7 @@ function Orders(props) {
             <div className='order-items'>
                 {orders.map((order,index) => {
                     return (
-                        <OrderItem key={index} date={order.date} time = {order.time} items={order.items} total={order.total_price} status={order.status} orderId={order.id} openCart={props.openCart}/>
+                        <OrderItem key={index} date={order.date} time = {order.time} items={order.items} total={order.total_price} status={order.status} orderId={order.id} openCart={props.openCart} token={order.token_number}/>
                     )
                 })}
             </div>

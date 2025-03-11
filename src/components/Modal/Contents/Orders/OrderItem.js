@@ -15,6 +15,9 @@ function OrderItem(props) {
 
     const [status, setStatus] = useState(props.status)
 
+    const [assignedDeliveryPerson, setAssignedDeliveryPerson] = useState(null)
+    const [assignedDeliveryPersonPhone, setAssignedDeliveryPersonPhone] = useState(null)
+
     useEffect(() => {
         if(props.status !== 'Delivered' && props.status !== 'Completed' && props.status !== 'delivered' && props.status !== 'completed') {
             const webSocketURL = 'ws://127.0.0.1:8000/ws/orders/' + props.orderId + '/'
@@ -22,6 +25,13 @@ function OrderItem(props) {
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data)
                 setStatus(data.status)
+                if (data.status === "out_for_delivery" || data.status === "Out For Delivery") {
+                    setAssignedDeliveryPerson(data.delivery_man_name)
+                    setAssignedDeliveryPersonPhone(data.delivery_man_phone)
+
+                    console.log("Delivery person assigned for order " + props.orderId)
+                    console.log("Name: " + data.delivery_man_name)
+                }
             }
             ws.onclose = (event) => {
                 console.log('Websocket for order ' + props.orderId + ' closed')
@@ -109,6 +119,21 @@ function OrderItem(props) {
             <div className='order-item-total'>Total: {props.total} Rs.</div>
             {/* <div className='order-item-save'>Save Order</div> */}
             {orderStatus}
+        </div>
+        <div className='order-item-r4'>
+            <div className='order-token'>
+                Token: {props.token}
+            </div>
+            {status === 'Out For Delivery' || status === 'out_for_delivery' ?
+                <div className='delivery-person'>
+                    <div className='delivery-person-name'>
+                        {assignedDeliveryPerson}
+                    </div>
+                    <div className='delivery-person-phone'>
+                        {assignedDeliveryPersonPhone}
+                    </div>
+                </div>
+            : null}
         </div>
         {/* {bottom} */}
     </div>

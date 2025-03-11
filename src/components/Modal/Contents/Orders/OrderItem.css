@@ -1,8 +1,8 @@
 .order-item{
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     margin: auto;
-    height: 200px;
+    height: 270px;
     width: 90%;
     color: #2B252E;
     font-family: Montserrat;
@@ -33,6 +33,14 @@
 .order-item-r3{
     grid-row-start: 3;
     grid-row-end: 4;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+}
+
+.order-item-r4{
+    grid-row-start: 4;
+    grid-row-end: 5;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2px;

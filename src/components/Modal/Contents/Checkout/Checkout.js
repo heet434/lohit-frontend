@@ -11,7 +11,7 @@ function Checkout(props) {
     const dispatch = useDispatch();
 
     const [selectedMode, setSelectedMode] = useState('Dine-in');
-    const allowedModes = ['Dine-in', 'Takeaway', 'Delivery'];
+    const allowedModes = ['Dine-in', 'Take-away', 'Delivery'];
 
     const [address, setAddress] = useState('');
 
@@ -41,77 +41,117 @@ function Checkout(props) {
     };
 
     const checkout = () => {
+
+
+        // check if cart is empty
+        if(cartItemsList.length === 0){
+            alert('Cart is empty')
+            return
+        }
+        // fetch all menu items and check if all items in cart are still available
+        let allItemsAvailable = true
+        axios.get("/api/menu/")
+        .then(response => {
+            const menuItems = response.data
+            //console.log(menuItems)
+            
+            // check if all items in cart are still available
+            for (let i = 0; i < cartItemsList.length; i++) {
+                const item = cartItemsList[i]
+                const menuItem = menuItems.find(menuItem => menuItem.id === item.id)
+                // console.log(menuItem)
+                if (!menuItem?.is_available) {
+                    allItemsAvailable = false
+                    alert(`Item ${menuItem.item} is no longer available, please remove it from cart`)
+                    return
+                }
+            }
+
+            if (!allItemsAvailable) {
+                return;
+            }
+
         // check for phone
 
-        if (!phone) {
-            alert('Please enter your phone number');
-            return;
-        }
-
-        axios.put('/api/update-phone/', {
-            phone_number: phone
-        },{
-            headers: {
-                Authorization : `Token ${token}`
+            if (!phone) {
+                alert('Please enter your phone number');
+                return;
             }
-        }).then((response) => {
-            if (response.status === 200) {
-                console.log("Phone number saved");
-            }
-        }).catch((error) => {
-            console.log(error);
-        });
 
-        // if mode is delivery, check for address
-        if (selectedMode === 'Delivery' && !address) {
-            alert('Please enter your delivery address');
-            return;
-        }
-        console.log("Order Placed");
-
-        // axios.put('/api/cart/',{
-        //     cart_items: cartItemsList.map(item => {
-        //         return {
-        //             menu_item_id: item.id,
-        //             quantity: item.quantity
-        //         }
-        //     }
-        //     )
-        // },{
-        axios.post('/api/cart/bulk-add/',
-            // send array of cart items
-            cartItemsList.map(item => {
-                return {
-                    menu_item_id: item.id,
-                    quantity: item.quantity
-                }
-            }),{
-            headers: {
-                Authorization : `Token ${token}`
-            }
-        }).then(response => {
-            console.log('Cart saved to backend')
-            const date = new Date().toJSON().slice(0,10)
-            axios.post('/api/checkout/',{
-                mode_of_eating: 'delivery',
-                date: date
+            axios.put('/api/update-phone/', {
+                phone_number: phone
             },{
                 headers: {
-                    Authorization: `Token ${token}`
+                    Authorization : `Token ${token}`
+                }
+            }).then((response) => {
+                if (response.status === 200) {
+                    console.log("Phone number saved");
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+
+            // if mode is delivery, check for address
+            if (selectedMode === 'Delivery' && !address) {
+                alert('Please enter your delivery address');
+                return;
+            }
+            console.log("Order Placed");
+
+            // axios.put('/api/cart/',{
+            //     cart_items: cartItemsList.map(item => {
+            //         return {
+            //             menu_item_id: item.id,
+            //             quantity: item.quantity
+            //         }
+            //     }
+            //     )
+            // },{
+            axios.post('/api/cart/bulk-add/',
+                // send array of cart items
+                cartItemsList.map(item => {
+                    return {
+                        menu_item_id: item.id,
+                        quantity: item.quantity
+                    }
+                }),{
+                headers: {
+                    Authorization : `Token ${token}`
                 }
             }).then(response => {
-                console.log('Order placed successfully')
-                dispatch(cartActions.clearCart())
-                props.openOrders()
-                alert('Order placed successfully')
+                console.log('Cart saved to backend')
+                const date = new Date().toJSON().slice(0,10)
+                const addressToSend = (selectedMode === 'Delivery' || 'delivery') ? address : null
+                axios.post('/api/checkout/',{
+                    mode_of_eating: selectedMode.toLowerCase(),
+                    address: addressToSend.toLowerCase(),
+                    date: date
+                },{
+                    headers: {
+                        Authorization: `Token ${token}`
+                    }
+                }).then(response => {
+                    console.log('Order placed successfully')
+                    dispatch(cartActions.clearCart())
+                    props.openOrders()
+                    alert('Order placed successfully')
+                }
+                ).catch(error => {
+                    console.log(error)
+                    dispatch(cartActions.clearCart())
+                    alert('Order could not be placed due to some error')
+                })
             }
             ).catch(error => {
                 console.log(error)
+                dispatch(cartActions.clearCart())
+                alert('Order could not be placed due to some error')
             })
-        }
-        ).catch(error => {
-            console.log(error)
-        })
+        }).catch((error) => {
+            console.log(error);
+            alert('Error checking availability of items in cart')
+        });
     };
 
     return (
