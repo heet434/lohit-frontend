@@ -1,6 +1,7 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+import { useRazorpay } from 'react-razorpay';
 
 import { authActions } from '../../../../store/slices/authSlice';
 import { cartActions } from '../../../../store/slices/cartSlice';
@@ -12,16 +13,25 @@ function Checkout(props) {
 
     const [selectedMode, setSelectedMode] = useState('Dine-in');
     const allowedModes = ['Dine-in', 'Take-away', 'Delivery'];
-
     const [address, setAddress] = useState('');
-
+    const { error, isLoading, Razorpay } = useRazorpay();
+    
     const phone = useSelector(state => state.auth.phone);
     const total = useSelector(state => state.cart.totalPrice);
     const token = useSelector(state => state.auth.token);
     const cartItemsList = useSelector(state => state.cart.items);
 
-    const displayPhone = phone ? phone.slice(3) : null;
+    const [razorpayOrderId, setRazorpayOrderId] = useState(null);
+    const [razorpayPaymentId, setRazorpayPaymentId] = useState(null);
+    const [razorpaySignature, setRazorpaySignature] = useState(null);
+    
+    // Loading and error state management
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [processingError, setProcessingError] = useState(null);
+    const [timeoutId, setTimeoutId] = useState(null);
+    const CHECKOUT_TIMEOUT = 30000; // 30 seconds timeout
 
+    const displayPhone = phone ? phone.slice(3) : null;
     const totalText = total ? `Total: Rs. ${total}` : 'Total: Rs. 0';
 
     const changePhone = (event) => {
@@ -40,119 +50,295 @@ function Checkout(props) {
         setSelectedMode(event.target.value);
     };
 
-    const checkout = () => {
+    // Clear timeout when component unmounts
+    useEffect(() => {
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [timeoutId]);
 
+    const getOptions = (total, orderId) => {
+        return {
+            key: process.env.RAZORPAY_KEY,
+            amount: total * 100,
+            currency: "INR",
+            name: "Lohit Canteen",
+            description: "Test Transaction",
+            order_id: orderId,
+            handler: (response) => {
+                console.log(response);
+                setRazorpayOrderId(response.razorpay_order_id);
+                setRazorpayPaymentId(response.razorpay_payment_id);
+                setRazorpaySignature(response.razorpay_signature);
+                saveOrderToBackend(response);
+            },
+            prefill: {
+                name: "John Doe",
+                email: "john.doe@gmail.com",
+                contact: "9999999999",
+            },
+            theme: {
+                color: "#F37254",
+            },
+            modal: {
+                ondismiss: function() {
+                    // When Razorpay modal is dismissed, end the processing state
+                    setIsProcessing(false);
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                        setTimeoutId(null);
+                    }
+                }
+            }
+        };
+    };
 
-        // check if cart is empty
-        if(cartItemsList.length === 0){
-            alert('Cart is empty')
-            return
-        }
-        // fetch all menu items and check if all items in cart are still available
-        let allItemsAvailable = true
-        axios.get("/api/menu/")
-        .then(response => {
-            const menuItems = response.data
-            //console.log(menuItems)
+    // Check if all cart items are still available
+    const checkCartItemsAvailability = async () => {
+        try {
+            const response = await axios.get("/api/menu/");
+            const menuItems = response.data;
+            console.log('Menu items:', menuItems);
             
-            // check if all items in cart are still available
+            // Check if cart is empty
+            if (cartItemsList.length === 0) {
+                throw new Error('Cart is empty');
+            }
+
+            // Check if all items in cart are still available
             for (let i = 0; i < cartItemsList.length; i++) {
-                const item = cartItemsList[i]
-                const menuItem = menuItems.find(menuItem => menuItem.id === item.id)
-                // console.log(menuItem)
+                const item = cartItemsList[i];
+                console.log('Checking availability of item:', item);
+                const menuItem = menuItems.find(menuItem => menuItem.id === item.id);
+                console.log('Found menu item:', menuItem);
                 if (!menuItem?.is_available) {
-                    allItemsAvailable = false
-                    alert(`Item ${menuItem.item} is no longer available, please remove it from cart`)
-                    return
+                    throw new Error(`Item ${menuItem?.item} is no longer available, please remove it from cart`);
                 }
             }
+            return true;
+        } catch (error) {
+            console.error('Error checking availability of items in cart:', error);
+            throw error;
+        }
+    };
 
-            if (!allItemsAvailable) {
-                return;
-            }
-
-        // check for phone
-
+    // Update user's phone number
+    const updatePhoneNumber = async () => {
+        try {
             if (!phone) {
-                alert('Please enter your phone number');
-                return;
+                throw new Error('Please enter your phone number');
             }
-
-            axios.put('/api/update-phone/', {
+            
+            const response = await axios.put('/api/update-phone/', {
                 phone_number: phone
-            },{
+            }, {
                 headers: {
-                    Authorization : `Token ${token}`
+                    Authorization: `Token ${token}`
                 }
-            }).then((response) => {
-                if (response.status === 200) {
-                    console.log("Phone number saved");
+            });
+            
+            if (response.status === 200) {
+                console.log("Phone number saved");
+                return true;
+            }
+            throw new Error('Failed to update phone number');
+        } catch (error) {
+            console.error('Error updating phone number:', error);
+            throw error;
+        }
+    };
+
+    // Validate address for delivery
+    const validateDeliveryAddress = () => {
+        if (selectedMode === 'Delivery' && !address) {
+            throw new Error('Please enter your delivery address');
+        }
+        return true;
+    };
+
+    // Create Razorpay order
+    const createRazorpayOrder = async () => {
+        try {
+            const response = await axios.post("/api/razorpay/create-order/", {
+                amount: total,
+                currency: "INR"
+            }, {
+                headers: {
+                    Authorization: `Token ${token}`
                 }
-            }).catch((error) => {
-                console.log(error);
+            });
+            
+            console.log("Razorpay order created:", response.data);
+            const options = getOptions(total, response.data.data.id);
+            const razorpayInstance = new Razorpay(options);
+            razorpayInstance.open();
+            return true;
+        } catch (error) {
+            console.error('Error creating Razorpay order:', error);
+            throw error;
+        }
+    };
+
+    // Save order to backend after successful payment
+    const saveOrderToBackend = async (paymentResponse) => {
+        try {
+            // call transaction api
+            console.log('Payment response:', paymentResponse);
+            const transaction_response = await axios.post('/api/razorpay/complete-transaction/', {
+                payment_id : paymentResponse.razorpay_payment_id,
+                rz_order_id : paymentResponse.razorpay_order_id,
+                signature : paymentResponse.razorpay_signature,
+                amount: total
+            }, {
+                headers: {
+                    Authorization: `Token ${token}`
+                }
             });
 
-            // if mode is delivery, check for address
-            if (selectedMode === 'Delivery' && !address) {
-                alert('Please enter your delivery address');
-                return;
-            }
-            console.log("Order Placed");
-
-            // axios.put('/api/cart/',{
-            //     cart_items: cartItemsList.map(item => {
-            //         return {
-            //             menu_item_id: item.id,
-            //             quantity: item.quantity
-            //         }
-            //     }
-            //     )
-            // },{
-            axios.post('/api/cart/bulk-add/',
-                // send array of cart items
-                cartItemsList.map(item => {
-                    return {
+            if (transaction_response.status === 201 || transaction_response.status === 200) {
+                const addressToSend = (selectedMode === 'Delivery') ? address : null;
+                const checkout_response = await axios.post('/api/checkout/', {
+                    rz_order_id: paymentResponse.razorpay_order_id,
+                    items: cartItemsList.map(item => ({
                         menu_item_id: item.id,
                         quantity: item.quantity
+                    })),
+                    checkout_data: {
+                        mode_of_eating: selectedMode?.toLowerCase(),
+                        address: addressToSend?.toLowerCase(),
                     }
-                }),{
-                headers: {
-                    Authorization : `Token ${token}`
-                }
-            }).then(response => {
-                console.log('Cart saved to backend')
-                const date = new Date().toJSON().slice(0,10)
-                const addressToSend = (selectedMode === 'Delivery' || 'delivery') ? address : null
-                axios.post('/api/checkout/',{
-                    mode_of_eating: selectedMode.toLowerCase(),
-                    address: addressToSend.toLowerCase(),
-                    date: date
-                },{
+                }, {
                     headers: {
                         Authorization: `Token ${token}`
                     }
-                }).then(response => {
-                    console.log('Order placed successfully')
-                    dispatch(cartActions.clearCart())
-                    props.openOrders()
-                    alert('Order placed successfully')
+                });
+                if (checkout_response.status === 200 || checkout_response.status === 201) {
+                    setIsProcessing(false);
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                        setTimeoutId(null);
+                    }
+                    alert('Order placed successfully');
+                    dispatch(cartActions.clearCart());
+                    props.openOrders();
+                    return true;
                 }
-                ).catch(error => {
-                    console.log(error)
-                    dispatch(cartActions.clearCart())
-                    alert('Order could not be placed due to some error')
-                })
+            } else {
+                throw new Error('Transaction verification failed');
             }
-            ).catch(error => {
-                console.log(error)
-                dispatch(cartActions.clearCart())
-                alert('Order could not be placed due to some error')
-            })
-        }).catch((error) => {
-            console.log(error);
-            alert('Error checking availability of items in cart')
-        });
+        } catch (error) {
+            console.error('Error saving order to backend:', error);
+            setIsProcessing(false);
+            setProcessingError(error.message || 'Order could not be placed due to some error');
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                setTimeoutId(null);
+            }
+            alert('Order could not be placed due to some error');
+            dispatch(cartActions.clearCart());
+            props.openOrders();
+            return false;
+        }
     };
+
+    // Start timeout for checkout
+    const startCheckoutTimeout = () => {
+        const id = setTimeout(() => {
+            if (isProcessing) {
+                setIsProcessing(false);
+                setProcessingError('Checkout is taking too long. Please try again.');
+            }
+        }, CHECKOUT_TIMEOUT);
+        
+        setTimeoutId(id);
+    };
+
+    // Main checkout function - Chains all API calls in sequence
+    const checkout = async () => {
+        try {
+            setIsProcessing(true);
+            setProcessingError(null);
+            startCheckoutTimeout();
+            
+            // Step 1: Check if all cart items are available
+            await checkCartItemsAvailability();
+            
+            // Step 2: Update phone number
+            await updatePhoneNumber();
+            
+            // Step 3: Validate delivery address if needed
+            validateDeliveryAddress();
+            
+            // Step 4: Create Razorpay order and initiate payment
+            // (Payment handler will call saveOrderToBackend on success)
+            await createRazorpayOrder();
+            
+            // Note: We don't set isProcessing to false here because the Razorpay modal is still open
+            // The modal's ondismiss or the saveOrderToBackend function will handle that
+            
+        } catch (error) {
+            console.error('Checkout process failed:', error);
+            setIsProcessing(false);
+            setProcessingError(error.message || 'Order could not be placed due to an error');
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                setTimeoutId(null);
+            }
+        }
+    };
+
+    // Reset and retry checkout
+    const retryCheckout = () => {
+        setProcessingError(null);
+        checkout();
+    };
+
+    // Render loading screen
+    const renderLoadingScreen = () => {
+        return (
+            <div className='checkout-loading'>
+                <div className='loading-container'>
+                    <div className='loading-spinner'></div>
+                    <h2>Processing Your Order</h2>
+                    <p>Please wait while we process your payment...</p>
+                </div>
+            </div>
+        );
+    };
+
+    // Render error screen
+    const renderErrorScreen = () => {
+        return (
+            <div className='checkout-error'>
+                <div className='error-container'>
+                    <div className='error-icon'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#FF0000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <h2>Checkout Failed</h2>
+                    <p>{processingError}</p>
+                    <div className='error-actions'>
+                        <button className='retry-button' onClick={retryCheckout}>Try Again</button>
+                        <button className='close-button' onClick={props.closeModal}>Cancel</button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    // Determine what to render
+    if (isProcessing) {
+        return renderLoadingScreen();
+    }
+
+    if (processingError) {
+        return renderErrorScreen();
+    }
 
     return (
         <div className='checkout pc-modal-in' id='checkout'>

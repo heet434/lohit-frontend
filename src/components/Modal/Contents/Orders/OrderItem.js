@@ -15,8 +15,8 @@ function OrderItem(props) {
 
     const [status, setStatus] = useState(props.status)
 
-    const [assignedDeliveryPerson, setAssignedDeliveryPerson] = useState(null)
-    const [assignedDeliveryPersonPhone, setAssignedDeliveryPersonPhone] = useState(null)
+    const [assignedDeliveryPerson, setAssignedDeliveryPerson] = useState(props.assignedDeliveryPerson?.name)
+    const [assignedDeliveryPersonPhone, setAssignedDeliveryPersonPhone] = useState(props.assignedDeliveryPerson?.phone_number)
 
     useEffect(() => {
         if(props.status !== 'Delivered' && props.status !== 'Completed' && props.status !== 'delivered' && props.status !== 'completed') {
@@ -25,13 +25,14 @@ function OrderItem(props) {
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data)
                 setStatus(data.status)
-                if (data.status === "out_for_delivery" || data.status === "Out For Delivery") {
-                    setAssignedDeliveryPerson(data.delivery_man_name)
-                    setAssignedDeliveryPersonPhone(data.delivery_man_phone)
+                // if (data.status === "out_for_delivery" || data.status === "Out For Delivery") {
+                //     setAssignedDeliveryPerson(data.delivery_man_name)
+                //     setAssignedDeliveryPersonPhone(data.delivery_man_phone)
 
-                    console.log("Delivery person assigned for order " + props.orderId)
-                    console.log("Name: " + data.delivery_man_name)
-                }
+                //     console.log("Delivery person assigned for order " + props.orderId)
+                //     console.log("Name: " + data.delivery_man_name)
+                // }
+                console.log(data)
             }
             ws.onclose = (event) => {
                 console.log('Websocket for order ' + props.orderId + ' closed')
@@ -54,7 +55,7 @@ function OrderItem(props) {
     // remove seconds from time
     const time = props.time.slice(0,5)
     
-    let orderStatus = <div className='order-item-status'>{status}</div>
+    let orderStatus = <div className='order-item-status general'>{status}</div>
     // change the color class based on status
     if (status === 'Delivered' || status === 'Completed' || status === 'delivered' || status === 'completed') {
         orderStatus = <div className='order-item-status delivered'>{status}</div>
@@ -68,6 +69,9 @@ function OrderItem(props) {
     else if (status === 'Pending' || status === 'pending') {
         orderStatus = <div className='order-item-status pending'>{status}</div>
     }
+    else if (status === 'Out For Delivery' || status === 'out_for_delivery') {
+        orderStatus = <div className='order-item-status out-for-delivery'>{status}</div>
+    }
 
     const addOrderToCart = () => {
         props.items.forEach(item => {
@@ -78,7 +82,7 @@ function OrderItem(props) {
                     name: item.item_name,
                     price: Number(item.item_price),
                     image: item.item_image,
-                    type: item.veg_nonveg_egg
+                    type: item.item_veg_nonveg_egg
                 }))
             }
         })
@@ -126,11 +130,16 @@ function OrderItem(props) {
             </div>
             {status === 'Out For Delivery' || status === 'out_for_delivery' ?
                 <div className='delivery-person'>
-                    <div className='delivery-person-name'>
+                    {/* <div className='delivery-person-name'>
                         {assignedDeliveryPerson}
-                    </div>
+                    </div> */}
                     <div className='delivery-person-phone'>
+                        <div className='delivery-person-phone-title'>
+                        Delivery Man Phone:
+                        </div>
+                        <div className='delivery-person-phone-number'>
                         {assignedDeliveryPersonPhone}
+                        </div>
                     </div>
                 </div>
             : null}

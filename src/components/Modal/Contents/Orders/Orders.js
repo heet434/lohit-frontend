@@ -7,6 +7,16 @@ import { useSelector } from 'react-redux'
 
 import './Orders.css'
 
+const calculateTotal = (items) => {
+    let total = 0
+    items.forEach(item => {
+        const item_price = parseFloat(item.item_price)
+        const item_quantity = parseInt(item.item_quantity)
+        total += item_price * item.quantity
+    })
+    return total
+}
+
 function Orders(props) {
 
     const token = useSelector(state => state.auth.token)
@@ -54,7 +64,7 @@ function Orders(props) {
             <div className='order-items'>
                 {orders.map((order,index) => {
                     return (
-                        <OrderItem key={index} date={order.date} time = {order.time} items={order.items} total={order.total_price} status={order.status} orderId={order.id} openCart={props.openCart} token={order.token_number}/>
+                        <OrderItem key={index} date={order.date} time = {order.time} items={order.items} status={order.status} orderId={order.id} openCart={props.openCart} token={order.token_number} deliveryManDetails={order.delivery_man_details} total={calculateTotal(order.items)} assignedDeliveryPerson={order.delivery_man_details} />
                     )
                 })}
             </div>

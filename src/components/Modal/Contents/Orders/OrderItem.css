@@ -74,10 +74,12 @@
     grid-column-start: 2;
     grid-column-end: 3;
     margin-right: 0.2rem;
+    font-size: 1.25rem;
+    font-weight: 500;
     /* color: #17A9DD; */
 }
 .delivered{
-    color: #17A9DD;
+    color: #00B833;
 }
 .ready{
     color: #00B833;
@@ -88,6 +90,13 @@
 .cancelled{
     color: #FF0000;
 }
+.general{
+    color: #2B252E;
+}
+.out-for-delivery{
+    color: #17A9DD;
+}
+
 .order-item-date{
     font-weight: 500;
 }
@@ -130,4 +139,14 @@
         width: 80%;
     }
 }
- 
+
+.delivery-person-phone{
+    text-align: right;
+}
+.delivery-person-phone-title{
+    font-size: 1rem;
+}
+.delivery-person-phone-number{
+    font-size: 1.25rem;
+    font-weight: 500;
+}
