@@ -373,10 +373,10 @@ function Checkout(props) {
                 </div>
                 {/* r4 */}
                 {selectedMode === 'Delivery' && (
-                    <div className='modal-r3 modal-input-container'>
-                        <div className='modal-input input-title'>
+                    <div className='modal-r4 modal-input-container'>
+                        {/* <div className='modal-input input-title'>
                             <h1>Delivery Address</h1>
-                        </div>
+                        </div> */}
                         <div className='modal-input'>
                             <input type='text' placeholder='Address' value={address} onChange={changeAddress} />
                         </div>
