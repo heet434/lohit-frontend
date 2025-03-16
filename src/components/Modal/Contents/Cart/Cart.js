@@ -51,6 +51,8 @@ function Cart(props) {
 
     const totalCartPrice = useSelector(state => state.cart.totalPrice)
 
+    const totalCartItems = useSelector(state => state.cart.totalQuantity)
+
     const deliveryCharge = 10
 
     const cartItemsList = useSelector(state => state.cart.items)
@@ -197,15 +199,15 @@ function Cart(props) {
             </div>
             <div className='cart-r4 cart-summary summary-container'>
                 <h1>SUMMARY</h1>
-                    <div className='summary-row-title'>Subtotal</div>
+                    <div className='summary-row-title'>Quantity</div>
+                    <div className='summary-line'></div> {/* line */}
+                    <div className='summary-row-value'>{totalCartItems} items</div>
+                    <div className='summary-row-title'>Cart total</div>
                     <div className='summary-line'></div> {/* line */}
                     <div className='summary-row-value'>{`Rs. ${totalCartPrice}`}</div>
-                    <div className='summary-row-title'>Delivery</div>
-                    <div className='summary-line'></div> {/* line */}
-                    <div className='summary-row-value'>{`Rs. ${deliveryCharge}`}</div>
-                    <div className='summary-row-title summary-total'>Total</div>
-                    <div className='summary-line summary-total'></div> {/* line */}
-                    <div className='summary-row-value summary-total'>{`Rs. ${totalCartPrice + deliveryCharge}`}</div>
+                    {/* <div className='summary-row-title summary-total'>Total</div>
+                    <div className='summary-line summary-total'></div>
+                    <div className='summary-row-value summary-total'>{`Rs. ${totalCartPrice + deliveryCharge}`}</div> */}
             </div>
             {/* r3 */}
             <div className='modal-button cart-r5' onClick={openCheckoutPage}>

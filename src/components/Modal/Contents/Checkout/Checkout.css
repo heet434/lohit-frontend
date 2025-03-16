@@ -25,6 +25,21 @@
     font-weight: 400;
     line-height: normal;
 }
+
+/* when modal input select is focused, do not show any border */
+.modal-input select:focus{
+    outline: none;
+    border: none;
+}
+
+.modal-input input:focus{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  outline: none;
+  border-bottom: #2B252E 2px solid;
+}
+
 @media(max-width: 834px) and (min-width: 432px){
     .modal-input select{
         width: 30%;
@@ -51,8 +66,6 @@
     display: flex;
     align-items: left;
 }
-
-/* Add these styles to your Checkout.css file */
 
 /* Loading screen styles */
 .checkout-loading,

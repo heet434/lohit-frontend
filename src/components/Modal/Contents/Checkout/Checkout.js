@@ -32,7 +32,10 @@ function Checkout(props) {
     const CHECKOUT_TIMEOUT = 30000; // 30 seconds timeout
 
     const displayPhone = phone ? phone.slice(3) : null;
-    const totalText = total ? `Total: Rs. ${total}` : 'Total: Rs. 0';
+    // const totalText = total ? `Total: Rs. ${total}` : 'Total: Rs. 0';
+    // if mode is delivery, then add delivery charge to total and display
+    const totalAmountText = selectedMode === 'Delivery' ? `Rs. ${total} + Rs.10 (Delivery)` : selectedMode === 'Take-away' ? `Rs. ${total} + Rs.10 (Packing)` : `Rs. ${total}`;
+    const totalText = total ? totalAmountText : 'Rs. 0';
 
     const changePhone = (event) => {
         const phone = event.target.value;
@@ -373,7 +376,7 @@ function Checkout(props) {
                 </div>
                 {/* r4 */}
                 {selectedMode === 'Delivery' && (
-                    <div className='modal-r4 modal-input-container'>
+                    <div className='modal-r3 modal-input-container'>
                         {/* <div className='modal-input input-title'>
                             <h1>Delivery Address</h1>
                         </div> */}
@@ -384,15 +387,15 @@ function Checkout(props) {
                 )}
                 {/* r5 */}
                 {/* display total amount */}
-                <div className='modal-r4 modal-input-container'>
+                <div className='modal-r5 modal-input-container'>
                     <div className='modal-input'>
                         <div className='modal-input'>
-                            <input type='text' placeholder='Total' value={totalText} readOnly/>
+                            <input type='text' placeholder='Total' value={`Amount: ${totalText}`} readOnly/>
                         </div>
                     </div>
                 </div>
                 {/* r6 */}
-                <div className='modal-r5 modal-button' onClick={checkout}>
+                <div className='modal-r6 modal-button' onClick={checkout}>
                     PLACE ORDER
                 </div>
             </div>

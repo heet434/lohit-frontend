@@ -129,7 +129,7 @@
     grid-column-start: 2;
     grid-column-end: 11;
     border-bottom: 1px solid rgba(43, 37, 46, 0.40);
-    transform: translateY(-50%);
+    transform: translateY(-70%);
 }
 .summary-row-value{
     grid-column-start: 11;

@@ -133,6 +133,9 @@
     .menu-items-container{
         grid-column-start: 4;
         grid-column-end: 12;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
     }
     .menu-title{
         margin-bottom: 1.2rem;
@@ -261,6 +264,9 @@
     .menu-items-container{
         grid-column-start: 1;
         grid-column-end: 9;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
     }
     .menu-title{
         margin-bottom: 1.2rem;
@@ -345,6 +351,9 @@
     .menu-items-container{
         grid-column-start: 1;
         grid-column-end: 5;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
     }
     .menu-title{
         margin-bottom: 1.2rem;

@@ -75,7 +75,7 @@ function Menu(props) {
     const foodCategories = props.categories || [];
 
     const foodCategoriesList = foodCategories.map((item) => (
-        <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} key={item.id} offset={-150} activeClass='activeSide' spy={true}>
+        <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} key={item.id} offset={-130} activeClass='activeSide' spy={true}>
             <div className='foodItemSide border-black-right' key={item.id}>
                 {item.name}
             </div>
