@@ -456,3 +456,13 @@
 .restaurant-details-content li div b{
     font-weight: 500;
 }
+
+.veg-indicator:hover{
+    cursor: pointer;
+}
+.nonveg-indicator:hover{
+    cursor: pointer;
+}
+.egg-indicator:hover{
+    cursor: pointer;
+}

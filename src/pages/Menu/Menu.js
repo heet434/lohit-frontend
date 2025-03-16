@@ -115,9 +115,9 @@ function Menu(props) {
                 <div className='menu-sideNav-container'>
                     <div className='orderNav-container'>
                         <div className='orderNav-side'>
-                            <div className='menu-page-title orderNav-title'>
-                                Order
-                            </div>
+                            {/* <div className='menu-page-title orderNav-title'>
+                                Sections
+                            </div> */}
                             {foodCategoriesList}
                             <div className='menu-page-title orderNav-title'>
                                 {/* End */}
@@ -126,9 +126,9 @@ function Menu(props) {
                     </div>
                 </div>
                 <div className='menu-items-container'>
-                    <div className='menu-title menu-page-title'>
+                    {/* <div className='menu-title menu-page-title'>
                         Menu
-                    </div>
+                    </div> */}
                     <div className='veg-nonveg-container'>
                         <div className='veg-indicator menu-page-description-text' onClick={() => toggleFilter('veg')}>
                             {vegIcon}
