@@ -52,4 +52,6 @@
     border-radius: 5px;
     width: 80%;
     overflow-y: scroll;
+    height: 100%;
+    border: 5px solid rgba(43, 37, 46, 0.025);
 }
