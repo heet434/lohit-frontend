@@ -16,9 +16,17 @@ function App() {
   const [bestsellers, setBestsellers] = useState([])
 
   const formatGoogleDriveUrl = (url) => {
-    // const urlParts = url.split('/')
-    // const id = urlParts[urlParts.length - 2]
-    // return `https://drive.google.com/thumbnail?id=${id}`
+
+    if (!url) return (
+      // return placehold.co image
+      'https://placehold.co/400'
+    )
+
+    if (url.includes('drive.google.com')) {
+      const urlParts = url.split('/')
+      const id = urlParts[urlParts.length - 2]
+      return `https://drive.google.com/thumbnail?id=${id}`
+    }
     return url
   }
 
