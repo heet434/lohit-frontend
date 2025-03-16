@@ -1,24 +1,29 @@
-.user-orders{
+.user-orders {
     display: grid;
-    grid-template-rows: repeat(16, 20vh);
+    grid-template-rows: repeat(10, 20vh);
     gap: 12px;
 }
 
-.orders-r1{
+.orders-r1 {
     grid-row-start: 1;
     grid-row-end: 2;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    gap: 1px;
     align-items: center;
     justify-content: center;
 }
-.orders-r1 .modal-title{
+
+.orders-r1 .modal-title {
     grid-column-start: 2;
     grid-column-end: 4;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.orders-r1 .modal-close{
+
+.orders-r1 .modal-close {
     grid-column-start: 1;
     grid-column-end: 2;
     text-align: center;
@@ -26,30 +31,52 @@
     justify-content: center;
     align-items: center;
 }
-.orders-r1 .modal-close:hover{
+
+.orders-r1 .modal-close:hover {
     cursor: pointer;
 }
 
-.orders-r2{
+.orders-r2 {
     grid-row-start: 2;
     grid-row-end: 5;
 }
 
-
-.order-container{
+.order-container {
     display: flex;
     flex-direction: column;
-    justify-content:start;
+    justify-content: start;
     align-items: center;
     width: 100%;
-    /* margin-top: 20px; */
+    height: 100%;
+    margin-top: -20px;
 }
-.order-container .order-items{
+
+.order-container .order-items {
     display: block;
-    width: 100%;
+    width: 85%;
     align-items: center;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 80%;
     overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #F3F3E7 transparent;
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+.order-container .order-items::-webkit-scrollbar {
+    width: 8px;
+}
+
+.order-container .order-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.order-container .order-items::-webkit-scrollbar-thumb {
+    background-color: rgba(43, 37, 46, 0.2);
+    border-radius: 20px;
+    border: 2px solid #F3F3E7;
+}
+
+.order-container .order-items::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(43, 37, 46, 0.3);
 }

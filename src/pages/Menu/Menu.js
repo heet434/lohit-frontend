@@ -87,8 +87,8 @@ function Menu(props) {
     return (
         <div className='page' id='Menu'>
             <div className='menu-navbar-container'>
-                <div className='menu-navbar'>
-                    <Link to='menu-container' smooth={true} duration={1000} offset={-160} spy={true} activeClass='activeTop'>
+                {/* <div className='menu-navbar'> */}
+                    {/* <Link to='menu-container' smooth={true} duration={1000} offset={-160} spy={true} activeClass='activeTop'>
                         <div className='menu-navbar-item'>
                             Menu
                         </div>
@@ -107,17 +107,17 @@ function Menu(props) {
                         <div className='menu-navbar-item'>
                             Details
                         </div>
-                    </Link>
-                </div>
+                    </Link> */}
+                {/* </div> */}
             </div>
 
             <div className='menu-container' id='menu-container'>
                 <div className='menu-sideNav-container'>
                     <div className='orderNav-container'>
                         <div className='orderNav-side'>
-                            <div className='menu-page-title orderNav-title'>
+                            {/* <div className='menu-page-title orderNav-title'>
                                 Order
-                            </div>
+                            </div> */}
                             {foodCategoriesList}
                             <div className='menu-page-title orderNav-title'>
                                 {/* End */}
@@ -126,9 +126,9 @@ function Menu(props) {
                     </div>
                 </div>
                 <div className='menu-items-container'>
-                    <div className='menu-title menu-page-title'>
+                    {/* <div className='menu-title menu-page-title'>
                         Menu
-                    </div>
+                    </div> */}
                     <div className='veg-nonveg-container'>
                         <div className='veg-indicator menu-page-description-text' onClick={() => toggleFilter('veg')}>
                             {vegIcon}

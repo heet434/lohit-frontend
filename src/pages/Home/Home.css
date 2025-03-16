@@ -29,15 +29,7 @@
         height: 210px;
     }
 }
-.searchBar{
-    width: 29.75rem;
-    height: 1.75rem;
-    position: relative;
-    top: 15rem;
-    margin: auto;
-    background-color: #F3F3E7;
-    z-index: 10;
-}
+/* Remove or comment out the .searchBar related styles since they're no longer needed here */
 @media (max-width: 834px){
     .searchBar{
         width: 60vw;

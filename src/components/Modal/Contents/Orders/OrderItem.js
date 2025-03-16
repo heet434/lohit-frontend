@@ -113,7 +113,7 @@ function OrderItem(props) {
                 {props.items.map((item,index) => {
                     return (
                         <div className='order-item-item' key={index}>
-                                {item.quantity}x {item.item_name}
+                                {item.item_name}   x {item.quantity}
                         </div>
                     )
                 })}

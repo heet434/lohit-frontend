@@ -1,203 +1,161 @@
-import React, { useEffect } from 'react'
-import {useState} from 'react'
-import {Link} from 'react-scroll'
-import { removeWhiteSpace } from '../../utils/strUtils'
-import './Carousel.css'
-import LeftIcon from '../../assets/icons/left.svg'
-import RightIcon from '../../assets/icons/right.svg'
+import React, { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-scroll';
+import { removeWhiteSpace } from '../../utils/strUtils';
+import './Carousel.css';
+import LeftIcon from '../../assets/icons/left.svg';
+import RightIcon from '../../assets/icons/right.svg';
 
 function Carousel(props) {
-    const [visibleItems, setVisibleItems] = useState([])
-    const [visibleIndex, setVisibleIndex] = useState([])
-    const [touchStart, setTouchStart] = useState(null)
-    const [touchEnd, setTouchEnd] = useState(null)
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
 
-    // fetch and store all category images given in props.foodItems so we dont fetch them again 
-    const categoryImages = props.foodItems.map((item) => {
-        return(
-            <img src={item.image} alt={item.name} key={item.id}/>
-        )})
+    const itemsPerScroll = 3; // Number of items to scroll
+    const itemsPerView = 5; // Number of items visible
 
-    // the required distance between touchStart and touchEnd to be detected as a swipe
-    const minSwipeDistance = 50 
+    // Create circular array of items
+    const createCircularArray = useCallback(() => {
+        const items = [...props.foodItems];
+        const itemsNeeded = itemsPerView * 2; // Extra items for smooth circular scrolling
+        while (items.length < itemsNeeded) {
+            items.push(...props.foodItems);
+        }
+        return items;
+    }, [props.foodItems]);
 
-    const [viewPortWidth, setViewPortWidth] = useState(window.innerWidth)
-    const [breakPoint, setBreakPoint] = useState(1)
-    const [numItems, setNumItems] = useState(6)
-
-    useEffect(() => {
-    const handleResize = () => {
-        setViewPortWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-        window.removeEventListener('resize', handleResize);
-    };
-    }, []);
-
+    const [circularItems, setCircularItems] = useState(createCircularArray());
 
     useEffect(() => {
-    if(viewPortWidth > 834){
-        setBreakPoint(3)
-        setNumItems(6)
+        setCircularItems(createCircularArray());
+    }, [props.foodItems, createCircularArray]);
 
-    }else if(viewPortWidth > 432){
-        setBreakPoint(2)
-        setNumItems(5)
-    }else{
-        setBreakPoint(1)
-        setNumItems(5)
-    }
-    },[viewPortWidth])
-
-    const foodItems = props.foodItems.map((item) => {
-        return (
-                <div className='food-item moveIn' key={item.id}>
-                        <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} offset={-140}>
-                        <div className='food-img-mask'>
-                            {/* <img src={`https://picsum.photos/400`} alt={item.name} /> */}
-                            {/* <img src={item.image} alt={item.name} /> */}
-                            {categoryImages[item.id]}
-                        </div>
-                        </Link>
-                        <div className='food-item-text subtitle'>
-                            {item.name}
-                        </div>
-                    
+    const foodItems = circularItems.map((item, index) => (
+        <div className='food-item' key={`${item.id}-${index}`}>
+            <Link to={removeWhiteSpace(item.name)} smooth={true} duration={1000} offset={-140}>
+                <div className='food-img-mask'>
+                    <img 
+                        src={item.image} 
+                        alt={item.name} 
+                        loading="eager"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = 'https://via.placeholder.com/150';
+                        }}
+                    />
                 </div>
-    )})
-
-    useEffect(() => {
-
-        let items = []
-        
-        for (let i = 0; i < numItems; i++) {
-            items.push(foodItems[i])
-        }
-        setVisibleItems(items)
-        let index = []
-        for (let i = 0; i < numItems; i++) {
-            index.push(i)
-        }
-        setVisibleIndex(index)
-        //console.log("numItems: ", numItems)
-    },[numItems, props.foodItems])
-
-    const onTouchStart = (e) => {
-    setTouchEnd(null)
-    setTouchStart(e.targetTouches[0].clientX)
-    }
-
-    const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
-
-    const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return
-    const distance = touchStart - touchEnd
-    const isLeftSwipe = distance > minSwipeDistance
-    const isRightSwipe = distance < -minSwipeDistance
-    //if (isLeftSwipe || isRightSwipe) console.log('swipe', isLeftSwipe ? 'left' : 'right')
-    // add your conditional logic here
-    if(isLeftSwipe){
-        moveLeft()
-    }
-    if(isRightSwipe){
-        moveRight()
-    }
-    }
+            </Link>
+            <div className='food-item-text subtitle'>
+                {item.name}
+            </div>
+        </div>
+    ));
 
     const moveLeft = () => {
+        setCurrentIndex((prevIndex) => {
+            const newIndex = prevIndex - itemsPerScroll;
+            const carousel = document.querySelector('.carousel-items');
+            
+            if (newIndex < 0) {
+                // Jump to end when reaching start
+                const lastPossibleIndex = foodItems.length - itemsPerView;
+                carousel.scrollTo({
+                    left: (lastPossibleIndex * carousel.offsetWidth) / itemsPerView,
+                    behavior: 'smooth'
+                });
+                return lastPossibleIndex;
+            }
 
-        const fooditems = document.querySelectorAll('.food-item');
-        fooditems.forEach((item) => {
-            item.classList.remove('moveLeft');
-            item.classList.remove('moveLeft2');
-            item.classList.remove('moveLeft3');
-            item.classList.remove('moveLeft4');
-            item.classList.remove('moveLeft5');
-            item.classList.remove('moveRight');
-            item.classList.remove('moveRight2');
-            item.classList.remove('moveRight3');
-            item.classList.remove('moveRight4');
-            item.classList.remove('moveRight5');
-        })
-        fooditems[1].classList.add('moveLeft');
-        fooditems[2].classList.add('moveLeft2');
-        fooditems[3].classList.add('moveLeft3');
-        if(fooditems.length>4) {fooditems[4].classList.add('moveLeft4');}
-        if(fooditems.length>5) {fooditems[5].classList.add('moveLeft5');}
-
-        let items = [];
-        let index = [];
-        //console.log(visibleIndex);
-        for (let i =1; i<numItems; i++){
-            items.push(foodItems[visibleIndex[i]]);
-            index.push(visibleIndex[i]);
-        }
-        if(visibleIndex[visibleIndex.length-1]+1<foodItems.length){
-            items.push(foodItems[visibleIndex[numItems-1]+1]);
-            index.push(visibleIndex[numItems-1]+1);
-        }else{
-            items.push(foodItems[0]);
-            index.push(0);
-        };
-        setVisibleItems(items);
-        setVisibleIndex(index);
-    }
+            carousel.scrollTo({
+                left: (newIndex * carousel.offsetWidth) / itemsPerView,
+                behavior: 'smooth'
+            });
+            return newIndex;
+        });
+    };
 
     const moveRight = () => {
-        const fooditems = document.querySelectorAll('.food-item');
-        fooditems.forEach((item) => {
-            item.classList.remove('moveLeft');
-            item.classList.remove('moveLeft2');
-            item.classList.remove('moveLeft3');
-            item.classList.remove('moveLeft4');
-            item.classList.remove('moveLeft5');
-            item.classList.remove('moveRight');
-            item.classList.remove('moveRight2');
-            item.classList.remove('moveRight3');
-            item.classList.remove('moveRight4');
-            item.classList.remove('moveRight5');
-        })
-        fooditems[0].classList.add('moveRight');
-        fooditems[1].classList.add('moveRight2');
-        fooditems[2].classList.add('moveRight3');
-        fooditems[3].classList.add('moveRight4');
-        if(fooditems.length>4) {fooditems[4].classList.add('moveRight5');}
+        setCurrentIndex((prevIndex) => {
+            const newIndex = prevIndex + itemsPerScroll;
+            const carousel = document.querySelector('.carousel-items');
+            
+            if (newIndex >= foodItems.length - itemsPerView) {
+                // Jump to start when reaching end
+                carousel.scrollTo({
+                    left: 0,
+                    behavior: 'smooth'
+                });
+                return 0;
+            }
 
+            carousel.scrollTo({
+                left: (newIndex * carousel.offsetWidth) / itemsPerView,
+                behavior: 'smooth'
+            });
+            return newIndex;
+        });
+    };
 
-        let items = [];
-        let index = [];
-        if(visibleIndex[0]-1>=0){
-            items.push(foodItems[visibleIndex[0]-1]);
-            index.push(visibleIndex[0]-1);
-        }else{
-            items.push(foodItems[foodItems.length-1]);
-            index.push(foodItems.length-1);
+    const handleMouseDown = (e) => {
+        setIsDragging(true);
+        setStartX(e.pageX - e.currentTarget.offsetLeft);
+        setScrollLeft(e.currentTarget.scrollLeft);
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.pageX - e.currentTarget.offsetLeft;
+        const walk = (x - startX) * 2;
+        e.currentTarget.scrollLeft = scrollLeft - walk;
+    };
+
+    const handleScroll = (e) => {
+        const carousel = e.currentTarget;
+        const newIndex = Math.round((carousel.scrollLeft / carousel.offsetWidth) * itemsPerView);
+        setCurrentIndex(newIndex);
+
+        // Handle circular scrolling
+        if (carousel.scrollLeft === 0) {
+            setCurrentIndex(0);
+        } else if (carousel.scrollLeft >= carousel.scrollWidth - carousel.offsetWidth) {
+            setCurrentIndex(0);
+            carousel.scrollTo({ left: 0 });
         }
-        for (let i = 0; i<numItems-1; i++){
-            items.push(foodItems[visibleIndex[i]]);
-            index.push(visibleIndex[i]);
-        }
-        setVisibleItems(items);
-        setVisibleIndex(index);
-    }
+    };
 
+    return (
+        <div className='carousel-container'>
+            <button 
+                className='carousel-button carousel-button-left' 
+                onClick={moveLeft}
+            >
+                <img src={LeftIcon} alt='left' />
+            </button>
+            
+            <div 
+                className='carousel-items'
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onMouseMove={handleMouseMove}
+                onScroll={handleScroll}
+            >
+                {foodItems}
+            </div>
 
-return (
-    <div className='carousel-container' onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
-        <div className='carousel-button-left' onClick={moveLeft}>
-            <img src={LeftIcon} alt='left' />
+            <button 
+                className='carousel-button carousel-button-right' 
+                onClick={moveRight}
+            >
+                <img src={RightIcon} alt='right' />
+            </button>
         </div>
-        <div className='carousel-items'>
-        {visibleItems}
-        </div>
-        <div className='carousel-button-right' onClick={moveRight}>
-            <img src={RightIcon} alt='right' />
-        </div>
-    </div>
-    )
-};
+    );
+}
 
 export default Carousel;

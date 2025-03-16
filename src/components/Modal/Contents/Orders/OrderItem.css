@@ -1,19 +1,30 @@
-.order-item{
+.order-item {
     display: grid;
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
     margin: auto;
-    height: 270px;
-    width: 90%;
+    height: 220px;
+    width: 92%;
     color: #2B252E;
     font-family: Montserrat;
-    font-size: 1.25rem;
     font-style: normal;
-    font-weight: 400;
     line-height: normal;
     align-items: center;
-    /* margin-bottom: 10px; */
-    /* padding: 10px; */
-    border-bottom: 0.5px solid #2b252e6e;
+    border-bottom: 1px solid #2b252e2e;
+    padding: 0.5rem 0.5rem;
+    
+}
+.order-token {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #17A9DD;
+    background: #17a9dd15;
+    padding: 0.5rem 1.3rem;
+    border-radius: 8px;
+    display: inline-block;
+    margin-right: auto;
+    text-align: center;
+    margin-bottom: 5rem;
+    
 }
 
 .order-item-r1{
@@ -28,6 +39,7 @@
 .order-item-r2{
     grid-row-start: 2;
     grid-row-end: 3;
+    padding: 0.5rem 0;
 }
 
 .order-item-r3{
@@ -36,6 +48,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2px;
+    align-items: center;
 }
 
 .order-item-r4{
@@ -48,11 +61,23 @@
 
 .order-item-date{
     text-align: left;
+    font-size: 1.25rem;
+    padding-bottom: -3rem;
+    font-weight: 600;
+    color: #17A9DD;
+    grid-column-start: 1;
+    grid-column-end: 2;
 }
 
 .order-item-track{
     text-align: right;
     color: #17A9DD;
+}
+
+.order-item-item {
+    font-size: 1.1rem;
+    padding: 0.25rem -0.5rem;
+    border-radius: 4px;
 }
 
 .order-items-r2{
@@ -61,21 +86,26 @@
 .order-item-total{
     text-align: left;
     grid-column-start: 1;
-    grid-column-end: 2;
+    grid-column-end: 3;
     color: #2B252E;
     font-family: Montserrat;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    font-weight: 600;
+    padding: -0.5rem -3rem ;
 }
 .order-item-status{
     text-align: right;
     grid-column-start: 2;
     grid-column-end: 3;
-    margin-right: 0.2rem;
-    font-size: 1.25rem;
+    margin-right: 0.5rem;
+    font-size: 1rem;
     font-weight: 500;
+    padding: 0.25rem 1rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: -10px;
     /* color: #17A9DD; */
 }
 .delivered{

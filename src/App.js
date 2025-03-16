@@ -1,79 +1,102 @@
 import {React} from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
 import './App.css';
-
 import Home from './pages/Home/Home';
 import TopNav from './components/topNav/Nav';
 import Menu from './pages/Menu/Menu';
 import Modal from './components/Modal/Modal';
 
-function App() {
 
+function App() {
   const [foodCategories, setFoodCategories] = useState([])
   const [menuItems, setMenuItems] = useState([])
   const [bestsellers, setBestsellers] = useState([])
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  const formatGoogleDriveUrl = (url) => {
-    // const urlParts = url.split('/')
-    // const id = urlParts[urlParts.length - 2]
-    // return `https://drive.google.com/thumbnail?id=${id}`
-    return url
+  const fetchData = async () => {
+    console.log(window.innerWidth)
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Add timeout to prevent infinite loading
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Request timeout')), 10000)
+      );
+
+      const fetchPromise = Promise.all([
+        axios.get('/api/categories/'),
+        axios.get('/api/menu/'),
+        axios.get('/api/bestsellers/')
+      ]);
+
+      // Race between timeout and fetch
+      const [categoriesRes, menuRes, bestsellersRes] = await Promise.race([
+        fetchPromise,
+        timeoutPromise
+      ]);
+
+      if (!categoriesRes?.data || !menuRes?.data || !bestsellersRes?.data) {
+        throw new Error('Invalid data received from server');
+      }
+
+      setFoodCategories(categoriesRes.data.map((item, index) => ({
+        name: item.name,
+        id: index,
+        index: index,
+        image: item.image
+      })));
+
+      setMenuItems(menuRes.data.map(item => ({
+        ...item,
+        image_url: item.image
+      })));
+
+      setBestsellers(bestsellersRes.data.map(item => ({
+        ...item,
+        image_url: item.image
+      })));
+
+    } catch (err) {
+      console.error('Error fetching data:', err);
+      setError(err.message || 'Failed to load data');
+      // Set empty arrays to prevent undefined errors
+      setFoodCategories([]);
+      setMenuItems([]);
+      setBestsellers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-screen">
+        <div className="loading-spinner"></div>
+        <p>Loading your menu...</p>
+      </div>
+    );
   }
 
-    const fetchFoodCategories = async () => {
-        try{
-            const response = await axios.get('/api/categories/')
-            setFoodCategories(response.data.map((item,index)=>{
-                // return {name: item.name, id: index, index: index, image: formatGoogleDriveUrl(item.image_url)}
-                return {name: item.name, id: index, index: index, image: formatGoogleDriveUrl(item.image)}
-            }))
-        }
-        catch(error){
-            console.log(error)
-        }
-    }
-    const fetchMenuItems = async () => {
-        try{
-            const response = await axios.get('/api/menu/')
-            setMenuItems(response.data.map((item,index)=>{
-                // return {...item, image_url: formatGoogleDriveUrl(item.image_url)}
-                return {...item, image_url: formatGoogleDriveUrl(item.image)}
-            } ))
-          }
-        catch(error){
-            console.log(error)
-        }
-    }
-
-    const fetchBestsellers = async () => {
-        try{
-            const response = await axios.get('/api/bestsellers/')
-            setBestsellers(response.data.map((item,index)=>{
-                // return {...item, image_url: formatGoogleDriveUrl(item.image_url)}
-                return {...item, image_url: formatGoogleDriveUrl(item.image)}
-            } ))
-            
-          }
-        catch(error){
-            console.log(error)
-        }
-    }
-    
-    useEffect(() => {
-        fetchFoodCategories()
-        fetchMenuItems()
-        fetchBestsellers()
-    },  [])
-
-
+  // Show error but still render the app with empty data
   return (
     <div className="App">
       <TopNav />
       <Modal />
-      <Home menu = {menuItems} categories = {foodCategories}/>
-      <Menu menu = {menuItems} categories = {foodCategories} bestsellers = {bestsellers}/>
+      {error && (
+        <div className="error-banner">
+          <p>{error}</p>
+          <button onClick={fetchData}>Retry</button>
+        </div>
+      )}
+      <Home menu={menuItems} categories={foodCategories}/>
+      <Menu menu={menuItems} categories={foodCategories} bestsellers={bestsellers}/>
     </div>
   );
 }
