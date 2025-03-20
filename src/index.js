@@ -8,7 +8,8 @@ import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import axios from 'axios';
 
-const BASE_URL = 'http://127.0.0.1:8000/'
+// const BASE_URL = 'http://127.0.0.1:8000/'
+const BASE_URL = 'http://192.168.0.112:8000/'
 
 // const BASE_URL = 'https://souruchi.up.railway.app/'
 

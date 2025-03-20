@@ -7,16 +7,25 @@ import { useState, useEffect } from 'react'
 
 import './OrderItem.css'
 
+const formatStatus = (status) => {
+    // change the case of status to Title Case and replace _ with space
+    return status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+}
+
 
 
 function OrderItem(props) {
+
+    console.log(props)
 
     const dispatch = useDispatch()
 
     const [status, setStatus] = useState(props.status)
 
+    const [items, setItems] = useState(props.items)
+
     const [assignedDeliveryPerson, setAssignedDeliveryPerson] = useState(props.assignedDeliveryPerson?.name)
-    const [assignedDeliveryPersonPhone, setAssignedDeliveryPersonPhone] = useState(props.assignedDeliveryPerson?.phone_number)
+    const [assignedDeliveryPersonPhone, setAssignedDeliveryPersonPhone] = useState(props.assignedDeliveryPerson?.phone_number?.toString().slice(3,13))
 
     useEffect(() => {
         if(props.status !== 'Delivered' && props.status !== 'Completed' && props.status !== 'delivered' && props.status !== 'completed') {
@@ -24,14 +33,21 @@ function OrderItem(props) {
             const ws = new WebSocket(webSocketURL)
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data)
-                setStatus(data.status)
-                // if (data.status === "out_for_delivery" || data.status === "Out For Delivery") {
-                //     setAssignedDeliveryPerson(data.delivery_man_name)
-                //     setAssignedDeliveryPersonPhone(data.delivery_man_phone)
-
-                //     console.log("Delivery person assigned for order " + props.orderId)
-                //     console.log("Name: " + data.delivery_man_name)
-                // }
+                if (data.type === 'order_status_update') {
+                    console.log('Order status update')
+                    setStatus(data.status)
+                }else if(data.type === 'order_item_update'){
+                    console.log('Order item update')
+                    const item_id = data.item_id
+                    // find the item in items array and update its status
+                    const updatedItems = items.map(item => {
+                        if(item.menu_item_id === item_id) {
+                            item.status = data.status
+                        }
+                        return item
+                    })
+                    setItems(updatedItems)
+                }
                 console.log(data)
             }
             ws.onclose = (event) => {
@@ -47,30 +63,52 @@ function OrderItem(props) {
                 return
             }
         }
-    }, [props.orderId, props.status])
+    }, [props.orderId, props.status, props.items])
+    // const date = new Date(props.date).getDate() + ' ' + new Date(props.date).toLocaleString('default', { month: 'short' }) + ' \'' + new Date(props.date).getFullYear().toString().slice(2)
 
-    const date = new Date(props.date).getDate() + ' ' + new Date(props.date).toLocaleString('default', { month: 'short' }) + ' \'' + new Date(props.date).getFullYear().toString().slice(2)
+    // set date acc to dd/mm/yy format
+    const date = new Date(props.date).toLocaleDateString('en-GB')
 
 
     // remove seconds from time
     const time = props.time.slice(0,5)
     
-    let orderStatus = <div className='order-item-status general'>{status}</div>
+    let orderStatus = <div className='order-item-status general'>{formatStatus(status)}</div>
     // change the color class based on status
-    if (status === 'Delivered' || status === 'Completed' || status === 'delivered' || status === 'completed') {
-        orderStatus = <div className='order-item-status delivered'>{status}</div>
-    }
-    else if (status === 'Ready' || status === 'ready') {
-        orderStatus = <div className='order-item-status ready'>{status}</div>
-    }
-    else if (status === 'Cancelled' || status === 'cancelled' || status === 'Canceled' || status === 'canceled') {
-        orderStatus = <div className='order-item-status cancelled'>{status}</div>
-    }
-    else if (status === 'Pending' || status === 'pending') {
-        orderStatus = <div className='order-item-status pending'>{status}</div>
-    }
-    else if (status === 'Out For Delivery' || status === 'out_for_delivery') {
-        orderStatus = <div className='order-item-status out-for-delivery'>{status}</div>
+    if (props.mode === 'delivery' || props.mode === 'Delivery') {
+        if (status === 'Delivered' || status === 'Completed' || status === 'delivered' || status === 'completed') {
+            orderStatus = <div className='order-item-status delivered'>{formatStatus(status)}</div>
+        }
+        else if (status === 'Ready' || status === 'ready') {
+            orderStatus = <div className='order-item-status ready'>{formatStatus(status)}</div>
+        }
+        else if (status === 'Cancelled' || status === 'cancelled' || status === 'Canceled' || status === 'canceled') {
+            orderStatus = <div className='order-item-status cancelled'>{formatStatus(status)}</div>
+        }
+        else if (status === 'Pending' || status === 'pending') {
+            orderStatus = <div className='order-item-status pending'>{formatStatus(status)}</div>
+        }
+        else if (status === 'Out For Delivery' || status === 'out_for_delivery') {
+            orderStatus = <div className='order-item-status out-for-delivery'>{formatStatus(status)}</div>
+        }
+    }else{
+        // check for all items in order and set status accordingly
+        let numItemsReady = 0
+        for(let i = 0; i < items.length; i++) {
+            if(items[i].status === 'Ready' || items[i].status === 'ready') {
+                numItemsReady += 1
+            }
+        }
+        if(numItemsReady === items.length) {
+            orderStatus = <div className='order-item-status ready'>{formatStatus(status)}</div>
+        }else if (numItemsReady === 0) {
+            orderStatus = <div className='order-item-status pending'>{formatStatus(status)}</div>
+        }else{
+            // some items are ready
+            // show status as 'Collect: x items'
+            orderStatus = <div className='order-item-status ready'>{`Collect: ${numItemsReady} items`}</div>
+        }
+    
     }
 
     const addOrderToCart = () => {
@@ -93,26 +131,42 @@ function OrderItem(props) {
   return (
     <div className='order-item'>
         <div className='order-item-r1'>
-            <div className='order-item-date'>
-                {date}
-            </div>
-            <div className='order-item-time'>
-                {time} hrs
+            <div className='order-item-token-contact-dt'>
+                {(props.mode === 'delivery' || props.mode === 'Delivery' )?
+                    <div className='order-item-contact'>
+                        <p>For delivery details </p>
+                        Contact: {assignedDeliveryPersonPhone}
+                    </div>
+                : <div className='order-item-token'>
+                    Token: {props.token}
+                    </div>
+                }
+                <div className='order-item-date-time'>
+                    {date} / {time}
+                </div>    
             </div>
             <div className='reorder-icon-container'>
                 <div className='reorder-icon' onClick={addOrderToCart}>
                     Reorder 
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 25" fill="none">
-                        <path d="M17.4535 13.7C18.3532 13.7 19.1449 13.208 19.5527 12.464L23.8471 4.676C24.291 3.884 23.7152 2.9 22.8035 2.9L5.05012 2.9L3.92254 0.5L0 0.5L0 2.9L2.39911 2.9L6.71751 12.008L5.09811 14.936C4.22243 16.544 5.374 18.5 7.19733 18.5L21.592 18.5V16.1H7.19733L8.51684 13.7H17.4535ZM6.1897 5.3L20.7643 5.3L17.4535 11.3H9.03265L6.1897 5.3ZM7.19733 19.7C5.87782 19.7 4.81021 20.78 4.81021 22.1C4.81021 23.42 5.87782 24.5 7.19733 24.5C8.51684 24.5 9.59644 23.42 9.59644 22.1C9.59644 20.78 8.51684 19.7 7.19733 19.7ZM19.1929 19.7C17.8734 19.7 16.8058 20.78 16.8058 22.1C16.8058 23.42 17.8734 24.5 19.1929 24.5C20.5124 24.5 21.592 23.42 21.592 22.1C21.592 20.78 20.5124 19.7 19.1929 19.7Z" fill="#F3F3E7"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M14.5446 11C15.2943 11 15.9541 10.59 16.2939 9.97L19.8726 3.48C20.2425 2.82 19.7627 2 19.0029 2L4.20844 2L3.26879 0L0 0L0 2L1.99926 2L5.59792 9.59L4.24842 12.03C3.51869 13.37 4.47834 15 5.99777 15L17.9933 15L17.9933 13L5.99777 13L7.09736 11L14.5446 11ZM5.15808 4L17.3036 4L14.5446 9H7.5272L5.15808 4ZM5.99777 16C4.89818 16 4.00851 16.9 4.00851 18C4.00851 19.1 4.89818 20 5.99777 20C7.09736 20 7.99703 19.1 7.99703 18C7.99703 16.9 7.09736 16 5.99777 16ZM15.9941 16C14.8945 16 14.0048 16.9 14.0048 18C14.0048 19.1 14.8945 20 15.9941 20C17.0937 20 17.9933 19.1 17.9933 18C17.9933 16.9 17.0937 16 15.9941 16Z" fill="#F3F3E7"/>
                     </svg>
                 </div>
             </div>
         </div>
         <div className='order-item-r2'>
             <div className='order-item-items'>
-                {props.items.map((item,index) => {
+                {items.map((item,index) => {
                     return (
-                        <div className='order-item-item' key={index}>
+                        // <div className={`order-item-item item-${item.status}`} key={index}>
+                        //         {item.quantity}x {item.item_name}
+                        // </div>
+                        props.mode === 'delivery' || props.mode === 'Delivery' ?
+                        <div className={`order-item-item`} key={index}>
+                            {item.quantity}x {item.item_name}
+                        </div>
+                        :
+                        <div className={`order-item-item item-${item.status}`} key={index}>
                                 {item.quantity}x {item.item_name}
                         </div>
                     )
@@ -120,29 +174,9 @@ function OrderItem(props) {
             </div>
         </div>
         <div className='order-item-r3'>
-            <div className='order-item-total'>Total: {props.total} Rs.</div>
             {/* <div className='order-item-save'>Save Order</div> */}
             {orderStatus}
-        </div>
-        <div className='order-item-r4'>
-            <div className='order-token'>
-                Token: {props.token}
-            </div>
-            {status === 'Out For Delivery' || status === 'out_for_delivery' ?
-                <div className='delivery-person'>
-                    {/* <div className='delivery-person-name'>
-                        {assignedDeliveryPerson}
-                    </div> */}
-                    <div className='delivery-person-phone'>
-                        <div className='delivery-person-phone-title'>
-                        Delivery Man Phone:
-                        </div>
-                        <div className='delivery-person-phone-number'>
-                        {assignedDeliveryPersonPhone}
-                        </div>
-                    </div>
-                </div>
-            : null}
+            <div className='order-item-total'>Total: Rs. {props.total} </div>
         </div>
         {/* {bottom} */}
     </div>

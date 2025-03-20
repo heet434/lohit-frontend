@@ -396,7 +396,7 @@ function Checkout(props) {
                 </div>
                 {/* r6 */}
                 <div className='modal-r6 modal-button' onClick={checkout}>
-                    PLACE ORDER
+                    Pay with Razorpay
                 </div>
             </div>
         </div>

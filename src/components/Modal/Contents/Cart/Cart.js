@@ -211,7 +211,7 @@ function Cart(props) {
             </div>
             {/* r3 */}
             <div className='modal-button cart-r5' onClick={openCheckoutPage}>
-                CHECKOUT
+                Continue
             </div>
         </div>
     </div>
