@@ -104,13 +104,15 @@ function FoodCategory(props) {
         }
     )
 
+    console.log(menuItemsInCategory)
+
   return (
     <div className='foodCategory' id={props.idName}>
         <div className='foodCategory-title'>
             {props.categoryName}
         </div>
         <div className='foodCategory-menuItems'>
-            {menuItemsInCategory.map((item) => {
+            {menuItemsInCategory.length !== 0 ? (menuItemsInCategory.map((item) => {
                 if(item.is_available){
                 return (
                     <MenuItem
@@ -128,8 +130,10 @@ function FoodCategory(props) {
                     />
                 )}else{
                 return null
-            }
-            })}
+                }})):
+                (<div className='no-items'>
+                    No items available
+                </div>)}
         </div>
     </div>
   )

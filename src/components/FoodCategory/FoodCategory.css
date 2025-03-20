@@ -15,10 +15,23 @@
     width: 100%;
 }
 
-@media (max-width: 432px){
+@media (max-width: 480px){
     .foodCategory-title{
         font-size: 1.5rem;
         padding-left: 0.5rem;
     }
     
+}
+
+.no-items{
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 350;
+    line-height: normal;
+    width: 100%;
+    padding-bottom: 5rem;
+    padding-top: 2rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }

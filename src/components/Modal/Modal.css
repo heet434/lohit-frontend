@@ -93,14 +93,14 @@
     grid-template-columns: repeat(12, 1fr);
     gap: 12px;
 }
-@media(max-width: 834px) and (min-width: 432px){
+@media(max-width: 834px) and (min-width: 480px){
     .modal-container{
         padding-left: 2rem;
         padding-right: 2rem;
         grid-template-columns: repeat(8, 1fr);
     }
 }
-@media(max-width: 432px){
+@media(max-width: 480px){
     .modal-container{
         padding-left: 1rem;
         padding-right: 1rem;
@@ -189,7 +189,7 @@
     gap: 0.5rem;
 }
 
-@media(max-width: 834px) and (min-width: 432px){
+@media(max-width: 834px) and (min-width: 480px){
     .modal-input-container{
         grid-column-start: 1;
         grid-column-end: 9;
@@ -203,7 +203,7 @@
         grid-column-end: 6;
     }
 }
-@media(max-width: 432px){
+@media(max-width: 480px){
     .modal-input-container{
         grid-column-start: 1;
         grid-column-end: 5;

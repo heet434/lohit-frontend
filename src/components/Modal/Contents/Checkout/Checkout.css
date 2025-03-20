@@ -40,12 +40,12 @@
   border-bottom: #2B252E 2px solid;
 }
 
-@media(max-width: 834px) and (min-width: 432px){
+@media(max-width: 834px) and (min-width: 480px){
     .modal-input select{
         width: 30%;
     }
 }
-@media(max-width: 432px){
+@media(max-width: 480px){
     .modal-input select{
         width: 40%;
     }

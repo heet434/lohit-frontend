@@ -183,7 +183,7 @@
     font-weight: 500;
     line-height: normal;
 }
-@media (max-width: 432px){
+@media (max-width: 480px){
     .reorder-icon{
         width: 80%;
     }

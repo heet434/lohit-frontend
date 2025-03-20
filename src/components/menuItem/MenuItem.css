@@ -116,7 +116,7 @@
 }
 
 
-@media (max-width: 432px){
+@media (max-width: 480px){
     .menuItem-name{
         font-size: 1.25rem;
         font-weight: 500;

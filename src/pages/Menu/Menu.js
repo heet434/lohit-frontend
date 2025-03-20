@@ -88,7 +88,7 @@ function Menu(props) {
         <div className='page' id='Menu'>
             <div className='menu-navbar-container'>
                 <div className='menu-navbar'>
-                    <Link to='menu-container' smooth={true} duration={1000} offset={-160} spy={true} activeClass='activeTop'>
+                    <Link to='menu-items-category-wise' smooth={true} duration={1000} offset={-160} spy={true} activeClass='activeTop'>
                         <div className='menu-navbar-item'>
                             Menu
                         </div>
@@ -143,9 +143,11 @@ function Menu(props) {
                             non-veg
                         </div>
                     </div>
-                    {foodCategories.map((item) => (
-                        <FoodCategory key={item.id} categoryName={item.name} idName={removeWhiteSpace(item.name)} menuItems={itemsOnDisplay} />
-                    ))}
+                    <div className='menu-items-category-wise' id='menu-items-category-wise'>
+                        {foodCategories.map((item) => (
+                            <FoodCategory key={item.id} categoryName={item.name} idName={removeWhiteSpace(item.name)} menuItems={itemsOnDisplay} />
+                        ))}
+                    </div>
                     <Bestsellers categoryName="Bestsellers" bestsellers={bestsellers} />
                     <div className='menu-page-title' id='offers'>
                         Offers

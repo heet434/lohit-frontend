@@ -96,7 +96,7 @@
         width: 15.5vw;
     }
 }
-@media (max-width: 570px) and (min-width: 432px){
+@media (max-width: 570px) and (min-width: 480px){
     .food-item-text{
         width: 14vw;
         /* height: 6rem; */
@@ -109,7 +109,7 @@
         width: 14vw;
     }
 }
-@media (max-width: 432px){
+@media (max-width: 480px){
     .food-item-text{
         width: 95px;
         /* height: 6rem; */

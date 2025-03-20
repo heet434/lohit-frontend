@@ -12,13 +12,13 @@
     text-decoration-line: underline;
     padding-top: 0.25rem;
 }
-@media (max-width: 834px) and (min-width: 432px){
+@media (max-width: 834px) and (min-width: 480px){
     .change-password{
         grid-column-start: 5;
         grid-column-end: 9;
     }
 }
-@media (max-width: 432px){
+@media (max-width: 480px){
     .change-password{
         grid-column-start: 3;
         grid-column-end: 5;
@@ -32,13 +32,13 @@
     padding-bottom: 1rem;
     align-items: center;
 }
-@media (max-width: 834px) and (min-width: 432px){
+@media (max-width: 834px) and (min-width: 480px){
     .order-open-container{
         grid-column-start: 2;
         grid-column-end: 8;
     }
 }
-@media (max-width: 432px){
+@media (max-width: 480px){
     .order-open-container{
         grid-column-start: 2;
         grid-column-end: 4;

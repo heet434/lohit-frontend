@@ -62,13 +62,13 @@
     line-height: normal;
     text-decoration-line: underline;
 }
-@media (max-width: 834px) and (min-width: 432px){
+@media (max-width: 834px) and (min-width: 480px){
     .forgot-password{
         grid-column-start: 6;
         grid-column-end: 8;
     }
 }
-@media (max-width: 432px){
+@media (max-width: 480px){
     .forgot-password{
         grid-column-start: 2;
         grid-column-end: 5;
@@ -89,13 +89,13 @@
     font-weight: 300;
     line-height: normal;
 }
-@media (max-width: 834px) and (min-width: 432px){
+@media (max-width: 834px) and (min-width: 480px){
     #login-text{
         grid-column-start: 3;
         grid-column-end: 7;
     }
 }
-@media (max-width: 432px){
+@media (max-width: 480px){
     #login-text{
         grid-column-start: 2;
         grid-column-end: 4;
@@ -139,7 +139,7 @@
     color: #F3F3E7;
 }
 
-@media(max-width: 834px) and (min-width: 432px){
+@media(max-width: 834px) and (min-width: 480px){
     .google-login-button{
         grid-column-start: 2;
         grid-column-end: 8;
@@ -149,7 +149,7 @@
         grid-column-end: 9;
     }
 }
-@media(max-width: 432px){
+@media(max-width: 480px){
     .google-login-button{
         grid-column-start: 1;
         grid-column-end: 5;
