@@ -13,39 +13,12 @@ import './Cart.css'
 
 function Cart(props) {
 
-
-    // const cartItemsList  = [{
-    //     name: 'Product 1',
-    //     image: 'https://via.placeholder.com/150',
-    //     quantity: 1,
-    //     total: 100
-    // },
-    // {
-    //     name: 'Product 2',
-    //     image: 'https://via.placeholder.com/150',
-    //     quantity: 1,
-    //     total: 200
-    // },
-    // {
-    //     name: 'Product 3',
-    //     image: 'https://via.placeholder.com/150',
-    //     quantity: 1,
-    //     total: 300
-    // },
-    // {
-    //     name: 'Product 4',
-    //     image: 'https://via.placeholder.com/150',
-    //     quantity: 1,
-    //     total: 400
-    // }
-    // ]
     const dispatch = useDispatch()
 
     const removeItem = (id) => {
         dispatch(cartActions.removeExistingItem({id: id}))
     }
     const addItem = (id) => {
-        // console.log(id)
         dispatch(cartActions.addItem({id: id}))
     }
 
@@ -96,7 +69,6 @@ function Cart(props) {
             }
         }).then(response => {
             console.log('Cart saved to backend')
-            // console.log(response.data)
         }
         ).catch(error => {
             console.log(error)
@@ -114,7 +86,6 @@ function Cart(props) {
         axios.get("/api/menu/")
         .then(response => {
             const menuItems = response.data
-            console.log(menuItems)
             
             // check if all items in cart are still available
             for (let i = 0; i < cartItemsList.length; i++) {
@@ -152,7 +123,6 @@ function Cart(props) {
             }
         }).then(response => {
             console.log('Cart saved to backend')
-            // console.log(response.data)
             const date = new Date().toJSON().slice(0,10)
             axios.post('/api/checkout/',{
                 mode_of_eating: 'delivery',

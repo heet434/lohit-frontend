@@ -27,15 +27,6 @@ function Signup(props) {
     }
 
     const signup = () => {
-        // console.log({
-        //     phone,
-        //     password,
-        //     confirmPassword,
-        //     name,
-        //     hostel: hostel.toLowerCase(),
-        //     email
-        // })
-
         if(checkConfirmPassword()){
             if(!checkPhoneNum()){
                 alert('Enter a valid phone number')
@@ -50,7 +41,6 @@ function Signup(props) {
                 hostel: hostel.toLowerCase(),
                 email: email
             }).then((response) => {
-                // console.log(response)
                 console.log("User created")
                 props.openLogin()
             }).catch((error) => {

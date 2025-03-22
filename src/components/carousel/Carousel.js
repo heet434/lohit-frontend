@@ -82,7 +82,6 @@ function Carousel(props) {
             index.push(i)
         }
         setVisibleIndex(index)
-        //console.log("numItems: ", numItems)
     },[numItems, props.foodItems])
 
     const onTouchStart = (e) => {
@@ -97,8 +96,6 @@ function Carousel(props) {
     const distance = touchStart - touchEnd
     const isLeftSwipe = distance > minSwipeDistance
     const isRightSwipe = distance < -minSwipeDistance
-    //if (isLeftSwipe || isRightSwipe) console.log('swipe', isLeftSwipe ? 'left' : 'right')
-    // add your conditional logic here
     if(isLeftSwipe){
         moveLeft()
     }
@@ -130,7 +127,6 @@ function Carousel(props) {
 
         let items = [];
         let index = [];
-        //console.log(visibleIndex);
         for (let i =1; i<numItems; i++){
             items.push(foodItems[visibleIndex[i]]);
             index.push(visibleIndex[i]);

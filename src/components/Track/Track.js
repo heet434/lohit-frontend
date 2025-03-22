@@ -24,7 +24,6 @@ function Track(props) {
             }
         })
         .then(response => {
-            console.log(response.data)
             setRoute([response.data.user_coordinates,response.data.lohit_coordinates])
         })
         .catch(error => {

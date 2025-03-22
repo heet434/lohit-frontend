@@ -9,14 +9,12 @@ import './OrderItem.css'
 
 const formatStatus = (status) => {
     // change the case of status to Title Case and replace _ with space
-    return status.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
+    return status?.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
 }
 
 
 
 function OrderItem(props) {
-
-    console.log(props)
 
     const dispatch = useDispatch()
 
@@ -33,22 +31,29 @@ function OrderItem(props) {
             const ws = new WebSocket(webSocketURL)
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data)
-                if (data.type === 'order_status_update') {
-                    console.log('Order status update')
-                    setStatus(data.status)
-                }else if(data.type === 'order_item_update'){
-                    console.log('Order item update')
-                    const item_id = data.item_id
-                    // find the item in items array and update its status
+                if (data.type === 'order_status_update' || data.type === 'order.status.update') {
+                    setStatus(data.data.status)
+                }else if(data.type === 'order_item_update' || data.type === 'order.item.update'){
+                    const item_id = data.data.item_id
                     const updatedItems = items.map(item => {
-                        if(item.menu_item_id === item_id) {
-                            item.status = data.status
+                        console.log(item, item_id)
+                        if(item.id === item_id) {
+                            item.status = data.data.status
                         }
                         return item
                     })
                     setItems(updatedItems)
+                    // check if all items are ready and set status as 'Ready' if true
+                    let numItemsReady = 0
+                    for(let i = 0; i < updatedItems.length; i++) {
+                        if(updatedItems[i].status === 'Ready' || updatedItems[i].status === 'ready') {
+                            numItemsReady += 1
+                        }
+                    }
+                    if(numItemsReady === updatedItems.length) {
+                        setStatus('Completed')
+                    }
                 }
-                console.log(data)
             }
             ws.onclose = (event) => {
                 console.log('Websocket for order ' + props.orderId + ' closed')
@@ -66,8 +71,8 @@ function OrderItem(props) {
     }, [props.orderId, props.status, props.items])
     // const date = new Date(props.date).getDate() + ' ' + new Date(props.date).toLocaleString('default', { month: 'short' }) + ' \'' + new Date(props.date).getFullYear().toString().slice(2)
 
-    // set date acc to dd/mm/yy format
-    const date = new Date(props.date).toLocaleDateString('en-GB')
+    // set date acc to dd-mm-yy format
+    const date = new Date(props.date).toLocaleDateString('en-GB').replace(/\//g, '-')
 
 
     // remove seconds from time
@@ -131,6 +136,7 @@ function OrderItem(props) {
   return (
     <div className='order-item'>
         <div className='order-item-r1'>
+            {!(props.status==='delivered' || props.status==='cancelled' || props.status==='completed') && 
             <div className='order-item-token-contact-dt'>
                 {(props.mode === 'delivery' || props.mode === 'Delivery' )?
                     <div className='order-item-contact'>
@@ -142,9 +148,16 @@ function OrderItem(props) {
                     </div>
                 }
                 <div className='order-item-date-time'>
-                    {date} / {time}
+                    {date} | {time}
                 </div>    
+            </div>}
+            {(props.status==='delivered' || props.status==='cancelled' || props.status==='completed')&&
+            <div className='order-item-token-contact-dt'>
+                <div className='prev-order-item-date-time'>
+                    {date} | {time}
+                </div>
             </div>
+            }
             <div className='reorder-icon-container'>
                 <div className='reorder-icon' onClick={addOrderToCart}>
                     Reorder 

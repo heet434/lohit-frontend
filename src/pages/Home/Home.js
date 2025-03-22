@@ -79,7 +79,6 @@ function Home(props) {
     const [searchValue, setSearchValue] = useState(null)
 
     const handleSearch = (searchVal) => {
-        //console.log(searchVal.value)
         setSearchValue(searchVal)
         const element = document.getElementById(removeWhiteSpace(searchVal.value))
         animateScroll.scrollTo(element.offsetTop - 250)

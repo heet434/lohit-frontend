@@ -71,7 +71,6 @@ function Checkout(props) {
             description: "Test Transaction",
             order_id: orderId,
             handler: (response) => {
-                console.log(response);
                 setRazorpayOrderId(response.razorpay_order_id);
                 setRazorpayPaymentId(response.razorpay_payment_id);
                 setRazorpaySignature(response.razorpay_signature);
@@ -103,7 +102,6 @@ function Checkout(props) {
         try {
             const response = await axios.get("/api/menu/");
             const menuItems = response.data;
-            console.log('Menu items:', menuItems);
             
             // Check if cart is empty
             if (cartItemsList.length === 0) {
@@ -113,9 +111,7 @@ function Checkout(props) {
             // Check if all items in cart are still available
             for (let i = 0; i < cartItemsList.length; i++) {
                 const item = cartItemsList[i];
-                console.log('Checking availability of item:', item);
                 const menuItem = menuItems.find(menuItem => menuItem.id === item.id);
-                console.log('Found menu item:', menuItem);
                 if (!menuItem?.is_available) {
                     throw new Error(`Item ${menuItem?.item} is no longer available, please remove it from cart`);
                 }

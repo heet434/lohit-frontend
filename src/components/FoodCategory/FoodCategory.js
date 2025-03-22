@@ -98,13 +98,9 @@ function FoodCategory(props) {
 
     const menuItemsInCategory = props.menuItems.filter(
         (item) => {
-            // check if props.categoryName is present in item.category array which is a list of categories
-            //console.log(item.category)
             return item.category.includes(props.categoryName)
         }
     )
-
-    console.log(menuItemsInCategory)
 
   return (
     <div className='foodCategory' id={props.idName}>

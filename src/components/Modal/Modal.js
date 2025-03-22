@@ -52,22 +52,6 @@ function PcModal(props) {
         dispatch(modalDisplayActions.openCheckout())
     }
 
-    // fetch all orders
-    // const token = useSelector(state => state.auth.token)
-    // useEffect(() => {
-    //         axios.get('/api/orders/',{
-    //             headers: {
-    //                 'Authorization': `Token ${token}`
-    //             }
-    //         }).then(response => {
-    //             console.log(response.data)
-    //         }).catch(error => {
-    //             console.log(error)
-    //         })
-    // }
-    // , [isLoggedIn])
-
-
     const renderContent = () => {
         if(content === 'login' && !isLoggedIn){
             return <Login closeModal={closeModal} openSignup={openSignup} onLogin = {closeModal}/>

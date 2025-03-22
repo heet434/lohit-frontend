@@ -13,16 +13,6 @@ function Profile(props) {
 
     const dispatch = useDispatch()
 
-    // const [phone, setPhone] = useState('9825773190')
-    // const [password, setPassword] = useState('')
-    // const [hostel, setHostel] = useState('Kameng')
-
-    // console.log({
-    //     phone: phone,
-    //     password: password,
-    //     hostel: hostel
-    // })
-    
     const phone = useSelector(state => state.auth.phone)
     const email = useSelector(state => state.auth.email)
     const token = useSelector(state => state.auth.token)
@@ -32,33 +22,11 @@ function Profile(props) {
 
     const totalCartItems = useSelector(state => state.cart.totalQuantity)
 
-    // const logout = () => {
-    //     //console.log("token: ", token)
-    //     axios.post('/api/logout/',{},{
-    //         headers: {
-    //             Authorization: `Token ${token}`
-    //     }}).then(response => {
-    //         //console.log(response.data)
-    //         console.log("User logged out successfully.")
-    //         if(response.data.success){
-    //             props.closeModal()
-    //         }
-    //         if(totalCartItems > 0){
-    //             alert(`You have ${totalCartItems} items in your cart. Are you sure you want to logout?`)
-    //         }
-    //         dispatch(cartActions.clearCart())
-    //         dispatch(authActions.logout())
-    //     })
-    //     .catch(error => {
-    //         console.log(error)
-    //     })
-    // }
     const googleLogout = () => {
         axios.post('/api/google-logout/',{},{
             headers: {
                 Authorization: `Token ${token}`
         }}).then(response => {
-            //console.log(response.data)
             console.log("User logged out successfully.")
             if(response.data.success){
                 props.closeModal()
