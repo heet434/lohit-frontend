@@ -174,7 +174,7 @@ function OrderItem(props) {
                         // <div className={`order-item-item item-${item.status}`} key={index}>
                         //         {item.quantity}x {item.item_name}
                         // </div>
-                        props.mode === 'delivery' || props.mode === 'Delivery' ?
+                        props.mode === 'delivery' || props.mode === 'Delivery' || props.status === 'delivered' || props.status === 'Delivered' || props.status === 'completed' || props.status === 'Completed' || props.status === 'cancelled' || props.status === 'Cancelled' ?
                         <div className={`order-item-item`} key={index}>
                             {item.quantity}x {item.item_name}
                         </div>
