@@ -99,12 +99,16 @@ function OrderItem(props) {
     }else{
         // check for all items in order and set status accordingly
         let numItemsReady = 0
+        let numItemsCompleted = 0
         for(let i = 0; i < items.length; i++) {
             if(items[i].status === 'Ready' || items[i].status === 'ready') {
                 numItemsReady += 1
             }
+            if(items[i].status === 'Completed' || items[i].status === 'completed') {
+                numItemsCompleted += 1
+            }
         }
-        if(numItemsReady === items.length) {
+        if(numItemsCompleted === items.length) {
             orderStatus = <div className='order-item-status ready'>{formatStatus(status)}</div>
         }else if (numItemsReady === 0) {
             orderStatus = <div className='order-item-status pending'>{formatStatus(status)}</div>
