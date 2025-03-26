@@ -2,6 +2,7 @@ import { React } from 'react'
 import { cartActions } from '../../../../store/slices/cartSlice'
 import { useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
 
 // import Track from '../../../Track/Track'
 
@@ -26,13 +27,34 @@ function OrderItem(props) {
     const [assignedDeliveryPersonPhone, setAssignedDeliveryPersonPhone] = useState(props.assignedDeliveryPerson?.phone_number?.toString().slice(3,13))
 
     useEffect(() => {
+        const cancelToastOptions = {
+            position: 'top-right',
+            autoClose: false,
+            closeOnClick: true,
+            type: 'error',
+        }
+
+        const updateToastOptions = {
+            position: 'top-right',
+            autoClose: 10000,
+            closeOnClick: true,
+            type: 'info',
+        }
+
         if(props.status !== 'Delivered' && props.status !== 'Completed' && props.status !== 'delivered' && props.status !== 'completed') {
             const webSocketURL = 'ws://127.0.0.1:8000/ws/orders/' + props.orderId + '/'
             const ws = new WebSocket(webSocketURL)
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data)
                 if (data.type === 'order_status_update' || data.type === 'order.status.update') {
+                    // if status is cancelled, show a message alert that order is cancelled
                     setStatus(data.data.status)
+                    if(data.data.status === 'Cancelled' || data.data.status === 'cancelled') {
+                        // alert(`Order with token ${props.token} has been cancelled. ${data.data.cancellation_message}`)
+                        toast(`Order with token ${props.token} has been cancelled. ${data.data.cancellation_message}`, cancelToastOptions)
+                    }else{
+                        toast(`Order with token ${props.token} has been updated to ${data.data.status}`, updateToastOptions)
+                    }
                 }else if(data.type === 'order_item_update' || data.type === 'order.item.update'){
                     const item_id = data.data.item_id
                     const updatedItems = items.map(item => {
@@ -53,6 +75,7 @@ function OrderItem(props) {
                     if(numItemsReady === updatedItems.length) {
                         setStatus('Completed')
                     }
+                    toast(`Item ${data.data.item_name} has been updated to ${data.data.status}`, updateToastOptions)
                 }
             }
             ws.onclose = (event) => {
@@ -68,7 +91,7 @@ function OrderItem(props) {
                 return
             }
         }
-    }, [props.orderId, props.status, props.items])
+    }, [props.orderId, props.status, props.items, props.token])
     // const date = new Date(props.date).getDate() + ' ' + new Date(props.date).toLocaleString('default', { month: 'short' }) + ' \'' + new Date(props.date).getFullYear().toString().slice(2)
 
     // set date acc to dd-mm-yy format
@@ -174,17 +197,22 @@ function OrderItem(props) {
         <div className='order-item-r2'>
             <div className='order-item-items'>
                 {items.map((item,index) => {
+                    const shouldShowTick = 
+                    (item.status === 'collected' || item.status === 'Collected' || item.status === 'completed' || item.status === 'Completed') && 
+                        status !== 'completed' &&
+                        status !== 'Completed';
                     return (
                         // <div className={`order-item-item item-${item.status}`} key={index}>
                         //         {item.quantity}x {item.item_name}
                         // </div>
                         props.mode === 'delivery' || props.mode === 'Delivery' || props.status === 'delivered' || props.status === 'Delivered' || props.status === 'completed' || props.status === 'Completed' || props.status === 'cancelled' || props.status === 'Cancelled' ?
                         <div className={`order-item-item`} key={index}>
-                            {item.quantity}x {item.item_name}
+                            {item.quantity}x {item.item_name} 
                         </div>
                         :
                         <div className={`order-item-item item-${item.status}`} key={index}>
                                 {item.quantity}x {item.item_name}
+                                {shouldShowTick ? <span className='collected-tick'> ✓</span> : null}
                         </div>
                     )
                 })}

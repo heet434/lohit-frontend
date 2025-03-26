@@ -4,6 +4,9 @@ import axios from 'axios';
 
 import './App.css';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Home from './pages/Home/Home';
 import TopNav from './components/topNav/Nav';
 import Menu from './pages/Menu/Menu';
@@ -78,6 +81,7 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer />
       <TopNav />
       <Modal />
       <Home menu = {menuItems} categories = {foodCategories}/>
