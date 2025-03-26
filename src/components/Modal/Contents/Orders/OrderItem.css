@@ -55,6 +55,14 @@
     /* Add a min-height to ensure consistency */
     min-height: max-content;
 }
+/* 
+.order-item-r4{
+    grid-row-start: 4;
+    grid-row-end: 5;
+    display: grid;
+    padding-bottom: 15px;
+    min-height: max-content;
+} */
 
 /* Rest of your CSS remains the same */
 .order-item-date{
@@ -265,6 +273,15 @@
     font-family: Montserrat;
     font-size: 24px;
     font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.order-item-cancellation{
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: italic;
     font-weight: 400;
     line-height: normal;
 }

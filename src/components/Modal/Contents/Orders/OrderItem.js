@@ -73,7 +73,8 @@ function OrderItem(props) {
                         }
                     }
                     if(numItemsReady === updatedItems.length) {
-                        setStatus('Completed')
+                        // setStatus('Completed')
+                        setStatus(data.data?.status)
                     }
                     toast(`Item ${data.data.item_name} has been updated to ${data.data.status}`, updateToastOptions)
                 }
@@ -223,6 +224,10 @@ function OrderItem(props) {
             {orderStatus}
             <div className='order-item-total'>Total: Rs. {props.total} </div>
         </div>
+        {/* {(status === 'Cancelled' || status === 'cancelled' || status === 'canceled' || status === 'Canceled') &&
+        <div className='order-item-cancellation order-item-r4'>
+            Refund should be processed within 4 days
+        </div>} */}
         {/* {bottom} */}
     </div>
   )
