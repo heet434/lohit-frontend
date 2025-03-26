@@ -1,11 +1,9 @@
-import {React,useState, useEffect} from 'react';
+import {React} from 'react';
 
 import {useSelector, useDispatch} from 'react-redux';
-import { authActions } from '../../store/slices/authSlice';
 import { modalDisplayActions } from '../../store/slices/modalDisplaySlice';
 
 import Login from './Contents/Login/Login';
-import Signup from './Contents/Signup/Signup';
 import Profile from './Contents/Profile/Profile';
 import Cart from './Contents/Cart/Cart';
 import Checkout from './Contents/Checkout/Checkout';
@@ -14,7 +12,6 @@ import Orders from './Contents/Orders/Orders';
 
 
 import './Modal.css';
-import axios from 'axios';
 
 // General Purpose Modal Component
 
@@ -31,9 +28,6 @@ function PcModal(props) {
         dispatch(modalDisplayActions.close())
     }
 
-    const openSignup = () => {
-        dispatch(modalDisplayActions.openSignup())
-    }
     const openLogin = () => {
         dispatch(modalDisplayActions.openLogin())
     }
@@ -54,23 +48,21 @@ function PcModal(props) {
 
     const renderContent = () => {
         if(content === 'login' && !isLoggedIn){
-            return <Login closeModal={closeModal} openSignup={openSignup} onLogin = {closeModal}/>
-        }else if(content === 'signup' && !isLoggedIn){
-            return <Signup closeModal={closeModal} openLogin={openLogin}/>
+            return <Login closeModal={closeModal} onLogin = {closeModal}/>
         }else if(content === 'profile' && isLoggedIn){
             return <Profile closeModal={closeModal} openOrders={openOrders}/>
         }else if(content === 'profile' && !isLoggedIn){
-            return <Login closeModal={closeModal} openSignup={openSignup} onLogin={openProfile}/>
+            return <Login closeModal={closeModal} onLogin={openProfile}/>
         }else if(content === 'cart' && isLoggedIn){
             return <Cart closeModal={closeModal} openOrders={openOrders} openCheckout={openCheckout}/>
         }else if(content === 'cart' && !isLoggedIn){
-            return <Login closeModal={closeModal} openSignup={openSignup} onLogin={openCart}/>
+            return <Login closeModal={closeModal} onLogin={openCart}/>
         }else if(content === 'checkout' && isLoggedIn){
             return <Checkout closeModal={closeModal} openOrders={openOrders}/>
         }else if(content === 'orders' && isLoggedIn){
             return <Orders closeModal={closeModal} openCart={openCart}/>
         }else{
-            return <Login closeModal={closeModal} openSignup={openSignup} onLogin = {closeModal}/>
+            return <Login closeModal={closeModal} onLogin = {closeModal}/>
         }
     }
     

@@ -1,5 +1,7 @@
-import {React,useEffect,useState} from 'react'
+import {React} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+
+import { toast } from 'react-toastify'
 
 import {authActions} from '../../../../store/slices/authSlice'
 import {cartActions} from '../../../../store/slices/cartSlice'
@@ -22,6 +24,13 @@ function Profile(props) {
 
     const totalCartItems = useSelector(state => state.cart.totalQuantity)
 
+    const errorToastOptions = {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+    }
+
     const googleLogout = () => {
         axios.post('/api/google-logout/',{},{
             headers: {
@@ -39,7 +48,8 @@ function Profile(props) {
         })
         .catch(error => {
             console.log(error)
-            alert('Error logging out. Please try again.')
+            toast.error('Logout failed, contact web admin.', errorToastOptions)
+            return
         })
     }
 

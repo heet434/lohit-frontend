@@ -1,6 +1,7 @@
-import {React, useState, useCallback} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {React} from 'react'
+import {useDispatch} from 'react-redux'
 import axios from 'axios'
+import { toast } from 'react-toastify';
 import { GoogleLogin } from '@react-oauth/google';
 
 import { authActions } from '../../../../store/slices/authSlice'
@@ -11,6 +12,13 @@ import foodImage from '../../../../assets/home/food.png'
 import './Login.css'
 
 function Login(props) {
+
+    const loginFailedToastOptions = {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+    }
 
     const handleGoogleLogin = (response) => {
         axios.post('/api/google-login/', {
@@ -26,13 +34,13 @@ function Login(props) {
             }
         }).catch((error) => {
             console.log(error)
-            alert('Login failed, contact web admin.')
+            toast.error('Login failed, contact web admin.', loginFailedToastOptions)
         })
     }
 
     const handleLoginError = (error) => {
         console.log(error)
-        alert('Login failed, contact web admin.')
+        toast.error('Login failed, contact web admin.', loginFailedToastOptions)
     }
 
     const dispatch = useDispatch()

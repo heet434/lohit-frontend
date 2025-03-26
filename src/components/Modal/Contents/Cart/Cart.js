@@ -1,8 +1,7 @@
-import {React,useState} from 'react'
+import {React} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import axios from 'axios'
-
+import { toast } from 'react-toastify'
 import CartItem from '../../../CartItems/CartItem'
 
 import { cartActions } from '../../../../store/slices/cartSlice'
@@ -26,8 +25,6 @@ function Cart(props) {
 
     const totalCartItems = useSelector(state => state.cart.totalQuantity)
 
-    const deliveryCharge = 10
-
     const cartItemsList = useSelector(state => state.cart.items)
 
     const cartItems = cartItemsList.map((item, index) => {
@@ -42,110 +39,22 @@ function Cart(props) {
                 addItem={() => addItem(item.id)}
             />
         )})
-
-    const token = useSelector(state => state.auth.token)
-
+    
     const openCheckoutPage = () => {
+
+        const cartErrorToastOptions = {
+            position: 'top-right',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+        }
+
         // check if cart is empty
         if(cartItemsList.length === 0){
-            alert('Cart is empty')
+            toast.error('Cart is empty', cartErrorToastOptions)
             return
         }
         props.openCheckout()
-    }
-    
-    const saveCartToBackend = () => {
-        axios.put('/api/cart/',{
-            cart_items: cartItemsList.map(item => {
-                return {
-                    menu_item_id: item.id,
-                    quantity: item.quantity
-                }
-            }
-            )
-        },{
-            headers: {
-                Authorization : `Token ${token}`
-            }
-        }).then(response => {
-            console.log('Cart saved to backend')
-        }
-        ).catch(error => {
-            console.log(error)
-        })
-    }
-
-    const checkOut = () => {
-
-        // check if cart is empty
-        if(cartItemsList.length === 0){
-            alert('Cart is empty')
-            return
-        }
-        // fetch all menu items and check if all items in cart are still available
-        axios.get("/api/menu/")
-        .then(response => {
-            const menuItems = response.data
-            
-            // check if all items in cart are still available
-            for (let i = 0; i < cartItemsList.length; i++) {
-                const item = cartItemsList[i]
-                const menuItem = menuItems.find(menuItem => menuItem.id === item.id)
-                if (!menuItem.menu_item_is_available) {
-                    alert(`Item ${menuItem.menu_item_name} is no longer available, please remove it from cart`)
-                    return
-                }
-            }
-        }).catch((error) => {
-            console.log(error);
-            alert('Error checking availability of items in cart')
-        });
-                
-        // axios.put('/api/cart/',{
-        //     cart_items: cartItemsList.map(item => {
-        //         return {
-        //             menu_item_id: item.id,
-        //             quantity: item.quantity
-        //         }
-        //     }
-        //     )
-        // },{
-        axios.post('/api/cart/bulk-add/',
-            // send array of cart items
-            cartItemsList.map(item => {
-                return {
-                    menu_item_id: item.id,
-                    quantity: item.quantity
-                }
-            }),{
-            headers: {
-                Authorization : `Token ${token}`
-            }
-        }).then(response => {
-            console.log('Cart saved to backend')
-            const date = new Date().toJSON().slice(0,10)
-            axios.post('/api/checkout/',{
-                mode_of_eating: 'delivery',
-                date: date
-            },{
-                headers: {
-                    Authorization: `Token ${token}`
-                }
-            }).then(response => {
-                // console.log(response.data)
-                console.log('Order placed successfully')
-                dispatch(cartActions.clearCart())
-                // props.closeModal()
-                props.openOrders()
-                alert('Order placed successfully')
-            }
-            ).catch(error => {
-                console.log(error)
-            })
-        }
-        ).catch(error => {
-            console.log(error)
-        })
     }
 
   return (

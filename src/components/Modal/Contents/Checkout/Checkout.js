@@ -28,8 +28,9 @@ function Checkout(props) {
     // Loading and error state management
     const [isProcessing, setIsProcessing] = useState(false);
     const [processingError, setProcessingError] = useState(null);
+    const [orderPlaced, setOrderPlaced] = useState(false);
     const [timeoutId, setTimeoutId] = useState(null);
-    const CHECKOUT_TIMEOUT = 30000; // 30 seconds timeout
+    const CHECKOUT_TIMEOUT = 10000; // 10 seconds timeout
 
     const displayPhone = phone ? phone.slice(3) : null;
     // const totalText = total ? `Total: Rs. ${total}` : 'Total: Rs. 0';
@@ -215,17 +216,30 @@ function Checkout(props) {
                 });
                 if (checkout_response.status === 200 || checkout_response.status === 201) {
                     setIsProcessing(false);
+                    setOrderPlaced(true);
                     if (timeoutId) {
                         clearTimeout(timeoutId);
                         setTimeoutId(null);
                     }
-                    alert('Order placed successfully');
-                    dispatch(cartActions.clearCart());
-                    props.openOrders();
+                    
+                    // Auto-redirect to orders after 2 seconds
+                    setTimeout(() => {
+                        dispatch(cartActions.clearCart());
+                        props.openOrders();
+                    }, 2000);
                     return true;
                 }
             } else {
-                throw new Error('Transaction verification failed');
+                console.error('Error saving order to backend:', transaction_response);
+                setIsProcessing(false);
+                setProcessingError('Order could not be placed due to some error in transaction');
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    setTimeoutId(null);
+                }
+                // dispatch(cartActions.clearCart());
+                // props.openOrders();
+                return false;
             }
         } catch (error) {
             console.error('Error saving order to backend:', error);
@@ -235,9 +249,8 @@ function Checkout(props) {
                 clearTimeout(timeoutId);
                 setTimeoutId(null);
             }
-            alert('Order could not be placed due to some error');
-            dispatch(cartActions.clearCart());
-            props.openOrders();
+            // dispatch(cartActions.clearCart());
+            // props.openOrders();
             return false;
         }
     };
@@ -274,8 +287,6 @@ function Checkout(props) {
             // (Payment handler will call saveOrderToBackend on success)
             await createRazorpayOrder();
             
-            // Note: We don't set isProcessing to false here because the Razorpay modal is still open
-            // The modal's ondismiss or the saveOrderToBackend function will handle that
             
         } catch (error) {
             console.error('Checkout process failed:', error);
@@ -330,7 +341,28 @@ function Checkout(props) {
         );
     };
 
+    const renderSuccessScreen = () => {
+        return (
+            <div className='checkout-success'>
+                <div className='success-container'>
+                    <div className='success-icon'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h2>Order Placed Successfully!</h2>
+                    <p>Your order has been processed and is being prepared.</p>
+                    <p>Redirecting to orders...</p>
+                </div>
+            </div>
+        );
+    };
+
     // Determine what to render
+    if (orderPlaced) {
+        return renderSuccessScreen();
+    }
     if (isProcessing) {
         return renderLoadingScreen();
     }

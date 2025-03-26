@@ -50,7 +50,6 @@ function OrderItem(props) {
                     // if status is cancelled, show a message alert that order is cancelled
                     setStatus(data.data.status)
                     if(data.data.status === 'Cancelled' || data.data.status === 'cancelled') {
-                        // alert(`Order with token ${props.token} has been cancelled. ${data.data.cancellation_message}`)
                         toast(`Order with token ${props.token} has been cancelled. ${data.data.cancellation_message}`, cancelToastOptions)
                     }else{
                         toast(`Order with token ${props.token} has been updated to ${data.data.status}`, updateToastOptions)
