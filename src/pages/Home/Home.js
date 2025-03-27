@@ -1,31 +1,61 @@
-import {React,useState} from 'react'
-import { animateScroll } from 'react-scroll'
+import {React,useState, useEffect} from 'react'
 
 import './Home.css'
 
 import SearchBar from '../../components/search/SearchBar'
 import Carousel from '../../components/carousel/Carousel'
 
-import { removeWhiteSpace } from '../../utils/strUtils'
-
 function Home(props) {
 
     const foodItemsMenu = props.menu
     const foodCategories = props.categories
-    const [searchValue, setSearchValue] = useState(null)
+    
+    const searchValue = props.searchValue
+    const handleSearch = props.handleSearch
 
-    const handleSearch = (searchVal) => {
-        setSearchValue(searchVal)
-        const element = document.getElementById(removeWhiteSpace(searchVal.value))
-        animateScroll.scrollTo(element.offsetTop - 250)
-    }
+    const setSearchBarOnTop = props.setSearchBarOnTop
+
+    // Effect to check search bar visibility
+    useEffect(() => {
+        const checkSearchBarVisibility = () => {
+            const searchBarElement = document.getElementById('searchBar2')
+            
+            if (searchBarElement) {
+                const rect = searchBarElement.getBoundingClientRect()
+                const isVisible = (
+                    rect.top >= 90 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                )
+                setSearchBarOnTop(!isVisible)
+            }
+        }
+
+        // Check visibility on mount and scroll
+        checkSearchBarVisibility()
+        window.addEventListener('scroll', checkSearchBarVisibility)
+        window.addEventListener('resize', checkSearchBarVisibility)
+
+        // Cleanup event listeners
+        return () => {
+            window.removeEventListener('scroll', checkSearchBarVisibility)
+            window.removeEventListener('resize', checkSearchBarVisibility)
+        }
+    }, [])
+
 
   return (
     <div id='Home' className='page'>
         <div className='foodsImgContainer'>
-            <div className='searchBar'>
-                <SearchBar menuItems={foodItemsMenu} handleSearch={handleSearch} searchValue={searchValue} />
-            </div>
+            {!props.isSearchBarOnTop ? 
+                <div className='searchBar' id='searchBar2'>
+                    <SearchBar menuItems={foodItemsMenu} handleSearch={handleSearch} searchValue={searchValue} />
+                </div>:
+                <div className='searchBar' style={{visibility: 'hidden'}} id='searchBar2'>
+                    <SearchBar menuItems={foodItemsMenu} handleSearch={handleSearch} searchValue={searchValue} />
+                </div>
+            }
         </div>
         <div className='content'>
             <h3>

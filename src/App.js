@@ -1,11 +1,15 @@
 import {React} from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { animateScroll } from 'react-scroll'
 
 import './App.css';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+
+import { removeWhiteSpace } from './utils/strUtils';
 
 import Home from './pages/Home/Home';
 import TopNav from './components/topNav/Nav';
@@ -17,6 +21,18 @@ function App() {
   const [foodCategories, setFoodCategories] = useState([])
   const [menuItems, setMenuItems] = useState([])
   const [bestsellers, setBestsellers] = useState([])
+  const [searchValue, setSearchValue] = useState(null)
+  const [isSearchBarOnTop, setIsSearchBarOnTop] = useState(false)
+
+  const setSearchBarOnTop = (isOnTop) => {
+    setIsSearchBarOnTop(isOnTop)
+  }
+
+  const handleSearch = (searchVal) => {
+      setSearchValue(searchVal)
+      const element = document.getElementById(removeWhiteSpace(searchVal.value))
+      animateScroll.scrollTo(element.offsetTop - 250)
+  }
 
   const formatGoogleDriveUrl = (url) => {
 
@@ -82,9 +98,9 @@ function App() {
   return (
     <div className="App">
       <ToastContainer />
-      <TopNav />
+      <TopNav menu = {menuItems} handleSearch = {handleSearch} searchValue = {searchValue} isSearchBarOnTop = {isSearchBarOnTop}/>
       <Modal />
-      <Home menu = {menuItems} categories = {foodCategories}/>
+      <Home menu = {menuItems} categories = {foodCategories} handleSearch = {handleSearch} searchValue = {searchValue} isSearchBarOnTop = {isSearchBarOnTop} setSearchBarOnTop = {setSearchBarOnTop}/>
       <Menu menu = {menuItems} categories = {foodCategories} bestsellers = {bestsellers}/>
     </div>
   );

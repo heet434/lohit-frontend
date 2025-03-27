@@ -22,6 +22,12 @@
         align-items: center;
     }
 
+    #searchBar1{
+        grid-column-start: 3;
+        grid-column-end: 8;
+        border: 1px solid #2b252e5a;
+    }
+
     .nav-list{
         grid-column-start: 9;
         grid-column-end: 13;
@@ -106,6 +112,7 @@
         margin-right: 32px;
         align-items: center;
     }
+
     .sideBar-button{
         display: flex;
         align-items: center;
@@ -114,6 +121,12 @@
         grid-column-start: 1;
         grid-column-end: 2;
         align-items: center;
+    }
+
+    #searchBar1{
+        grid-column-start: 2;
+        grid-column-end: 8;
+        border: 1px solid #2b252e5a;
     }
 
     .nav-item-cart {
@@ -184,6 +197,12 @@
         text-align: center;
         grid-column-start: 1;
         align-items: center;
+    }
+
+    #searchBar1{
+        grid-column-start: 2;
+        grid-column-end: 4;
+        border: 1px solid #2b252e5a;
     }
 
     .nav-item-cart {
