@@ -13,6 +13,9 @@ import { toast } from 'react-toastify';
 function Checkout(props) {
     const dispatch = useDispatch();
 
+    const deliveryCharge = 10;
+    const packingCharge = 5;
+
     const [selectedMode, setSelectedMode] = useState('Dine-in');
     const allowedModes = ['Dine-in', 'Take-away', 'Delivery'];
     const [address, setAddress] = useState('');
@@ -37,7 +40,7 @@ function Checkout(props) {
     const displayPhone = phone ? phone.slice(3) : null;
     // const totalText = total ? `Total: Rs. ${total}` : 'Total: Rs. 0';
     // if mode is delivery, then add delivery charge to total and display
-    const totalAmountText = selectedMode === 'Delivery' ? `Rs. ${total} + Rs.10 (Delivery)` : selectedMode === 'Take-away' ? `Rs. ${total} + Rs.10 (Packing)` : `Rs. ${total}`;
+    const totalAmountText = selectedMode === 'Delivery' ? `Rs. ${total} + Rs.${deliveryCharge} (Delivery)` : selectedMode === 'Take-away' ? `Rs. ${total} + Rs.${packingCharge} (Packing)` : `Rs. ${total}`;
     const totalText = total ? totalAmountText : 'Rs. 0';
 
     const changePhone = (event) => {
@@ -178,7 +181,7 @@ function Checkout(props) {
     const createRazorpayOrder = async () => {
         try {
             const response = await axios.post("/api/razorpay/create-order/", {
-                amount: total,
+                amount: selectedMode === 'Delivery' ? total + deliveryCharge : selectedMode === 'Take-away' ? total + packingCharge : total,
                 currency: "INR"
             }, {
                 headers: {
