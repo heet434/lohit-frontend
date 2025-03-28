@@ -66,6 +66,7 @@ function MenuItem(props) {
   
 
   const addItemButton = quantity === 0 ? addItemButtonBeforeAdding : addItemButtonAfterAdding
+  const addItemButtonWhenNotAvailable = <div className='add-icon-na'>NA</div>
 
 
   const vegIcon =
@@ -94,8 +95,12 @@ function MenuItem(props) {
   else if(props.itemType === 'non_veg')
     icon = nonVegIcon;
 
+  const menuItemClassName = (props.is_available && props.is_available_now) ? 'menuItem' : 'menuItem not-available'
+
+  const menuItemDescription = props.is_available ? props.is_available_now ? props.description :'Not available, available at '+props.nextTime + '.' : 'Not available.'
+
   return (
-    <div className='menuItem' id={removeWhiteSpace(props.itemName)}>
+    <div className={menuItemClassName} id={removeWhiteSpace(props.itemName)}>
       <div className='menuItem-description-container'>
         <div className='veg-nonveg-icon'>
           {icon}
@@ -116,7 +121,7 @@ function MenuItem(props) {
           </div>
           <div className='menuItem-description-line3'> 
             <div className='menuItem-description-sentence'>
-              {props.description}
+              {menuItemDescription}
             </div>
           </div>
         </div>
@@ -124,7 +129,7 @@ function MenuItem(props) {
       <div className='menuItem-img-container'>
         <img src={props.img} alt='food item' className='menuItem-img'/>
         {/* <img src={addIcon} alt='add icon' className='add-icon' onClick={addItemToCart}/> */}
-        {addItemButton}
+        {(props.is_available && props.is_available_now) ? addItemButton : addItemButtonWhenNotAvailable}
       </div>
     </div>
   )

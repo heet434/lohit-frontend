@@ -5,7 +5,12 @@ import './Bestsellers.css'
 
 function Bestsellers(props) {
 
-    const menuItemsInCategory = props.bestsellers
+    const sortedMenuItems = props.bestsellers.sort((a, b) => {
+        if (b.is_available !== a.is_available) {
+            return b.is_available - a.is_available;
+        }
+        return b.is_available_now - a.is_available_now;
+    });
 
 
   return (
@@ -14,7 +19,7 @@ function Bestsellers(props) {
             {props.categoryName}
         </div>
         <div className='foodCategory-menuItems'>
-            {menuItemsInCategory.map((item) => {
+            {sortedMenuItems.map((item) => {
                 if(item.is_available){
                 return (
                     <MenuItem
@@ -24,10 +29,12 @@ function Bestsellers(props) {
                     itemName = {item.item}
                     price={item.price}
                     description={item.description}
-                    waitingTime={item.avg_time_taken}
                     itemType={item.veg_nonveg_egg}
                     // img={`https://picsum.photos/400`}
                     img={item.image_url}
+                    is_available={item.is_available}
+                    is_available_now={item.is_available_now}
+                    nextTime={item.time}
                     />
                 )}else{
                 return null

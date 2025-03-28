@@ -7,6 +7,10 @@
     border-bottom: #2B252E solid 0.5px;
 }
 
+.not-available img{
+    filter: grayscale(100%);
+}
+
 .menuItem-description-container{
     display: flex;
     flex-direction: row;
@@ -196,4 +200,43 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+}
+
+.add-icon-na {
+    display: flex;
+    padding: 0.125rem 0.5rem;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    background: #17A9DD;
+    width: 50%;
+    margin: auto;
+    color: #F3F3E7;
+    font-family: Montserrat;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.not-available .menuItem-name{
+    opacity: 0.5;
+}
+.not-available .menuItem-description-line2{
+    opacity: 0.5;
+}
+.not-available .add-icon-na{
+    background: #17A9DD;
+    filter: grayscale(100%);
+}
+.not-available .add-icon-na:hover{
+    cursor: not-allowed;
+}
+.not-available .veg-nonveg-icon{
+    opacity: 0.5;
+    filter: grayscale(60%);
 }
