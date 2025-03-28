@@ -42,7 +42,7 @@ function OrderItem(props) {
         }
 
         if(props.status !== 'Delivered' && props.status !== 'Completed' && props.status !== 'delivered' && props.status !== 'completed') {
-            const webSocketURL = `${process.env.REACT_APP_WEBSOCKET_URL}/order/${props.orderId}/`
+            const webSocketURL = `${process.env.REACT_APP_WEBSOCKET_URL}/orders/${props.orderId}/`
             const ws = new WebSocket(webSocketURL)
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data)
