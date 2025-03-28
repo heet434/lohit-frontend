@@ -70,7 +70,7 @@ function Checkout(props) {
 
     const getOptions = (total, orderId) => {
         return {
-            key: process.env.RAZORPAY_KEY,
+            key: process.env.REACT_APP_RAZORPAY_KEY,
             amount: total * 100,
             currency: "INR",
             name: "Lohit Canteen",

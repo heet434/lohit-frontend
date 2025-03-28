@@ -38,7 +38,7 @@ export const store = configureStore({
         modalDisplay: persistedModalDisplayReducer,
         cart: persistedCartReducer
     },
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: process.env.REACT_APP_NODE_ENV !== 'production',
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {
             ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
