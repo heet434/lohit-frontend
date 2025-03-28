@@ -97,7 +97,7 @@ function MenuItem(props) {
 
   const menuItemClassName = (props.is_available && props.is_available_now) ? 'menuItem' : 'menuItem not-available'
 
-  const menuItemDescription = props.is_available ? props.is_available_now ? props.description :'Not available, available at '+props.nextTime + '.' : 'Not available.'
+  const menuItemDescription = props.is_available ? props.is_available_now ? props.description :'Item not available right now, should be available by '+props.nextTime + '.' : 'Not available.'
 
   return (
     <div className={menuItemClassName} id={removeWhiteSpace(props.itemName)}>
