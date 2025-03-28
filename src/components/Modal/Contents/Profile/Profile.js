@@ -5,6 +5,7 @@ import { toast } from 'react-toastify'
 
 import {authActions} from '../../../../store/slices/authSlice'
 import {cartActions} from '../../../../store/slices/cartSlice'
+import {modalDisplayActions} from '../../../../store/slices/modalDisplaySlice'
 
 import axios from 'axios'
 
@@ -47,6 +48,14 @@ function Profile(props) {
             dispatch(authActions.logout())
         })
         .catch(error => {
+            // logout if token is invalid
+            if(error.response.status === 401){
+                toast.error('Session expired, please login again.', errorToastOptions)
+                dispatch(cartActions.clearCart())
+                dispatch(authActions.logout())
+                dispatch(modalDisplayActions.openLogin())
+                return
+            }
             console.log(error)
             toast.error('Logout failed, contact web admin.', errorToastOptions)
             return

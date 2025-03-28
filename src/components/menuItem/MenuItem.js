@@ -1,9 +1,7 @@
 import React from 'react'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import './MenuItem.css'
-import addIcon from '../../assets/icons/add.png'
 
 import { cartActions } from '../../store/slices/cartSlice'
 

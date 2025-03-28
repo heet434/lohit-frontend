@@ -5,6 +5,7 @@ import { useRazorpay } from 'react-razorpay';
 
 import { authActions } from '../../../../store/slices/authSlice';
 import { cartActions } from '../../../../store/slices/cartSlice';
+import { modalDisplayActions } from '../../../../store/slices/modalDisplaySlice';
 
 import './Checkout.css';
 import { toast } from 'react-toastify';
@@ -153,6 +154,13 @@ function Checkout(props) {
             }
             throw new Error('Failed to update phone number');
         } catch (error) {
+            // if its an invalid token error, logout user
+            if (error.response && error.response.status === 401) {
+                toast.error('Session expired, please login again');
+                dispatch(authActions.logout());
+                dispatch(cartActions.clearCart());
+                dispatch(modalDisplayActions.openLogin());
+            }
             console.error('Error updating phone number:', error);
             throw error;
         }
@@ -236,8 +244,20 @@ function Checkout(props) {
                         props.openOrders();
                     }, 2000);
                     return true;
+                }else if (checkout_response.status === 401) {
+                    toast.error('Session expired, please login again');
+                    dispatch(authActions.logout());
+                    dispatch(cartActions.clearCart());
+                    dispatch(modalDisplayActions.openLogin());
                 }
             } else {
+                if (transaction_response.status === 401) {
+                    toast.error('Session expired, please login again');
+                    dispatch(authActions.logout());
+                    dispatch(cartActions.clearCart());
+                    dispatch(modalDisplayActions.openLogin());
+                }
+
                 console.error('Error saving order to backend:', transaction_response);
                 setIsProcessing(false);
                 setProcessingError('Order could not be placed due to some error in transaction');
@@ -250,6 +270,12 @@ function Checkout(props) {
                 return false;
             }
         } catch (error) {
+            if (error.response && error.response.status === 401) {
+                toast.error('Session expired, please login again');
+                dispatch(authActions.logout());
+                dispatch(cartActions.clearCart());
+                dispatch(modalDisplayActions.openLogin());
+            }
             console.error('Error saving order to backend:', error);
             setIsProcessing(false);
             setProcessingError(error.message || 'Order could not be placed due to some error');

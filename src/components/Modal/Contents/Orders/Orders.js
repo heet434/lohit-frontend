@@ -3,7 +3,11 @@ import OrderItem from './OrderItem'
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
+import { cartActions } from '../../../../store/slices/cartSlice'
+import { modalDisplayActions } from '../../../../store/slices/modalDisplaySlice'
+import { authActions } from '../../../../store/slices/authSlice'
+import { toast } from 'react-toastify'
 
 import './Orders.css'
 
@@ -19,6 +23,7 @@ const calculateTotal = (items) => {
 
 function Orders(props) {
 
+    const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
     const [orders, setOrders] = useState([])
 
@@ -33,7 +38,20 @@ function Orders(props) {
             setOrders(response.data)
         })
         .catch(error => {
+            if (error.response.status === 401){
+                toast.error('Session expired, please login again.', {
+                    position: 'top-right',
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                })
+                dispatch(cartActions.clearCart())
+                dispatch(authActions.logout())
+                dispatch(modalDisplayActions.openLogin())
+                return
+            }
             console.log(error)
+            toast.error('An error occurred, please try again later.')
         })
     }, [token])
 
