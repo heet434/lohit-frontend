@@ -7,6 +7,7 @@ import { authActions } from '../../../../store/slices/authSlice';
 import { cartActions } from '../../../../store/slices/cartSlice';
 
 import './Checkout.css';
+import { toast } from 'react-toastify';
 
 function Checkout(props) {
     const dispatch = useDispatch();
@@ -113,13 +114,20 @@ function Checkout(props) {
             for (let i = 0; i < cartItemsList.length; i++) {
                 const item = cartItemsList[i];
                 const menuItem = menuItems.find(menuItem => menuItem.id === item.id);
-                if (!menuItem?.is_available) {
+                if (!(menuItem?.is_available && menuItem?.is_available_now)) {
                     throw new Error(`Item ${menuItem?.item} is no longer available, please remove it from cart`);
                 }
             }
             return true;
         } catch (error) {
             console.error('Error checking availability of items in cart:', error);
+            toast.error(error.message || 'Some items in cart are no longer available', {
+                position: 'top-right',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+            });
             throw error;
         }
     };
