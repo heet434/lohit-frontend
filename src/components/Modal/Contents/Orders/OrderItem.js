@@ -46,6 +46,7 @@ function OrderItem(props) {
             const ws = new WebSocket(webSocketURL)
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data)
+                console.log('Websocket data: ', data)
                 if (data.type === 'order_status_update' || data.type === 'order.status.update') {
                     // if status is cancelled, show a message alert that order is cancelled
                     setStatus(data.data.status)
@@ -53,6 +54,14 @@ function OrderItem(props) {
                         toast(`Order with token ${props.token} has been cancelled. ${data.data.cancellation_message}`, cancelToastOptions)
                     }else{
                         toast(`Order with token ${props.token} has been updated to ${data.data.status}`, updateToastOptions)
+                    }
+
+                    if(data.data.delivery_man_phone) {
+                        setAssignedDeliveryPerson(data.data.delivery_man_name)
+                        setAssignedDeliveryPersonPhone(data.data.delivery_man_phone.toString().slice(3,13))
+                    }else{
+                        setAssignedDeliveryPerson(null)
+                        setAssignedDeliveryPersonPhone(null)
                     }
                 }else if(data.type === 'order_item_update' || data.type === 'order.item.update'){
                     const item_id = data.data.item_id
