@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/lohit-frontend/static/css/main.66b4e075.css",
-    "main.js": "/lohit-frontend/static/js/main.fc72889c.js",
+    "main.js": "/lohit-frontend/static/js/main.13b8aa97.js",
     "static/media/food.png": "/lohit-frontend/static/media/food.c9617481f76f542f4ae3.png",
     "static/media/profile.svg": "/lohit-frontend/static/media/profile.5230d97f9a2a5055026d6fb453ce91a7.svg",
     "static/media/cart.svg": "/lohit-frontend/static/media/cart.d0c936d66a03b59bdfa2cc66d6aed53a.svg",
@@ -12,6 +12,6 @@
   },
   "entrypoints": [
     "static/css/main.66b4e075.css",
-    "static/js/main.fc72889c.js"
+    "static/js/main.13b8aa97.js"
   ]
 }
