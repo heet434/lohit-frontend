@@ -151,14 +151,14 @@ function Checkout(props) {
                 }
             });
             
-            if (response.status === 200) {
+            if (response?.status === 200) {
                 console.log("Phone number saved");
                 return true;
             }
             throw new Error('Failed to update phone number');
         } catch (error) {
             // if its an invalid token error, logout user
-            if (error.response && error.response.status === 401) {
+            if (error.response && error.response?.status === 401) {
                 toast.error('Session expired, please login again');
                 dispatch(authActions.logout());
                 dispatch(cartActions.clearCart());
@@ -216,7 +216,7 @@ function Checkout(props) {
                 }
             });
 
-            if (transaction_response.status === 201 || transaction_response.status === 200) {
+            if (transaction_response?.status === 201 || transaction_response?.status === 200) {
                 const addressToSend = (selectedMode === 'Delivery') ? address : null;
                 const checkout_response = await axios.post('/api/checkout/', {
                     rz_order_id: paymentResponse.razorpay_order_id,
@@ -233,7 +233,7 @@ function Checkout(props) {
                         Authorization: `Token ${token}`
                     }
                 });
-                if (checkout_response.status === 200 || checkout_response.status === 201) {
+                if (checkout_response?.status === 200 || checkout_response?.status === 201) {
                     setIsProcessing(false);
                     setOrderPlaced(true);
                     if (timeoutId) {
@@ -247,14 +247,14 @@ function Checkout(props) {
                         props.openOrders();
                     }, 2000);
                     return true;
-                }else if (checkout_response.status === 401) {
+                }else if (checkout_response?.status === 401) {
                     toast.error('Session expired, please login again');
                     dispatch(authActions.logout());
                     dispatch(cartActions.clearCart());
                     dispatch(modalDisplayActions.openLogin());
                 }
             } else {
-                if (transaction_response.status === 401) {
+                if (transaction_response?.status === 401) {
                     toast.error('Session expired, please login again');
                     dispatch(authActions.logout());
                     dispatch(cartActions.clearCart());
@@ -273,7 +273,7 @@ function Checkout(props) {
                 return false;
             }
         } catch (error) {
-            if (error.response && error.response.status === 401) {
+            if (error.response && error.response?.status === 401) {
                 toast.error('Session expired, please login again');
                 dispatch(authActions.logout());
                 dispatch(cartActions.clearCart());

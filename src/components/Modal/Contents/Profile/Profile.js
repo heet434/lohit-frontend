@@ -38,7 +38,7 @@ function Profile(props) {
                 Authorization: `Token ${token}`
         }}).then(response => {
             console.log("User logged out successfully.")
-            if(response.data.success){
+            if(response.data?.success){
                 props.closeModal()
             }
             if(totalCartItems > 0){
@@ -49,7 +49,7 @@ function Profile(props) {
         })
         .catch(error => {
             // logout if token is invalid
-            if(error.response.status === 401){
+            if(error.response?.status === 401){
                 toast.error('Session expired, please login again.', errorToastOptions)
                 dispatch(cartActions.clearCart())
                 dispatch(authActions.logout())

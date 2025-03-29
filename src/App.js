@@ -2,6 +2,7 @@ import {React} from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { animateScroll } from 'react-scroll'
+import { ThreeDots } from 'react-loader-spinner';
 
 import './App.css';
 
@@ -23,6 +24,7 @@ function App() {
   const [bestsellers, setBestsellers] = useState([])
   const [searchValue, setSearchValue] = useState(null)
   const [isSearchBarOnTop, setIsSearchBarOnTop] = useState(false)
+  const [loading, setLoading] = useState(true);
 
   const setSearchBarOnTop = (isOnTop) => {
     setIsSearchBarOnTop(isOnTop)
@@ -87,21 +89,62 @@ function App() {
             console.log(error)
         }
     }
+
+    const fetchAllData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([
+          fetchFoodCategories(),
+          fetchMenuItems(),
+          fetchBestsellers()
+        ]);
+      } catch (error) {
+        console.log('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     
     useEffect(() => {
-        fetchFoodCategories()
-        fetchMenuItems()
-        fetchBestsellers()
+        fetchAllData();
     },  [])
 
 
   return (
     <div className="App">
       <ToastContainer />
-      <TopNav menu = {menuItems} handleSearch = {handleSearch} searchValue = {searchValue} isSearchBarOnTop = {isSearchBarOnTop}/>
-      <Modal />
-      <Home menu = {menuItems} categories = {foodCategories} handleSearch = {handleSearch} searchValue = {searchValue} isSearchBarOnTop = {isSearchBarOnTop} setSearchBarOnTop = {setSearchBarOnTop}/>
-      <Menu menu = {menuItems} categories = {foodCategories} bestsellers = {bestsellers}/>
+      {loading ? (
+        <div className="loading-wrapper">
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#2B252E"
+            ariaLabel="loading"
+            visible={true}
+          />
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <>
+          <TopNav
+            menu={menuItems}
+            handleSearch={handleSearch}
+            searchValue={searchValue}
+            isSearchBarOnTop={isSearchBarOnTop}
+          />
+          <Modal />
+          <Home
+            menu={menuItems}
+            categories={foodCategories}
+            handleSearch={handleSearch}
+            searchValue={searchValue}
+            isSearchBarOnTop={isSearchBarOnTop}
+            setSearchBarOnTop={setSearchBarOnTop}
+          />
+          <Menu menu={menuItems} categories={foodCategories} bestsellers={bestsellers} />
+        </>
+      )}
     </div>
   );
 }

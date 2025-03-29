@@ -55,3 +55,29 @@
     height: 100%;
     border: 5px solid rgba(43, 37, 46, 0.025);
 }
+.orders-loading-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+  }
+  
+  .orders-loading-wrapper p {
+    margin-top: 16px;
+    font-size: 16px;
+    color: #2B252E;
+    font-weight: 500;
+  }
+  
+  .no-orders-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 100%;
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+  }

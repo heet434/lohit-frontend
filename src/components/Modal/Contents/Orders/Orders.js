@@ -1,5 +1,6 @@
 import React from 'react'
 import OrderItem from './OrderItem'
+import { ThreeDots } from 'react-loader-spinner'
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -26,8 +27,10 @@ function Orders(props) {
     const dispatch = useDispatch()
     const token = useSelector(state => state.auth.token)
     const [orders, setOrders] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        setLoading(true)
         axios.get('/api/orders/',{
             headers: {
                 Authorization: `Token ${token}`
@@ -36,9 +39,11 @@ function Orders(props) {
         .then(response => {
             console.log(response.data)
             setOrders(response.data)
+            setLoading(false)
         })
         .catch(error => {
-            if (error.response.status === 401){
+            setLoading(false)
+            if (error.response?.status === 401){
                 toast.error('Session expired, please login again.', {
                     position: 'top-right',
                     autoClose: 3000,
@@ -79,13 +84,46 @@ function Orders(props) {
             </div>
         </div>
         <div className = 'order-container orders-r2'>
-            <div className='order-items'>
-                {orders.map((order,index) => {
-                    return (
-                        <OrderItem key={index} date={order.date} time = {order.time} items={order.items} status={order.status} orderId={order.id} openCart={props.openCart} token={order.token_number} deliveryManDetails={order.delivery_man_details} total={calculateTotal(order.items)} assignedDeliveryPerson={order.delivery_man_details} mode= {order.mode_of_eating} />
-                    )
-                })}
-            </div>
+        {loading ? (
+                    <div className="orders-loading-wrapper">
+                        <ThreeDots
+                            height="60"
+                            width="60"
+                            radius="9"
+                            color="#2B252E"
+                            ariaLabel="loading orders"
+                            visible={true}
+                        />
+                        <p>Loading your orders...</p>
+                    </div>
+                ) : (
+                    <div className='order-items'>
+                        {orders.length > 0 ? (
+                            orders.map((order, index) => {
+                                return (
+                                    <OrderItem 
+                                        key={index} 
+                                        date={order.date} 
+                                        time={order.time} 
+                                        items={order.items} 
+                                        status={order.status} 
+                                        orderId={order.id} 
+                                        openCart={props.openCart} 
+                                        token={order.token_number} 
+                                        deliveryManDetails={order.delivery_man_details} 
+                                        total={calculateTotal(order.items)} 
+                                        assignedDeliveryPerson={order.delivery_man_details} 
+                                        mode={order.mode_of_eating} 
+                                    />
+                                )
+                            })
+                        ) : (
+                            <div className="no-orders-message">
+                                <p>You haven't placed any orders yet.</p>
+                            </div>
+                        )}
+                    </div>
+        )}
         </div>
     </div>
   )

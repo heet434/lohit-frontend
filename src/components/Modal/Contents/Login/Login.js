@@ -24,7 +24,7 @@ function Login(props) {
         axios.post('/api/google-login/', {
             credential: response.credential
         }).then((response) => {
-            if(response.status === 200){
+            if(response?.status === 200){
                 dispatch(authActions.login({
                     token: response.data.token,
                     email: response.data.email,
