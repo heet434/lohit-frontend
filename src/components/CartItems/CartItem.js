@@ -15,7 +15,7 @@ function CartItem(props) {
                 {props.quantity}
                 <div className='cart-item-quantity-plus' onClick={props.addItem}>+</div>
             </div>
-            <div className='cart-item-total'>Total: Rs. {props.total}</div>
+            <div className='cart-item-total'>Rs. {props.total}</div>
     </div>
   )
 }

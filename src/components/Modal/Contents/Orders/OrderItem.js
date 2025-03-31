@@ -174,7 +174,7 @@ function OrderItem(props) {
         <div className='order-item-r1'>
             {!(props.status==='delivered' || props.status==='cancelled' || props.status==='completed') && 
             <div className='order-item-token-contact-dt'>
-                {(props.mode === 'delivery' || props.mode === 'Delivery' )?
+                {(props.mode === 'delivery' || props.mode === 'Delivery' ) && (props.status === 'out_for_delivery')?
                     <div className='order-item-contact'>
                         <p>For delivery details </p>
                         Contact: {assignedDeliveryPersonPhone}
