@@ -81,12 +81,14 @@ function Login(props) {
                 Login
             </div> */}
             {/* add google login */}
-            <div className='modal-r3 google-login-button' id="google-login">
-                <GoogleLogin
-                    clientId= {process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                    onSuccess={handleGoogleLogin}
-                    onFailure={handleLoginError}
-                />
+            <div className='modal-r3 google-login-button-container'>
+                <div className='google-login-button' id="google-login">
+                    <GoogleLogin
+                        clientId= {process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                        onSuccess={handleGoogleLogin}
+                        onFailure={handleLoginError}
+                    />
+                </div>
             </div>
             {/* cover the rest of the modal with image */}
             <div className='modal-r4 login-cover' id="login-cover">

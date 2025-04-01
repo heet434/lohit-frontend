@@ -117,7 +117,7 @@
     object-fit: cover;
 }
 
-.google-login-button{
+.google-login-button-container{
     grid-column-start: 4;
     grid-column-end: 9;
     border-radius: 0.25rem;
@@ -125,6 +125,18 @@
     padding-bottom: 0.4rem;
     text-align: center;
     height: fit-content;
+    color: #2B252E;
+    font-family: Montserrat;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.google-login-button{
     border: 1px solid rgba(43, 37, 46, 0.40);
     color: #2B252E;
     font-family: Montserrat;
@@ -132,6 +144,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    border-radius: 0.25rem;
 }
 .google-login-button:hover{
     cursor: pointer;
