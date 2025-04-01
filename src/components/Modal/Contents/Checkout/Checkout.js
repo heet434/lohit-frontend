@@ -21,9 +21,9 @@ function Checkout(props) {
     const [address, setAddress] = useState('');
     const { error, isLoading, Razorpay } = useRazorpay();
     
-    const phone = useSelector(state => state.auth.phone);
+    const phone = useSelector(state => state.authLohitClient.phone);
     const total = useSelector(state => state.cart.totalPrice);
-    const token = useSelector(state => state.auth.token);
+    const token = useSelector(state => state.authLohitClient.token);
     const cartItemsList = useSelector(state => state.cart.items);
 
     const [razorpayOrderId, setRazorpayOrderId] = useState(null);

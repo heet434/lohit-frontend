@@ -18,7 +18,7 @@ import './Modal.css';
 function PcModal(props) {
     const dispatch = useDispatch()
 
-    const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector(state => state.authLohitClient.isLoggedIn)
 
     // const [visible, setVisible] = useState(false)
     const display = useSelector(state => state.modalDisplay.display)

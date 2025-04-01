@@ -3,8 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 import { loadState, saveState } from '../../helper/sessionStore';
 
 const authSlice = createSlice({
-    name: 'auth',
-    initialState: loadState('auth', {
+    name: 'authLohitClient',
+    initialState: loadState('authLohitClient', {
         isLoggedIn: false,
         phone: null,
         email: null,
@@ -16,18 +16,18 @@ const authSlice = createSlice({
             state.email = action.payload.email
             state.phone = action.payload.phone
             state.token = action.payload.token
-            saveState('auth', state)
+            saveState('authLohitClient', state)
         },
         logout(state){
             state.isLoggedIn = false
             state.email = null
             state.phone = null
             state.token = null
-            saveState('auth', state)
+            saveState('authLohitClient', state)
         },
         changePhone(state, action){
             state.phone = action.payload
-            saveState('auth', state)
+            saveState('authLohitClient', state)
         }
     }
 })

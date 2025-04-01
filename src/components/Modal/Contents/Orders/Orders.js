@@ -25,7 +25,7 @@ const calculateTotal = (items) => {
 function Orders(props) {
 
     const dispatch = useDispatch()
-    const token = useSelector(state => state.auth.token)
+    const token = useSelector(state => state.authLohitClient.token)
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
 

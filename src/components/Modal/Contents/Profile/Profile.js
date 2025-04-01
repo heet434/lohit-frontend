@@ -16,9 +16,9 @@ function Profile(props) {
 
     const dispatch = useDispatch()
 
-    const phone = useSelector(state => state.auth.phone)
-    const email = useSelector(state => state.auth.email)
-    const token = useSelector(state => state.auth.token)
+    const phone = useSelector(state => state.authLohitClient.phone)
+    const email = useSelector(state => state.authLohitClient.email)
+    const token = useSelector(state => state.authLohitClient.token)
 
     // remove +91 from phone number
     const displayPhone = phone ? phone.slice(3) : null

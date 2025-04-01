@@ -13,7 +13,7 @@ import { removeWhiteSpace } from '../../utils/strUtils'
 function MenuItem(props) {
 
   const dispatch = useDispatch()
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+  const isLoggedIn = useSelector(state => state.authLohitClient.isLoggedIn)
 
   // get quantity of item in cart
   const itemInCart = useSelector(state => state.cart.items.find(item => item.id === props.id))

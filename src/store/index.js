@@ -6,7 +6,7 @@ import modalDisplaySlice from './slices/modalDisplaySlice';
 import cartSlice from './slices/cartSlice';
 
 const authPersistConfig = {
-    key: 'auth',
+    key: 'authLohitClient',
     storage
 }
 
@@ -26,7 +26,7 @@ const persistedModalDisplayReducer = persistReducer(modalDisplayPersistConfig, m
 
 // const store = configureStore({
 //     reducer: {
-//         auth: authSlice.reducer,
+//         authLohitClient: authSlice.reducer,
 //         modalDisplay: modalDisplaySlice.reducer,
 //         cart: cartSlice.reducer
 //     }
@@ -34,7 +34,7 @@ const persistedModalDisplayReducer = persistReducer(modalDisplayPersistConfig, m
 
 export const store = configureStore({
     reducer: {
-        auth: persistedAuthReducer,
+        authLohitClient: persistedAuthReducer,
         modalDisplay: persistedModalDisplayReducer,
         cart: persistedCartReducer
     },
