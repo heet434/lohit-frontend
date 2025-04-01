@@ -153,7 +153,7 @@
 }
 
 @media(max-width: 834px) and (min-width: 480px){
-    .google-login-button{
+    .google-login-button-container{
         grid-column-start: 2;
         grid-column-end: 8;
     }
@@ -163,7 +163,7 @@
     }
 }
 @media(max-width: 480px){
-    .google-login-button{
+    .google-login-button-container{
         grid-column-start: 1;
         grid-column-end: 5;
     }
