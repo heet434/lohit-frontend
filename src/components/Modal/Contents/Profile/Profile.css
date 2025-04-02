@@ -26,41 +26,46 @@
 }
 .order-open-container{
     width: 100%;
-    grid-column-start: 2;
-    grid-column-end: 12;
+    grid-column-start: 1;
+    grid-column-end: 13;
     padding-top: 1rem;
     padding-bottom: 1rem;
     align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 @media (max-width: 834px) and (min-width: 480px){
     .order-open-container{
-        grid-column-start: 2;
-        grid-column-end: 8;
+        grid-column-start: 1;
+        grid-column-end: 9;
     }
 }
 @media (max-width: 480px){
     .order-open-container{
-        grid-column-start: 2;
-        grid-column-end: 4;
+        grid-column-start: 1;
+        grid-column-end: 5;
         
     }
 }
 
 .order-open-button{
-    width: 100%;
+    width: 80%;
     display: inline-flex;
     padding-bottom: 1rem;
     justify-content: left;
     align-items: center;
     gap: 0.5rem;
-    border-bottom: 1px solid rgba(43, 37, 46, 0.40);
-    background: #F3F3E7;
+    width: 80%;
     color: #2B252E;
     font-family: Montserrat;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    border: none;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(43, 37, 46, 0.40);
 }
 .order-open-button:hover{
     cursor: pointer;

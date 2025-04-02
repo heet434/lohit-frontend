@@ -94,7 +94,7 @@ function Profile(props) {
                     <span>Change Password</span>
                 </div> */}
             {/* r3 */}
-                <div className='modal-r4 order-open-container'>
+                <div className='modal-r3 order-open-container'>
                     <div className='modal-input order-open-button' onClick={props.openOrders}>
                         {/* <input type='text' value={'Your Orders'} readOnly/> */}
                         Your Orders
